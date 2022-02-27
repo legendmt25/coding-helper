@@ -1,15 +1,18 @@
-version: "3"
+version: '3'
 services:
-  wp-db:
-    image: "postgres"
-    container_name: "wp_problem_solving"
-    environment:
-      - POSTGRES_USER=wp_problem_solving
-      - POSTGRES_PASSWORD=wp_problem_solving
-      - POSTGRES_DB=wp_problem_solving
+  neo4j:
+    image: neo4j:latest
+    hostname: neo4j
+    container_name: neo4j
     ports:
-      - "5432:5432"
+      - "7474:7474"
+      - "7687:7687"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-volumes:
-  postgres-data:
+      - ./neo4j/plugins:/plugins
+      - ./neo4j/data:/data
+      - ./neo4j/import:/import
+    environment:
+      NEO4J_AUTH: none
+      NEO4J_dbms_logs_debug_level: DEBUG
+
+  
