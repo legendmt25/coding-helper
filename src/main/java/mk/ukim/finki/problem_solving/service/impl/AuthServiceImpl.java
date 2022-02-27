@@ -27,6 +27,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User register(UserInput userInput) {
         userInput.setPassword(passwordEncoder.encode(userInput.getPassword()));
-        return userRepository.save(new User());
+        return userRepository.save(new User(userInput));
     }
 }
