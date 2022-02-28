@@ -1,12 +1,14 @@
 package mk.ukim.finki.problem_solving.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
+@RequiredArgsConstructor()
 public class UserInput {
     String email;
     String username;
@@ -14,7 +16,7 @@ public class UserInput {
     String firstName;
     String lastName;
     Gender gender;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date birthday;
 
     public UserInput(String email,

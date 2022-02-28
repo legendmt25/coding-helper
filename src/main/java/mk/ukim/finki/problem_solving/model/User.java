@@ -1,18 +1,22 @@
 package mk.ukim.finki.problem_solving.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
 import mk.ukim.finki.problem_solving.model.enums.Role;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Data
+@RequiredArgsConstructor
 @Node
 public class User implements UserDetails {
     @Id
@@ -23,21 +27,23 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private Gender gender;
-
     private Role role;
 
+    @Relationship
+    private List<Submission> submissions;
+
     public User(UserInput input) {
-        this.email = input.email;
-        this.username = input.username;
-        this.password = input.password;
-        this.firstName = input.firstName;
-        this.lastName = input.lastName;
-        this.birthday = input.birthday;
-        this.gender = input.gender;
+        this.email = input.getEmail();
+        this.username = input.getUsername();
+        this.password = input.getPassword();
+        this.firstName = input.getFirstName();
+        this.lastName = input.getLastName();
+        this.birthday = input.getBirthday();
+        this.gender = input.getGender();
         this.role = Role.USER;
     }
 

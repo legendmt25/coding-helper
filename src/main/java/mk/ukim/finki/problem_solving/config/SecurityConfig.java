@@ -18,14 +18,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .and()
-                .formLogin().successForwardUrl("/").failureUrl("/login");
+        http.cors().and().csrf().disable();
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/login", "**/register").permitAll()
+//                .and()
+//                .formLogin().successForwardUrl("/").failureUrl("/login");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(provider);
+        //auth.authenticationProvider(provider);
     }
 }
