@@ -1,6 +1,6 @@
 package mk.ukim.finki.problem_solving.bootstrap;
 
-import mk.ukim.finki.problem_solving.model.UserInput;
+import mk.ukim.finki.problem_solving.model.input.UserInput;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
 import mk.ukim.finki.problem_solving.service.AuthService;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class InsertData {
 
     @PostConstruct
     public void setup() {
-        authService.register(new UserInput("user@codingh.com", "user", "user", "user", "user", new Date(), Gender.MALE));
+        //authService.register(new UserInput("user@codingh.com", "user", "user", "user", "user", Gender.MALE, new Date()));
     }
 
 }

@@ -1,7 +1,6 @@
 package mk.ukim.finki.problem_solving.service;
 
-import mk.ukim.finki.problem_solving.model.User;
-import mk.ukim.finki.problem_solving.repository.UserRepository;
+import mk.ukim.finki.problem_solving.model.object.User;
 
 import java.util.List;
 

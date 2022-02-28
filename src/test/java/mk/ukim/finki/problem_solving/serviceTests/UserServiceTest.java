@@ -1,7 +1,7 @@
 package mk.ukim.finki.problem_solving.serviceTests;
 
-import mk.ukim.finki.problem_solving.model.User;
-import mk.ukim.finki.problem_solving.model.UserInput;
+import mk.ukim.finki.problem_solving.model.object.User;
+import mk.ukim.finki.problem_solving.model.input.UserInput;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
 import mk.ukim.finki.problem_solving.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +28,8 @@ public class UserServiceTest {
                 "user",
                 "user",
                 "user",
-                new Date(),
-                Gender.MALE)
+                Gender.MALE,
+                new Date())
         );
     }
 
@@ -41,8 +41,8 @@ public class UserServiceTest {
                 "user",
                 "user",
                 "user",
-                new Date(),
-                Gender.MALE)
+                Gender.MALE,
+                new Date())
         );
     }
 }

@@ -1,9 +1,10 @@
-package mk.ukim.finki.problem_solving.model;
+package mk.ukim.finki.problem_solving.model.object;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
 import mk.ukim.finki.problem_solving.model.enums.Role;
+import mk.ukim.finki.problem_solving.model.input.UserInput;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
@@ -11,12 +12,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Node
 public class User implements UserDetails {
     @Id
@@ -45,6 +47,8 @@ public class User implements UserDetails {
         this.birthday = input.getBirthday();
         this.gender = input.getGender();
         this.role = Role.USER;
+
+        submissions = new ArrayList<>();
     }
 
     @Override

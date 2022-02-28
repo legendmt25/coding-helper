@@ -1,6 +1,7 @@
-package mk.ukim.finki.problem_solving.model;
+package mk.ukim.finki.problem_solving.model.object;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
@@ -10,7 +11,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 
 @Node
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Problem {
     @Id
     @GeneratedValue
@@ -21,4 +22,11 @@ public class Problem {
     private Difficulty difficulty;
 
     private String markdown;
+
+    public Problem(Category category, String title, Difficulty difficulty, String markdown) {
+        this.category = category;
+        this.title = title;
+        this.difficulty = difficulty;
+        this.markdown = markdown;
+    }
 }

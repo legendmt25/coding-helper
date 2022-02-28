@@ -1,7 +1,9 @@
-package mk.ukim.finki.problem_solving.model;
+package mk.ukim.finki.problem_solving.model.object;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.problem_solving.model.enums.SubmissionStatus;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -11,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Node
 public class Submission {
     @Id
@@ -19,7 +21,7 @@ public class Submission {
     private Long id;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date timeSubmitted;
-    private String status;
+    private SubmissionStatus status;
     private String language;
     private String code;
 
@@ -28,4 +30,13 @@ public class Submission {
 
     @Relationship
     private Problem problem;
+
+    public Submission(Date timeSubmitted, SubmissionStatus status, String language, String code, User user, Problem problem) {
+        this.timeSubmitted = timeSubmitted;
+        this.status = status;
+        this.language = language;
+        this.code = code;
+        this.user = user;
+        this.problem = problem;
+    }
 }

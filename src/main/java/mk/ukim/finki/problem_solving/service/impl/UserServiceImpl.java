@@ -1,6 +1,6 @@
 package mk.ukim.finki.problem_solving.service.impl;
 
-import mk.ukim.finki.problem_solving.model.User;
+import mk.ukim.finki.problem_solving.model.object.User;
 import mk.ukim.finki.problem_solving.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.problem_solving.repository.UserRepository;
 import mk.ukim.finki.problem_solving.service.UserService;
