@@ -13,7 +13,13 @@ export const capitalize = (str) => {
     str
       .slice(1)
       .split('')
-      .map((x) => (x.toUpperCase() == x ? ` ${x.toLowerCase()}` : x))
+      .map((x) => (x.toUpperCase() === x ? ` ${x.toLowerCase()}` : x))
       .join('')
   );
+};
+
+export const difficultyColor = (difficulty) => {
+  if (difficulty === 'EASY') return 'green';
+  if (difficulty === 'MEDIUM') return 'orange';
+  return 'red';
 };
