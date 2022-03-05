@@ -17,8 +17,12 @@ export default function ButtonCheckBox(props) {
         backgroundColor: '#1976d2',
         color: 'white',
       },
-      borderRadius: 50, 
+      borderRadius: 50,
       boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.73rem',
+      },
+      fontSize: '0.8rem',
     };
   };
 
@@ -35,7 +39,7 @@ export default function ButtonCheckBox(props) {
   };
 
   return (
-    <Button sx={buttonCheckBox} onClick={handleButtonClick}>
+    <Button sx={buttonCheckBox} onClick={handleButtonClick} size="small">
       {props.category}
     </Button>
   );

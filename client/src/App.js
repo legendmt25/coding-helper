@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Container>
+      <Container maxWidth sx={{backgroundColor: '#f8f8ff', height: '100%'}}>
         <Outlet />
       </Container>
     </div>

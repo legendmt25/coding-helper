@@ -3,8 +3,12 @@ import { Box } from '@mui/material';
 import ButtonCheckBox from './ButtonCheckbox';
 import { difficultyColor } from './utility';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Problems() {
+  const [problems, setProblems] = useState([
+    { id: 1, title: 'Two Sum', difficulty: 'EASY' },
+  ]);
   const filters = new Set();
 
   const rowStyle = (theme) => {
@@ -15,15 +19,19 @@ export default function Problems() {
       px: 5,
       py: 2,
       ':hover': { backgroundColor: 'gray', borderRadius: 1, color: 'white' },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.7rem',
+      },
+      fontSize: '0.8rem',
     };
   };
 
   return (
     <Box sx={{ mt: 1 }}>
-      <Typography variant="h5" component={'div'} sx={{ color: 'teal' }}>
+      <Typography variant="h5" component={'div'} sx={{ color: '#696969' }}>
         Categories
       </Typography>
-      <Box sx={{ display: 'inline-flex', gap: 2, mt: 1 }}>
+      <Box sx={{ display: 'inline-flex', gap: 1, mt: 1 }}>
         <ButtonCheckBox
           filters={filters}
           category={'category'}
@@ -47,31 +55,33 @@ export default function Problems() {
           <Box>Title</Box>
           <Box>Difficulty</Box>
         </Box>
-        <Link
-          to="/problems"
-          style={{
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
-          <Box
-            sx={(theme) => {
-              return {
-                ...rowStyle(theme),
-                color: difficultyColor('EASY'),
-                ':hover': {
-                  backgroundColor: difficultyColor('EASY'),
-                  color: 'white',
-                  borderRadius: 1,
-                },
-              };
+        {problems.map((el) => (
+          <Link
+            to={`/problem/${el.id}`}
+            style={{
+              color: 'inherit',
+              textDecoration: 'none',
             }}
           >
-            <Box>1</Box>
-            <Box>Two Sum</Box>
-            <Box>EASY</Box>
-          </Box>
-        </Link>
+            <Box
+              sx={(theme) => {
+                return {
+                  ...rowStyle(theme),
+                  color: difficultyColor(el.difficulty),
+                  ':hover': {
+                    backgroundColor: difficultyColor(el.difficulty),
+                    color: 'white',
+                    borderRadius: 1,
+                  },
+                };
+              }}
+            >
+              <Box>{el.id}</Box>
+              <Box>{el.title}</Box>
+              <Box>{el.difficulty}</Box>
+            </Box>
+          </Link>
+        ))}
       </Box>
     </Box>
   );

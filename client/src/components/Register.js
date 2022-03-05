@@ -13,7 +13,7 @@ export default function Register() {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    gender: '',
+    gender: 0,
     birthday: `${d.getFullYear()}-${d.getMonth() + 1 < 9 ? '0' : ''}${
       d.getMonth() + 1
     }-${d.getDay() - 1 < 9 ? '0' : ''}${d.getDay() - 1}`,
@@ -22,10 +22,9 @@ export default function Register() {
   const gender = ['MALE', 'FEMALE', 'OTHER'];
 
   const handleRegisterButton = (event) => {
-    if (obj.confirmPassword != obj.password) {
+    if (obj.confirmPassword !== obj.password) {
       return;
     }
-    console.log(obj.firstName, obj.lastName, obj.gender, obj.birthday);
   };
 
   return (

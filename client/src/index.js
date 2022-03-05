@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Problems from './components/Problems';
 import Login from './components/Login';
 import Register from './components/Register';
+import ProblemDetails from './components/ProblemDetails';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +19,7 @@ ReactDOM.render(
           <Route path="/problems" element={<Problems />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          {/* <Route path="/problem/:id" element={}></Route> */}
+          <Route path="/problem/:id" element={<ProblemDetails />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

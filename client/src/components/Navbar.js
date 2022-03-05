@@ -22,7 +22,7 @@ const logo = (theme) => {
     fontSize: '1.2rem',
     ':hover': { color: '#ccd0d0' },
     userSelect: 'none',
-    [theme.breakpoints.up('sm')]: { fontSize: '1.5rem' },
+    [theme.breakpoints.up('sm')]: { fontSize: '1.3rem' },
     color: 'white',
     cursor: 'default',
   };

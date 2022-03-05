@@ -1,8 +1,8 @@
-export const transformToSelectItems = (list) => {
+export const transformToSelectItems = (list, listValues = null) => {
   return list.map((el, index) => {
     return {
       text: el,
-      value: index,
+      value: listValues ? listValues[index] : index
     };
   });
 };
@@ -19,7 +19,7 @@ export const capitalize = (str) => {
 };
 
 export const difficultyColor = (difficulty) => {
-  if (difficulty === 'EASY') return 'green';
-  if (difficulty === 'MEDIUM') return 'orange';
+  if (difficulty.toLowerCase() === 'easy') return 'green';
+  if (difficulty.toLowerCase() === 'medium') return 'orange';
   return 'red';
 };
