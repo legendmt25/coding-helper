@@ -28,11 +28,13 @@ export default function ButtonCheckBox(props) {
 
   useEffect(() => {
     if (clicked) {
-      props.filters.add(props.category);
+      props.setFilters([...props.filters, props.category]);
     } else {
-      props.filters.delete(props.category);
+      const ind = props.filters.indexOf(props.category);
+      props.filters.splice(ind, 1)
+      props.setFilters([...props.filters]);
     }
-  }, [clicked, props.filters, props.category]);
+  }, [clicked, props.setFilters, props.category]);
 
   const handleButtonClick = () => {
     setClicked(!clicked);

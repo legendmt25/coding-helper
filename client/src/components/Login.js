@@ -1,15 +1,31 @@
 import { Typography, Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { buttonStyle, fieldsetStyle } from '../styles';
 import InputComponent from './InputComponent';
 
 export default function Login() {
+  let navigate = useNavigate();
   const obj = {
     email: '',
     password: '',
   };
 
   const handleLoginButton = (event) => {
-    console.log(obj.email, obj.password);
+    fetch('http://localhost:3000/authenticate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ ...obj }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.jwttoken) {
+          localStorage.setItem('jwt', res.jwttoken);
+          navigate('/', { replace: true });
+        }
+      });
   };
 
   return (

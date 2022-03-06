@@ -2,7 +2,7 @@ export const transformToSelectItems = (list, listValues = null) => {
   return list.map((el, index) => {
     return {
       text: el,
-      value: listValues ? listValues[index] : index
+      value: listValues ? listValues[index] : index,
     };
   });
 };

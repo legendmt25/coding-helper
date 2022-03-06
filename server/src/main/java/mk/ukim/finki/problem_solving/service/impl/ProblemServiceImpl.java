@@ -9,6 +9,7 @@ import mk.ukim.finki.problem_solving.service.CategoryService;
 import mk.ukim.finki.problem_solving.service.ProblemService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -55,5 +56,13 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setTitle(problemInput.getTitle());
 
         return problemRepository.save(problem);
+    }
+
+    @Override
+    public List<Problem> findAllLByCategories(Collection<String> categories) {
+        if (categories.isEmpty()) {
+            return this.findAll();
+        }
+        return this.problemRepository.findAllByCategory_NameIn(categories);
     }
 }

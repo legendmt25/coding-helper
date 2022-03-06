@@ -3,6 +3,7 @@ package mk.ukim.finki.problem_solving.controller;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
+import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,19 @@ public class ProblemController {
         return ResponseEntity.ok().body(problemService.findAll());
     }
 
+    @GetMapping("/problem/{id}")
+    Problem getProblem(@PathVariable Long id) {
+        return problemService.findById(id);
+    }
+
     @PostMapping("/problem/create")
     ResponseEntity<Problem> create(@RequestBody ProblemInput problemInput) {
         return ResponseEntity.ok().body(this.problemService.create(problemInput));
+    }
+
+    @PostMapping("/problems")
+    List<Problem> getAllProblemsByCategories(@RequestBody ProblemsByCategoriesReqBody body) {
+        return this.problemService.findAllLByCategories(body.getCategories());
     }
 
     @DeleteMapping("/problem/{id}/delete")

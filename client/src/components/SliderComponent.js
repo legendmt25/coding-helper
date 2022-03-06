@@ -1,9 +1,19 @@
+import { MoreVert } from '@mui/icons-material';
+import { useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function SliderComponent() {
   const refSlider = useRef(null);
   let isMouseDown = false;
+  const matches = useMediaQuery('(max-width:900px)');
+
+  useEffect(() => {
+    if (matches) {
+      refSlider.current.previousSibling.style.width = '100%';
+      refSlider.current.nextSibling.style.width = '100%';
+    }
+  }, [matches]);
 
   const handleMouseMove = (event) => {
     if (!isMouseDown) {
@@ -48,34 +58,22 @@ export default function SliderComponent() {
       onMouseDown={() => (isMouseDown = true)}
       sx={(theme) => {
         return {
+          transition: 'all',
+          transitionDuration: '300ms',
+          flexShrink: 1,
           display: { md: 'flex', xs: 'none' },
-          opacity: 1,
-          borderRadius: 1,
-          transitionProperty: 'all',
-          transitionDuration: '100ms',
-          justifyContent: 'center',
-          px: 0.5,
-          height: '100vh',
+          alignItems: 'center',
           cursor: 'move',
-          width: '7px',
           overflow: 'hidden',
           ':hover': {
-            backgroundColor: 'rgba(135,132,127,0.4)',
+            backgroundColor: 'rgba(135,132,127,0.2)',
           },
+          mb: 1,
+          borderRadius: 0.5,
         };
       }}
     >
-      <Box
-        sx={{
-          borderColor: 'rgba(135,132,127,0.4)',
-          borderStyle: 'outset',
-          width: '2px',
-          maxHeight: '100%',
-          borderWidth: 1,
-          borderTop: 0,
-          borderBottom: 0,
-        }}
-      ></Box>
+      <MoreVert fontSize={'1px'} />
     </Box>
   );
 }

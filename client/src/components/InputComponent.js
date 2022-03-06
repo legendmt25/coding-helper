@@ -11,12 +11,11 @@ export default function InputComponent(props) {
   return (
     <TextField
       fullWidth
+      required={props.required}
       label={capitalize(props.attr)}
       type={props.type ? props.type : props.attr.toLowerCase()}
       variant="outlined"
-      onChange={(event) =>
-        handleInputTextChange(event, props.attr)
-      }
+      onChange={(event) => handleInputTextChange(event, props.attr)}
       InputLabelProps={inputLabelProps}
     ></TextField>
   );

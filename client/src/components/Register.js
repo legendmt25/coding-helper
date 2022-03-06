@@ -3,8 +3,10 @@ import { buttonStyle, fieldsetStyle } from '../styles';
 import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
 import { transformToSelectItems } from './utility';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+  let navigate = useNavigate();
   const d = new Date();
   const obj = {
     email: '',
@@ -25,6 +27,11 @@ export default function Register() {
     if (obj.confirmPassword !== obj.password) {
       return;
     }
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...obj }),
+    }).then((res) => navigate('/login', { replace: true }));
   };
 
   return (
@@ -43,12 +50,16 @@ export default function Register() {
           Register
         </Typography>
         <Box sx={{ display: 'flex', gap: 2, flexGrow: 1 }}>
-          <InputComponent obj={obj} attr={'firstName'}></InputComponent>
-          <InputComponent obj={obj} attr={'lastName'}></InputComponent>
+          <InputComponent
+            required
+            obj={obj}
+            attr={'firstName'}
+          ></InputComponent>
+          <InputComponent required obj={obj} attr={'lastName'}></InputComponent>
         </Box>
-        <InputComponent obj={obj} attr={'username'}></InputComponent>
-        <InputComponent obj={obj} attr={'email'}></InputComponent>
-        <InputComponent obj={obj} attr={'password'}></InputComponent>
+        <InputComponent required obj={obj} attr={'username'}></InputComponent>
+        <InputComponent required obj={obj} attr={'email'}></InputComponent>
+        <InputComponent required obj={obj} attr={'password'}></InputComponent>
         <InputComponent
           obj={obj}
           attr={'confirmPassword'}

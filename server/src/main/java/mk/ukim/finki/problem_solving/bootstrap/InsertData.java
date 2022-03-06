@@ -1,12 +1,9 @@
 package mk.ukim.finki.problem_solving.bootstrap;
 
-import mk.ukim.finki.problem_solving.model.input.UserInput;
-import mk.ukim.finki.problem_solving.model.enums.Gender;
 import mk.ukim.finki.problem_solving.service.AuthService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
 
 @Component
 public class InsertData {
