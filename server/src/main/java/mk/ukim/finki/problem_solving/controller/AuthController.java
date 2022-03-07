@@ -40,6 +40,6 @@ public class AuthController {
             throw new InvalidCredentialsException();
         }
         final var userDetails = authService.loadUserByUsername(authRequest.getEmail());
-        return new JwtResponse(jwtTokenUtil.generateToken(userDetails));
+        return new JwtResponse(jwtTokenUtil.generateToken(userDetails), userDetails.getUsername(), userDetails.getAvatarImage());
     }
 }

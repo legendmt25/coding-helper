@@ -65,4 +65,9 @@ public class ProblemServiceImpl implements ProblemService {
         }
         return this.problemRepository.findAllByCategory_NameIn(categories);
     }
+
+    @Override
+    public List<Problem> findTop10ByOrderByLikes() {
+        return this.problemRepository.findTop10ByOrderByLikes();
+    }
 }

@@ -11,4 +11,7 @@ import java.util.List;
 @Repository
 public interface ProblemRepository extends Neo4jRepository<Problem, Long> {
     List<Problem> findAllByCategory_NameIn(Collection<String> category_name);
+
+    List<Problem> findTop10ByOrderByLikes();
+
 }

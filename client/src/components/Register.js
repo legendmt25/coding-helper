@@ -1,5 +1,5 @@
 import { Typography, Box, Button } from '@mui/material';
-import { buttonStyle, fieldsetStyle } from '../styles';
+import { buttonStyle, fieldsetStyle } from './styles';
 import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
 import { transformToSelectItems } from './utility';

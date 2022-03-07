@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+    private String avatarImage;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
@@ -47,6 +48,7 @@ public class User implements UserDetails {
         this.birthday = input.getBirthday();
         this.gender = input.getGender();
         this.role = Role.USER;
+        this.avatarImage = "/defaultUser.png";
 
         submissions = new ArrayList<>();
     }

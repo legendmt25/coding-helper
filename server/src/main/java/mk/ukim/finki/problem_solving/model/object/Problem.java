@@ -20,13 +20,15 @@ public class Problem {
     private Category category;
     private String title;
     private Difficulty difficulty;
-
     private String markdown;
+
+    private Long likes;
 
     public Problem(Category category, String title, Difficulty difficulty, String markdown) {
         this.category = category;
         this.title = title;
         this.difficulty = difficulty;
         this.markdown = markdown;
+        this.likes = 0L;
     }
 }

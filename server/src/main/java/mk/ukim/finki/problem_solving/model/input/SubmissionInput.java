@@ -15,9 +15,6 @@ public class SubmissionInput {
     private String userId;
     private Long problemId;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date timeSubmitted;
-    private SubmissionStatus status;
     private String language;
     private String code;
 

@@ -1,6 +1,6 @@
 import { Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { buttonStyle, fieldsetStyle } from '../styles';
+import { buttonStyle, fieldsetStyle } from './styles';
 import InputComponent from './InputComponent';
 
 export default function Login() {
@@ -22,7 +22,7 @@ export default function Login() {
       .then((res) => res.json())
       .then((res) => {
         if (res.jwttoken) {
-          localStorage.setItem('jwt', res.jwttoken);
+          localStorage.setItem('authentication', JSON.stringify(res));
           navigate('/', { replace: true });
         }
       });

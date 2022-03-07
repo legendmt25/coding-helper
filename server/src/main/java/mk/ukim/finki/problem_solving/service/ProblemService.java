@@ -19,4 +19,6 @@ public interface ProblemService {
     Problem update(Long id, ProblemInput problemInput);
 
     List<Problem> findAllLByCategories(Collection<String> categories);
+
+    List<Problem> findTop10ByOrderByLikes();
 }

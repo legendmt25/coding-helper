@@ -23,3 +23,8 @@ export const difficultyColor = (difficulty) => {
   if (difficulty.toLowerCase() === 'medium') return 'orange';
   return 'red';
 };
+
+export const getAuthentication = () => {
+  const authentication = JSON.parse(localStorage.getItem('authentication'));
+  return authentication;
+};

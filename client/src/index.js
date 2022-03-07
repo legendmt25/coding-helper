@@ -9,6 +9,9 @@ import Problems from './components/Problems';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProblemDetails from './components/ProblemDetails';
+import MySubmissions from './components/MySubmissions';
+import Account from './components/Account';
+import AccountSettings from './components/AccountSettings';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +23,17 @@ ReactDOM.render(
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/problem/:id" element={<ProblemDetails />}></Route>
+          <Route path="/mysubmissions" element={<MySubmissions />}></Route>
+          <Route path="/account" element={<Account />}>
+            <Route
+              path="/account/settings"
+              element={<AccountSettings />}
+            ></Route>
+            <Route
+              path="/account/notifications"
+              element={<Account />}
+            ></Route>
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

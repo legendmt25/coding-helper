@@ -2,7 +2,6 @@ package mk.ukim.finki.problem_solving.config;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.service.AuthService;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/register").permitAll()
+                .antMatchers("/authenticate", "/register", "/", "/problems", "/categories", "/problems/top10", "/public/**").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().exceptionHandling()

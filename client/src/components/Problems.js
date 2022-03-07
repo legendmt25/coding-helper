@@ -1,10 +1,12 @@
-import { Divider, Fab, Input, TextField, Typography } from '@mui/material';
+import { Divider, Fab, TextField, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import ButtonCheckBox from './ButtonCheckbox';
-import { difficultyColor } from './utility';
+import { difficultyColor, getAuthentication } from './utility';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import Statistics from './Statistics';
+import ProblemsAside from './ProblemsAside';
 
 export default function Problems() {
   const addCategoryInputRef = useRef(null);
@@ -18,7 +20,6 @@ export default function Problems() {
     fetch('http://localhost:3000/problems', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
@@ -31,11 +32,9 @@ export default function Problems() {
   }, [filters]);
 
   useEffect(() => {
-    console.log(localStorage.getItem('jwt'));
     fetch('http://localhost:3000/categories', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
@@ -81,6 +80,7 @@ export default function Problems() {
       fetch('http://localhost:3000/category/create', {
         method: 'POST',
         headers: {
+          Authorization: `Bearer ${getAuthentication().jwttoken}`,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
@@ -98,11 +98,19 @@ export default function Problems() {
   };
 
   return (
-    <Box sx={{ mt: 1 }}>
+    <Box
+      sx={{
+        userSelect: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        px: { md: 10, sm: 2 },
+      }}
+    >
       <Typography variant="h5" component={'div'} sx={{ color: '#696969' }}>
         Categories
       </Typography>
-      <Box sx={{ display: 'inline-flex', gap: 1, mt: 1 }}>
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         {categories.map((category) => (
           <ButtonCheckBox
             key={category.name}
@@ -126,45 +134,72 @@ export default function Problems() {
           <Add onClick={handleAddCategoryButton} />
         </Fab>
       </Box>
-      <Divider sx={{ mt: 1 }}></Divider>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mt: 2 }}>
+      <Divider></Divider>
+      <Box
+        sx={{
+          display: { sm: 'block', md: 'flex' },
+          flexDirection: 'row',
+          gap: 5,
+        }}
+      >
         <Box
-          sx={(theme) => {
-            return { ...rowStyle(theme), fontWeight: 600 };
+          sx={{
+            flex: 0.7,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 0.5,
           }}
         >
-          <Box>#</Box>
-          <Box>Title</Box>
-          <Box>Difficulty</Box>
-        </Box>
-        {problems.map((problem) => (
-          <Link
-            key={problem.id}
-            to={`/problem/${problem.id}`}
-            style={{
-              color: 'inherit',
-              textDecoration: 'none',
+          <Box
+            sx={(theme) => {
+              return { ...rowStyle(theme), fontWeight: 600 };
             }}
           >
-            <Box
-              sx={(theme) => {
-                return {
-                  ...rowStyle(theme),
-                  color: difficultyColor(problem.difficulty),
-                  ':hover': {
-                    backgroundColor: difficultyColor(problem.difficulty),
-                    color: 'white',
-                    borderRadius: 1,
-                  },
-                };
+            <Box>#</Box>
+            <Box>Title</Box>
+            <Box>Difficulty</Box>
+          </Box>
+          {problems.map((problem) => (
+            <Link
+              key={problem.id}
+              to={`/problem/${problem.id}`}
+              style={{
+                color: 'inherit',
+                textDecoration: 'none',
               }}
             >
-              <Box>{problem.id}</Box>
-              <Box>{problem.title}</Box>
-              <Box>{problem.difficulty}</Box>
-            </Box>
-          </Link>
-        ))}
+              <Box
+                sx={(theme) => {
+                  return {
+                    ...rowStyle(theme),
+                    color: difficultyColor(problem.difficulty),
+                    ':hover': {
+                      backgroundColor: difficultyColor(problem.difficulty),
+                      color: 'white',
+                      borderRadius: 1,
+                    },
+                  };
+                }}
+              >
+                <Box>{problem.id}</Box>
+                <Box>{problem.title}</Box>
+                <Box>{problem.difficulty}</Box>
+              </Box>
+            </Link>
+          ))}
+        </Box>
+        <Box
+          sx={{
+            mt: { sm: 2, xs: 2 },
+            flex: 0.3,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <Statistics></Statistics>
+          <ProblemsAside></ProblemsAside>
+        </Box>
       </Box>
     </Box>
   );

@@ -47,4 +47,9 @@ public class ProblemController {
         return this.problemService.update(id, problemInput);
     }
 
+    @GetMapping("/problems/top10")
+    List<Problem> getTop10() {
+        return this.problemService.findTop10ByOrderByLikes();
+    }
+
 }

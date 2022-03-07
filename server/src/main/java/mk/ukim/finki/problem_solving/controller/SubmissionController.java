@@ -1,6 +1,7 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.dto.SubmissionDto;
 import mk.ukim.finki.problem_solving.model.input.SubmissionInput;
 import mk.ukim.finki.problem_solving.model.object.Submission;
 import mk.ukim.finki.problem_solving.service.SubmissionService;
@@ -24,7 +25,7 @@ public class SubmissionController {
     }
 
     @PostMapping("/submissions")
-    List<Submission> submissions(@RequestBody Map<String, String> map) {
+    List<SubmissionDto> submissions(@RequestBody Map<String, String> map) {
         return this.submissionService.getAllSubmissionsForUserByEmail(map.get("email"));
     }
 }

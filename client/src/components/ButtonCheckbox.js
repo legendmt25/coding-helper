@@ -8,7 +8,6 @@ export default function ButtonCheckBox(props) {
     return {
       px: 2,
       py: 1,
-      ml: 'auto',
       backgroundColor: clicked ? '#1976d2' : '',
       color: clicked ? 'white' : 'inherit',
       alignSelf: 'flex-end',
