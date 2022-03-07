@@ -12,6 +12,7 @@ import ProblemDetails from './components/ProblemDetails';
 import MySubmissions from './components/MySubmissions';
 import Account from './components/Account';
 import AccountSettings from './components/AccountSettings';
+import CreateProblem from './components/CreateProblem';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,15 +25,13 @@ ReactDOM.render(
           <Route path="/login" element={<Login />}></Route>
           <Route path="/problem/:id" element={<ProblemDetails />}></Route>
           <Route path="/mysubmissions" element={<MySubmissions />}></Route>
+          <Route path="/problem/create" element={<CreateProblem />}></Route>
           <Route path="/account" element={<Account />}>
             <Route
               path="/account/settings"
               element={<AccountSettings />}
             ></Route>
-            <Route
-              path="/account/notifications"
-              element={<Account />}
-            ></Route>
+            <Route path="/account/notifications" element={<Account />}></Route>
           </Route>
         </Route>
       </Routes>

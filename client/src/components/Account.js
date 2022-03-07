@@ -77,19 +77,20 @@ export default function Account() {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'stretch',
-          alignContent: 'stretch',
+          gap: 2,
         }}
       >
         <Box
           sx={{
+            alignSelf: 'flex-start',
             backgroundColor: 'silver',
             borderRadius: 1,
             display: 'flex',
             gap: 0,
             flexDirection: 'column',
             textAlign: 'center',
-            flex: 0.15,
+            width: '20%',
+            minWidth: '180px',
             boxShadow: shadow,
           }}
         >

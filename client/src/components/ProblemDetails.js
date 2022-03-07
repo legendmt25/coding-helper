@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import SliderComponent from './SliderComponent';
 import MarkdownIt from 'react-markdown-it';
+import '../index.css';
 import {
   Favorite,
   FavoriteBorder,
@@ -68,7 +69,7 @@ export default function ProblemDetails() {
           </FormGroup>
         </Box>
         <Divider></Divider>
-        <Box sx={{ px: 2 }}>
+        <Box sx={{ px: 2 }} className={'markdown'}>
           <MarkdownIt source={problem.markdown}></MarkdownIt>
         </Box>
       </Box>
