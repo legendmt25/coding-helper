@@ -12,10 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -36,7 +33,7 @@ public class User implements UserDetails {
     private Gender gender;
     private Role role;
 
-    @Relationship
+    @Relationship(value = "SUBMISSION", direction = Relationship.Direction.OUTGOING)
     private List<Submission> submissions;
 
     public User(UserInput input) {
@@ -55,7 +52,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(this.role);
     }
 
     @Override

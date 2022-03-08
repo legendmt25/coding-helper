@@ -7,6 +7,7 @@ import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ public class ProblemController {
         return problemService.findById(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/problem/create")
     Problem create(@RequestPart MultipartFile starterCode,
                    @RequestPart MultipartFile runnerCode,
@@ -49,11 +51,13 @@ public class ProblemController {
         return this.problemService.findAllLByCategories(body.getCategories());
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/problem/{id}/delete")
     boolean delete(@PathVariable Long id) {
         return this.problemService.delete(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/problem/{id}/edit")
     Problem edit(@PathVariable Long id, @RequestBody ProblemInput problemInput) {
         return this.problemService.update(id, problemInput);

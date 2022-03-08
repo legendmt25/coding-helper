@@ -13,5 +13,5 @@ const twoSum = (nums, target) => {
             arr.push(map.get(key).shift(), map.get(target-key).shift());
         }
     });
-    return arr;
+    return null;
 };

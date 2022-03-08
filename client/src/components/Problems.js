@@ -114,8 +114,10 @@ export default function Problems() {
         Accept: 'application/json',
       },
     }).then((res) => {
-      problems.splice(index, 1);
-      setProblems([...problems]);
+      if (res.ok) {
+        problems.splice(index, 1);
+        setProblems([...problems]);
+      }
     });
   };
 
@@ -217,11 +219,27 @@ export default function Problems() {
               </Box>
             </Link>
           ))}
-          <Box>
-            <Box></Box>
-            <Box></Box>
-            <Box></Box>
-          </Box>
+          <Link
+            to={'/problem/create'}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <Box
+              sx={(theme) => {
+                return {
+                  ...rowStyle(theme),
+                  fontSize: 17,
+                  justifyContent: 'center',
+                  ':hover': {
+                    backgroundColor: '#696969',
+                    borderRadius: 1,
+                    color: 'white',
+                  },
+                };
+              }}
+            >
+              +
+            </Box>
+          </Link>
         </Box>
         <Box
           sx={{

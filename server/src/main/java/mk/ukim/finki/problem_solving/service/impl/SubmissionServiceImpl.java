@@ -78,16 +78,16 @@ public class SubmissionServiceImpl implements SubmissionService {
         //TODO: check all testcases and set status;
         SubmissionStatus status = output.startsWith("All") ? SubmissionStatus.ACCEPTED : SubmissionStatus.DECLINED;
 
-//        this.submissionRepository.save(
-//                new Submission(
-//                        new Date(),
-//                        status,
-//                        submissionInput.getLanguage(),
-//                        submissionInput.getCode(),
-//                        user,
-//                        problem
-//                )
-//        );
+        this.submissionRepository.save(
+                new Submission(
+                        new Date(),
+                        status,
+                        submissionInput.getLanguage(),
+                        submissionInput.getCode(),
+                        user,
+                        problem
+                )
+        );
 
         return output;
     }
