@@ -10,7 +10,9 @@ export default function InputComponent(props) {
 
   useEffect(() => {
     props.obj[props.attr] = value;
-    props.setExplicit(value);
+    if (typeof props.setExplicit == 'function') {
+      props.setExplicit(value);
+    }
   }, [value, props]);
 
   const inputLabelProps = props.type === 'date' ? { shrink: true } : {};

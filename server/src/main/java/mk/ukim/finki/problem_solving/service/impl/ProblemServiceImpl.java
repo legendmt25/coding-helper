@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,7 +34,9 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Problem create(ProblemInput problemInput) throws IOException {
-        var starterCode = new BufferedReader(new InputStreamReader(problemInput.getStarterCode().getInputStream())).lines().reduce((a, b) -> a.concat(b + '\n')).orElse("");
+        var starterCode = new BufferedReader(
+                new InputStreamReader(problemInput.getStarterCode().getInputStream())
+        ).lines().reduce((a, b) -> a.concat('\n' + b)).orElse("");
         var problem = this.problemRepository.save(
                 new Problem(
                         this.categoryService.findById(problemInput.getCategoryName()),
@@ -46,6 +49,9 @@ public class ProblemServiceImpl implements ProblemService {
         var path = System.getProperty("user.dir") + "/res/problems-starter-code/";
         problemInput.getRunnerCode().transferTo(new File(String.format("%s%d-runner%s", path, problem.getId(), getExtension(problemInput.getRunnerCode().getOriginalFilename()))));
         problemInput.getStarterCode().transferTo(new File(String.format("%s%d-starter%s", path, problem.getId(), getExtension(problemInput.getStarterCode().getOriginalFilename()))));
+        for (var testCase : problemInput.getTestCases()) {
+            testCase.transferTo(new File(String.format("%s%d-%s", path, problem.getId(), testCase.getOriginalFilename())));
+        }
         return problem;
     }
 
@@ -83,5 +89,12 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public List<Problem> findTop10ByOrderByLikes() {
         return this.problemRepository.findTop10ByOrderByLikes();
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        Arrays.stream(new File("res/problems-starter-code/").listFiles(((dir, name) -> name.startsWith(id.toString())))).toList().forEach(File::delete);
+        this.deleteById(id);
+        return true;
     }
 }

@@ -112,7 +112,7 @@ export default function CodeEditor(props) {
         }}
       ></Editor>
       <Box>
-        Output: <code>{responseOutput}</code>
+        <code>{responseOutput}</code>
       </Box>
       <Button onClick={handleSubmitButton} sx={{ ml: 'auto' }}>
         Submit

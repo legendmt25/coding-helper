@@ -22,4 +22,6 @@ public interface ProblemService {
     List<Problem> findAllLByCategories(Collection<String> categories);
 
     List<Problem> findTop10ByOrderByLikes();
+
+    boolean delete(Long id);
 }

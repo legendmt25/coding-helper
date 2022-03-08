@@ -17,4 +17,5 @@ public class ProblemInput {
     private String markdown;
     private MultipartFile starterCode;
     private MultipartFile runnerCode;
+    private MultipartFile[] testCases;
 }

@@ -12,6 +12,7 @@ import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -32,19 +33,37 @@ public class SubmissionServiceImpl implements SubmissionService {
         return submissionRepository.findAllByUser_EmailAndProblem_Id(email, problemId);
     }
 
+    private void createCodeFile(String userId, Long problemId, String code) throws FileNotFoundException {
+        var pw_userCode = new PrintWriter(String.format("res\\users-code\\%s.js", userId));
+        BufferedReader br = new BufferedReader(new FileReader(String.format("res\\problems-starter-code\\%d-runner.js", problemId)));
+        br.lines().forEach(pw_userCode::print);
+        pw_userCode.println();
+        pw_userCode.print(code);
+        pw_userCode.close();
+    }
+
     private String runCode(SubmissionInput submissionInput) throws InterruptedException, IOException {
         if (submissionInput.getLanguage().equalsIgnoreCase("javascript")) {
-            var pw_userCode = new PrintWriter(String.format("res\\users-code\\%s.js", submissionInput.getUserId()));
-            BufferedReader br = new BufferedReader(new FileReader(String.format("res\\problems-starter-code\\%d-runner.js", submissionInput.getProblemId())));
-            br.lines().forEach(pw_userCode::print);
-            pw_userCode.println();
-            pw_userCode.print(submissionInput.getCode());
-            pw_userCode.close();
+            createCodeFile(submissionInput.getUserId(), submissionInput.getProblemId(), submissionInput.getCode());
 
-            Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c echo 2,[2,3,4] | res\\compilers\\node.exe res\\users-code\\%s.js", submissionInput.getUserId()));
-            var output = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().reduce((a, b) -> b.concat(a)).orElse("");
-            assert process.waitFor() == 0;
-            return output;
+            var testCases =
+                    new File("res/problems-starter-code/")
+                            .listFiles(
+                                    ((dir, name) -> name.startsWith(submissionInput.getProblemId().toString()) && name.contains("IN"))
+                            );
+            int n = testCases.length;
+            int i = 1;
+
+            for (var testCase : testCases) {
+                Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c type %s | res\\compilers\\node.exe res\\users-code\\%s.js", testCase.getPath(), submissionInput.getUserId()));
+                var output = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().reduce((a, b) -> b.concat(a)).orElse("");
+                var expectedOutput = new BufferedReader(new FileReader(testCase.getPath().replace("IN", "OUT"))).lines().reduce(String::concat).orElse("");
+                if (!output.equals(expectedOutput)) {
+                    return String.format("Test case %d of %d failed\nOutput: %s\nExpected: %s", i, n, output, expectedOutput);
+                }
+                ++i;
+            }
+            return "All test cases passed! Well done!";
         }
         return null;
     }
@@ -57,19 +76,20 @@ public class SubmissionServiceImpl implements SubmissionService {
         var output = runCode(submissionInput);
 
         //TODO: check all testcases and set status;
-        SubmissionStatus status = SubmissionStatus.ACCEPTED;
+        SubmissionStatus status = output.startsWith("All") ? SubmissionStatus.ACCEPTED : SubmissionStatus.DECLINED;
 
-        this.submissionRepository.save(
-                new Submission(
-                        new Date(),
-                        status,
-                        submissionInput.getLanguage(),
-                        submissionInput.getCode(),
-                        user,
-                        problem
-                )
-        );
+//        this.submissionRepository.save(
+//                new Submission(
+//                        new Date(),
+//                        status,
+//                        submissionInput.getLanguage(),
+//                        submissionInput.getCode(),
+//                        user,
+//                        problem
+//                )
+//        );
 
         return output;
     }
+
 }

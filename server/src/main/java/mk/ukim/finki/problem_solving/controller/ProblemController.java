@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +35,12 @@ public class ProblemController {
     @PostMapping("/problem/create")
     Problem create(@RequestPart MultipartFile starterCode,
                    @RequestPart MultipartFile runnerCode,
+                   @RequestParam("testCases") MultipartFile[] testCases,
                    @RequestParam String title,
                    @RequestParam String categoryName,
                    @RequestParam String markdown,
                    @RequestParam Difficulty difficulty) throws IOException {
-        var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode);
+        var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return this.problemService.create(problemInput);
     }
 
@@ -48,8 +50,8 @@ public class ProblemController {
     }
 
     @DeleteMapping("/problem/{id}/delete")
-    Problem delete(@PathVariable Long id) {
-        return this.problemService.deleteById(id);
+    boolean delete(@PathVariable Long id) {
+        return this.problemService.delete(id);
     }
 
     @PostMapping("/problem/{id}/edit")

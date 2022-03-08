@@ -4,6 +4,7 @@ import MarkdownIt from 'react-markdown-it';
 import SelectComponent from './SelectComponent';
 import InputComponent from './InputComponent';
 import { getAuthentication, transformToSelectItems } from './utility';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateProblem() {
   const difficulties = ['EASY', 'MEDIUM', 'HARD'];
@@ -22,8 +23,10 @@ export default function CreateProblem() {
 
   const [title, setTitle] = useState('');
   const [markdown, setMarkdown] = useState('');
-  const [starterFile, setStarterFile] = useState('nul');
+  const [starterFile, setStarterFile] = useState('');
   const [runnerFile, setRunnerFile] = useState('');
+  const [testCases, setTestCases] = useState([]);
+  const navigate = useNavigate();
 
   const obj = {
     difficulty: 0,
@@ -43,6 +46,9 @@ export default function CreateProblem() {
     formData.append('categoryName', categories[obj.category]);
     formData.append('starterCode', starterFile);
     formData.append('runnerCode', runnerFile);
+    for (const testCase of testCases) {
+      formData.append('testCases', testCase);
+    }
     fetch('http://localhost:3000/problem/create', {
       method: 'POST',
       headers: {
@@ -50,7 +56,10 @@ export default function CreateProblem() {
         Accept: 'application/json',
       },
       body: formData,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      //console.log(res);
+      navigate('/problems');
+    });
   };
 
   return (
@@ -75,7 +84,7 @@ export default function CreateProblem() {
           attr={'title'}
           setExplicit={setTitle}
         ></InputComponent>
-        {/* <TextField
+        <TextField
           fullWidth
           type={'file'}
           inputProps={{ multiple: true }}
@@ -83,8 +92,9 @@ export default function CreateProblem() {
           variant={'standard'}
           size={'small'}
           helperText={'Upload test cases for the problem'}
+          onChange={(event) => setTestCases(event.target.files)}
           InputLabelProps={{ shrink: true }}
-        ></TextField> */}
+        ></TextField>
         <Box sx={{ display: 'flex', gap: 5 }}>
           <TextField
             fullWidth

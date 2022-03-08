@@ -1,5 +1,12 @@
-import { Divider, Fab, TextField, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import {
+  Divider,
+  Fab,
+  Icon,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Add, DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import ButtonCheckBox from './ButtonCheckbox';
 import { difficultyColor, getAuthentication } from './utility';
@@ -50,6 +57,7 @@ export default function Problems() {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       px: 5,
       py: 2,
       ':hover': { backgroundColor: 'gray', borderRadius: 1, color: 'white' },
@@ -95,6 +103,20 @@ export default function Problems() {
           addCategoryInputRef.current.style.width = 0;
         });
     }
+  };
+
+  const handleDeleteProblem = (event, problemId, index) => {
+    event.preventDefault();
+    fetch(`http://localhost:3000/problem/${problemId}/delete`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${getAuthentication().jwttoken}`,
+        Accept: 'application/json',
+      },
+    }).then((res) => {
+      problems.splice(index, 1);
+      setProblems([...problems]);
+    });
   };
 
   return (
@@ -159,7 +181,7 @@ export default function Problems() {
             <Box>Title</Box>
             <Box>Difficulty</Box>
           </Box>
-          {problems.map((problem) => (
+          {problems.map((problem, index) => (
             <Link
               key={problem.id}
               to={`/problem/${problem.id}`}
@@ -180,7 +202,16 @@ export default function Problems() {
                   };
                 }}
               >
-                <Box>{problem.id}</Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <IconButton
+                    onClick={(event) =>
+                      handleDeleteProblem(event, problem.id, index)
+                    }
+                  >
+                    <DeleteForever />
+                  </IconButton>
+                  {problem.id}
+                </Box>
                 <Box>{problem.title}</Box>
                 <Box>{problem.difficulty}</Box>
               </Box>
