@@ -32,17 +32,29 @@ public class SubmissionServiceImpl implements SubmissionService {
         return submissionRepository.findAllByUser_EmailAndProblem_Id(email, problemId);
     }
 
+    private String runCode(SubmissionInput submissionInput) throws InterruptedException, IOException {
+        if (submissionInput.getLanguage().equalsIgnoreCase("javascript")) {
+            var pw_userCode = new PrintWriter(String.format("res\\users-code\\%s.js", submissionInput.getUserId()));
+            BufferedReader br = new BufferedReader(new FileReader(String.format("res\\problems-starter-code\\%d-runner.js", submissionInput.getProblemId())));
+            br.lines().forEach(pw_userCode::print);
+            pw_userCode.println();
+            pw_userCode.print(submissionInput.getCode());
+            pw_userCode.close();
+
+            Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c echo 2,[2,3,4] | res\\compilers\\node.exe res\\users-code\\%s.js", submissionInput.getUserId()));
+            var output = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().reduce((a, b) -> b.concat(a)).orElse("");
+            assert process.waitFor() == 0;
+            return output;
+        }
+        return null;
+    }
+
     @Override
     public String create(SubmissionInput submissionInput) throws IOException, InterruptedException {
         var user = this.userService.findByEmail(submissionInput.getUserId());
         var problem = this.problemService.findById(submissionInput.getProblemId());
-        var pw = new PrintWriter(String.format("compilers\\%s.js", user.getEmail()));
-        pw.print(submissionInput.getCode());
-        pw.close();
 
-        Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c compilers\\node.exe compilers\\%s.js", user.getEmail()));
-        var output = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().reduce((a, b) -> b.concat(a)).orElse("");
-        assert process.waitFor() == 0;
+        var output = runCode(submissionInput);
 
         //TODO: check all testcases and set status;
         SubmissionStatus status = SubmissionStatus.ACCEPTED;

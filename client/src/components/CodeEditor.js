@@ -45,11 +45,13 @@ export default function CodeEditor(props) {
   useEffect(() => {
     if (ctx.useCode !== '') {
       setCode(ctx.useCode);
+    } else {
+      setCode(props.problem.starterCode);
     }
     if (ctx.useLanguage !== '') {
       setLanguage(ctx.useLanguage);
     }
-  }, []);
+  }, [props.problem]);
 
   return (
     <Box

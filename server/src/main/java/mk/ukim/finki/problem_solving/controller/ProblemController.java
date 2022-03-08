@@ -1,14 +1,18 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -28,8 +32,14 @@ public class ProblemController {
     }
 
     @PostMapping("/problem/create")
-    ResponseEntity<Problem> create(@RequestBody ProblemInput problemInput) {
-        return ResponseEntity.ok().body(this.problemService.create(problemInput));
+    Problem create(@RequestPart MultipartFile starterCode,
+                   @RequestPart MultipartFile runnerCode,
+                   @RequestParam String title,
+                   @RequestParam String categoryName,
+                   @RequestParam String markdown,
+                   @RequestParam Difficulty difficulty) throws IOException {
+        var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode);
+        return this.problemService.create(problemInput);
     }
 
     @PostMapping("/problems")

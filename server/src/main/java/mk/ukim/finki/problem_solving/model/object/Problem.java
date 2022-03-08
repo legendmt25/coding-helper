@@ -21,14 +21,16 @@ public class Problem {
     private String title;
     private Difficulty difficulty;
     private String markdown;
+    private String starterCode;
 
     private Long likes;
 
-    public Problem(Category category, String title, Difficulty difficulty, String markdown) {
+    public Problem(Category category, String title, Difficulty difficulty, String markdown, String starterCode) {
         this.category = category;
         this.title = title;
         this.difficulty = difficulty;
         this.markdown = markdown;
+        this.starterCode = starterCode;
         this.likes = 0L;
     }
 }

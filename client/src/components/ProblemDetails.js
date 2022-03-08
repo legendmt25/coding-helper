@@ -1,6 +1,6 @@
 import { Checkbox, Divider, FormGroup, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SliderComponent from './SliderComponent';
 import MarkdownIt from 'react-markdown-it';
 import '../index.css';
@@ -13,6 +13,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { getAuthentication } from './utility';
 import CodeEditor from './CodeEditor';
+import { AppContext } from '../App';
 
 export default function ProblemDetails() {
   const [problem, setProblem] = useState({});
@@ -28,7 +29,9 @@ export default function ProblemDetails() {
       },
     })
       .then((res) => res.json())
-      .then((res) => setProblem(res));
+      .then((res) => {
+        setProblem(res);
+      });
   }, [id]);
 
   return (
@@ -74,7 +77,7 @@ export default function ProblemDetails() {
         </Box>
       </Box>
       <SliderComponent></SliderComponent>
-      <CodeEditor width={'50%'}></CodeEditor>
+      <CodeEditor width={'50%'} problem={problem}></CodeEditor>
     </Box>
   );
 }
