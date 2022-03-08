@@ -11,6 +11,7 @@ import mk.ukim.finki.problem_solving.service.SubmissionService;
 import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 
@@ -32,18 +33,31 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public Submission create(SubmissionInput submissionInput) {
+    public String create(SubmissionInput submissionInput) throws IOException, InterruptedException {
         var user = this.userService.findByEmail(submissionInput.getUserId());
         var problem = this.problemService.findById(submissionInput.getProblemId());
-        return submissionRepository.save(
+        var pw = new PrintWriter(String.format("compilers\\%s.js", user.getEmail()));
+        pw.print(submissionInput.getCode());
+        pw.close();
+
+        Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c compilers\\node.exe compilers\\%s.js", user.getEmail()));
+        var output = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().reduce((a, b) -> b.concat(a)).orElse("");
+        assert process.waitFor() == 0;
+
+        //TODO: check all testcases and set status;
+        SubmissionStatus status = SubmissionStatus.ACCEPTED;
+
+        this.submissionRepository.save(
                 new Submission(
                         new Date(),
-                        SubmissionStatus.ACCEPTED,
+                        status,
                         submissionInput.getLanguage(),
                         submissionInput.getCode(),
                         user,
                         problem
                 )
         );
+
+        return output;
     }
 }

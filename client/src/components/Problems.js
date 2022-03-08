@@ -176,7 +176,6 @@ export default function Problems() {
                     ':hover': {
                       backgroundColor: difficultyColor(problem.difficulty),
                       color: 'white',
-                      borderRadius: 1,
                     },
                   };
                 }}
@@ -187,6 +186,11 @@ export default function Problems() {
               </Box>
             </Link>
           ))}
+          <Box>
+            <Box></Box>
+            <Box></Box>
+            <Box></Box>
+          </Box>
         </Box>
         <Box
           sx={{

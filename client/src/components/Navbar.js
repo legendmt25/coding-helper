@@ -72,6 +72,7 @@ export default function Navbar() {
           ))}
         </Box>
         <Box>
+          {getAuthentication() != null && `${getAuthentication().email}`}
           <Tooltip title="Settings">
             <IconButton onClick={handleOpenUserMenu}>
               <Avatar

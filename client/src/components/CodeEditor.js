@@ -21,7 +21,7 @@ export default function CodeEditor(props) {
   const [language, setLanguage] = useState('');
   const [code, setCode] = useState('');
   const [theme, setTheme] = useState('vs-light');
-  const [responseOutput, setResponseOutput] = useState(null);
+  const [responseOutput, setResponseOutput] = useState('');
 
   const handleSubmitButton = (event) => {
     fetch('http://localhost:3000/submission/create', {
@@ -37,7 +37,9 @@ export default function CodeEditor(props) {
         language,
         code,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((res) => setResponseOutput(res.output));
   };
 
   useEffect(() => {

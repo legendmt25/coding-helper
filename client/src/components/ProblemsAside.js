@@ -35,7 +35,7 @@ export default function ProblemsAside() {
       >
         Top liked problems
       </Typography>
-      {problems.map((problem) => (
+      {problems.map((problem, index) => (
         <Link
           to={`/problem/${problem.id}`}
           style={{
@@ -57,7 +57,7 @@ export default function ProblemsAside() {
               },
             }}
           >
-            <Box>{problem.id}</Box>
+            <Box>{index + 1}</Box>
             <Box>{problem.title}</Box>
             <Box>{problem.likes}</Box>
           </Box>
