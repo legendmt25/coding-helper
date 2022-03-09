@@ -6,6 +6,7 @@ import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
+import mk.ukim.finki.problem_solving.service.SubmissionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ import java.util.Map;
 @RequestMapping("/")
 @AllArgsConstructor
 public class ProblemController {
-
     private final ProblemService problemService;
+    private final SubmissionService submissionService;
 
     @GetMapping("/problems")
     ResponseEntity<List<Problem>> getAllProblems() {
@@ -53,7 +54,8 @@ public class ProblemController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/problem/{id}/delete")
-    boolean delete(@PathVariable Long id) {
+    boolean deleteWithSubmissions(@PathVariable Long id) {
+        this.submissionService.deleteAllByProblemId(id);
         return this.problemService.delete(id);
     }
 

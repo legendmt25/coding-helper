@@ -24,6 +24,9 @@ export default function CodeEditor(props) {
   const [responseOutput, setResponseOutput] = useState('');
 
   const handleSubmitButton = (event) => {
+    if(language === '') {
+      return;
+    }
     fetch('http://localhost:3000/submission/create', {
       method: 'POST',
       headers: {

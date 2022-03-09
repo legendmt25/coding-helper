@@ -7,6 +7,7 @@ import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.repository.ProblemRepository;
 import mk.ukim.finki.problem_solving.service.CategoryService;
 import mk.ukim.finki.problem_solving.service.ProblemService;
+import mk.ukim.finki.problem_solving.service.SubmissionService;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;

@@ -29,10 +29,7 @@ export default function MySubmissions() {
       }),
     })
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setSubmissions(res);
-      });
+      .then((res) => setSubmissions(res));
   }, []);
 
   const handleUseCodeClick = (code, language) => {
@@ -50,7 +47,13 @@ export default function MySubmissions() {
         {submissions.map((submission) => (
           <Accordion key={submission.id}>
             <AccordionSummary>
-              <Box sx={{ display: 'flex', flex: 1, justifyContent: 'space-evenly' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flex: 1,
+                  justifyContent: 'space-evenly',
+                }}
+              >
                 <Typography>Problem: {submission.problem.title} </Typography>
                 <Typography
                   sx={{

@@ -76,7 +76,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         var output = runCode(submissionInput);
 
         //TODO: check all testcases and set status;
-        SubmissionStatus status = output.startsWith("All") ? SubmissionStatus.ACCEPTED : SubmissionStatus.DECLINED;
+        SubmissionStatus status = output != null && output.startsWith("All") ? SubmissionStatus.ACCEPTED : SubmissionStatus.DECLINED;
 
         this.submissionRepository.save(
                 new Submission(
@@ -90,6 +90,11 @@ public class SubmissionServiceImpl implements SubmissionService {
         );
 
         return output;
+    }
+
+    @Override
+    public void deleteAllByProblemId(Long problemId) {
+        this.submissionRepository.deleteAllByProblemId(problemId);
     }
 
 }
