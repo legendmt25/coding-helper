@@ -1,21 +1,20 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
+import mk.ukim.finki.problem_solving.model.reqBody.LikeProblemReqBody;
 import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
 import mk.ukim.finki.problem_solving.service.SubmissionService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -25,16 +24,17 @@ public class ProblemController {
     private final SubmissionService submissionService;
 
     @GetMapping("/problems")
-    ResponseEntity<List<Problem>> getAllProblems() {
-        return ResponseEntity.ok().body(problemService.findAll());
+    List<Problem> getAllProblems() {
+        return this.problemService.findAll();
     }
 
     @GetMapping("/problem/{id}")
-    Problem getProblem(@PathVariable Long id) {
-        return problemService.findById(id);
+    ProblemByLikesDto getProblem(@PathVariable Long id) {
+        var problem = this.problemService.findById(id);
+        return new ProblemByLikesDto(problem.getId(), problem.getTitle(), problem.getDifficulty(), problem.getMarkdown(), problem.getStarterCode(), (long) problem.getLikedBy().size());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/problem/create")
     Problem create(@RequestPart MultipartFile starterCode,
                    @RequestPart MultipartFile runnerCode,
@@ -45,6 +45,16 @@ public class ProblemController {
                    @RequestParam Difficulty difficulty) throws IOException {
         var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return this.problemService.create(problemInput);
+    }
+
+    @PostMapping("/problem/{id}/like")
+    boolean likeToggle(@PathVariable Long id, @RequestBody LikeProblemReqBody body) {
+        return this.problemService.likeToggle(id, body.getUserEmail());
+    }
+
+    @PostMapping("/problem/{id}/is_liked")
+    boolean isLikedBy(@PathVariable Long id, @RequestBody LikeProblemReqBody body) {
+        return this.problemService.isLikedBy(id, body.getUserEmail());
     }
 
     @PostMapping("/problems")
@@ -66,7 +76,7 @@ public class ProblemController {
     }
 
     @GetMapping("/problems/top10")
-    List<Problem> getTop10() {
+    List<ProblemByLikesDto> getTop10() {
         return this.problemService.findTop10ByOrderByLikes();
     }
 

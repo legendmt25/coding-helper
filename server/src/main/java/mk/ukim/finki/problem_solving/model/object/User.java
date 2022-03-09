@@ -35,6 +35,10 @@ public class User implements UserDetails {
 
     @Relationship(value = "SUBMISSION", direction = Relationship.Direction.OUTGOING)
     private List<Submission> submissions;
+    @Relationship(value = "LIKES")
+    private List<Problem> likedProblems;
+    @Relationship(value = "FAVORITE")
+    private List<Problem> favorites;
 
     public User(UserInput input) {
         this.email = input.getEmail();
@@ -45,9 +49,11 @@ public class User implements UserDetails {
         this.birthday = input.getBirthday();
         this.gender = input.getGender();
         this.role = Role.USER;
-        this.avatarImage = "/defaultUser.png";
+        this.avatarImage = "defaultUser.png";
 
-        submissions = new ArrayList<>();
+        this.submissions = new ArrayList<>();
+        this.likedProblems = new ArrayList<>();
+        this.favorites = new ArrayList<>();
     }
 
     @Override

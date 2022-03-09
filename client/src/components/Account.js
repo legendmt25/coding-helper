@@ -55,15 +55,13 @@ export default function Account() {
       >
         <Tooltip title={'Click to change'}>
           <img
-            src={`http://localhost:3000/public/${
-              getAuthentication() != null
-                ? getAuthentication().avatarImage
-                : 'defaultUser.png'
+            src={`http://localhost:3000/public/avatars/${
+              getAuthentication().avatarImage
             }`}
             style={{
               objectFit: 'contain',
               borderRadius: 50,
-              height: '50%',
+              height: '60%',
               top: '50%',
               transform: 'translate(0, -50%)',
               position: 'relative',

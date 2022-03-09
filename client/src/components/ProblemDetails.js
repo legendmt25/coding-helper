@@ -1,6 +1,6 @@
 import { Checkbox, Divider, FormGroup, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SliderComponent from './SliderComponent';
 import MarkdownIt from 'react-markdown-it';
 import '../index.css';
@@ -13,10 +13,10 @@ import {
 import { useParams } from 'react-router-dom';
 import { getAuthentication } from './utility';
 import CodeEditor from './CodeEditor';
-import { AppContext } from '../App';
 
 export default function ProblemDetails() {
   const [problem, setProblem] = useState({});
+  const [liked, setLiked] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -32,7 +32,45 @@ export default function ProblemDetails() {
       .then((res) => {
         setProblem(res);
       });
+
+    fetch(`http://localhost:3000/problem/${id}/is_liked`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${getAuthentication().jwttoken}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        userEmail: getAuthentication().email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => setLiked(res));
   }, [id]);
+
+  const handleLikeButton = (event) => {
+    fetch(`http://localhost:3000/problem/${id}/like`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${getAuthentication().jwttoken}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        userEmail: getAuthentication().email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setLiked(res);
+        if (res) {
+          problem.likes++;
+        } else {
+          problem.likes--;
+        }
+        setProblem({ ...problem });
+      });
+  };
 
   return (
     <Box
@@ -62,7 +100,10 @@ export default function ProblemDetails() {
               checkedIcon={<ThumbUp />}
               size={'small'}
               sx={{ p: 0, m: 0 }}
+              onClick={handleLikeButton}
+              checked={liked}
             ></Checkbox>
+            {problem.likes}
             <Checkbox
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}

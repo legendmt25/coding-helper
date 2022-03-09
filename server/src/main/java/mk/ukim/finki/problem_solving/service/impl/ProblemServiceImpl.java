@@ -1,13 +1,14 @@
 package mk.ukim.finki.problem_solving.service.impl;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
 import mk.ukim.finki.problem_solving.model.exceptions.ProblemNotFoundException;
-import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
+import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.repository.ProblemRepository;
 import mk.ukim.finki.problem_solving.service.CategoryService;
 import mk.ukim.finki.problem_solving.service.ProblemService;
-import mk.ukim.finki.problem_solving.service.SubmissionService;
+import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ProblemServiceImpl implements ProblemService {
     private final ProblemRepository problemRepository;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @Override
     public List<Problem> findAll() {
@@ -88,8 +90,31 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> findTop10ByOrderByLikes() {
-        return this.problemRepository.findTop10ByOrderByLikes();
+    public List<ProblemByLikesDto> findTop10ByOrderByLikes() {
+        return this.problemRepository.findTop10ByOrderByLikes()
+                .stream()
+                .map(x -> {
+                    System.out.println(x.getLikedBy().size());
+                    return new ProblemByLikesDto(x.getId(), x.getTitle(), x.getDifficulty(), x.getMarkdown(), x.getStarterCode(), (long) x.getLikedBy().size());
+                }).toList();
+    }
+
+    @Override
+    public boolean likeToggle(Long id, String email) {
+        var problem = this.findById(id);
+        boolean isNotLiked = problem.getLikedBy().stream().noneMatch(x -> x.getEmail().equals(email));
+        if (isNotLiked) {
+            problem.getLikedBy().add(this.userService.findByEmail(email));
+        } else {
+            problem.getLikedBy().removeIf(x -> x.getEmail().equals(email));
+        }
+        this.problemRepository.save(problem);
+        return isNotLiked;
+    }
+
+    @Override
+    public boolean isLikedBy(Long problemId, String email) {
+        return this.findById(problemId).getLikedBy().stream().anyMatch(x -> x.getEmail().equals(email));
     }
 
     @Override

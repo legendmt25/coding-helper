@@ -13,5 +13,6 @@ import java.util.List;
 public interface ProblemRepository extends Neo4jRepository<Problem, Long> {
     List<Problem> findAllByCategory_NameIn(Collection<String> category_name);
 
+    @Query("MATCH (n:Problem) OPTIONAL MATCH (n)-[relation:LIKED_BY]->(m:User) return n, m, count(*) as likes order by likes limit 10")
     List<Problem> findTop10ByOrderByLikes();
 }

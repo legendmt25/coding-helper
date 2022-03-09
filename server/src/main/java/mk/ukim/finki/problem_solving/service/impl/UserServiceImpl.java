@@ -3,9 +3,9 @@ package mk.ukim.finki.problem_solving.service.impl;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.exceptions.InvalidFileException;
 import mk.ukim.finki.problem_solving.model.exceptions.UserAlreadyExistsException;
+import mk.ukim.finki.problem_solving.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.problem_solving.model.input.UserInput;
 import mk.ukim.finki.problem_solving.model.object.User;
-import mk.ukim.finki.problem_solving.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.problem_solving.repository.UserRepository;
 import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor

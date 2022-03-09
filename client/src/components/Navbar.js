@@ -48,7 +48,7 @@ export default function Navbar() {
       <Toolbar disableGutters sx={{ gap: 2 }}>
         <Link to={'/'} style={{ textDecoration: 'none' }}>
           <Typography variant="h6" component="div" sx={logo}>
-            CODING HELPER
+            CodingH
           </Typography>
         </Link>
         <Box sx={{ gap: 2, flexGrow: 1, display: 'flex' }}>
@@ -77,10 +77,9 @@ export default function Navbar() {
             <IconButton onClick={handleOpenUserMenu}>
               <Avatar
                 alt="userImage"
-                src={`http://localhost:3000/public/${
-                  getAuthentication() != null
-                    ? getAuthentication().avatarImage
-                    : 'defaultUser.png'
+                src={`http://localhost:3000/public/avatars/${
+                  getAuthentication() != null ?
+                  getAuthentication().avatarImage : 'defaultAvatar.png'
                 }`}
               />
             </IconButton>

@@ -37,6 +37,7 @@ export default function ProblemsAside() {
       </Typography>
       {problems.map((problem, index) => (
         <Link
+          key={index}
           to={`/problem/${problem.id}`}
           style={{
             color: 'black',
