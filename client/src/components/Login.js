@@ -1,7 +1,8 @@
 import { Typography, Box, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { buttonStyle, fieldsetStyle } from './styles';
 import InputComponent from './InputComponent';
+import authService from '../repository/authService';
 
 export default function Login() {
   let navigate = useNavigate();
@@ -11,21 +12,9 @@ export default function Login() {
   };
 
   const handleLoginButton = (event) => {
-    fetch('http://localhost:3000/authenticate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({ ...obj }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.jwttoken) {
-          localStorage.setItem('authentication', JSON.stringify(res));
-          navigate('/', { replace: true });
-        }
-      });
+    authService
+      .login(obj.email, obj.password)
+      .then(() => navigate('/', { replace: true }));
   };
 
   return (
@@ -45,6 +34,9 @@ export default function Login() {
         </Typography>
         <InputComponent obj={obj} attr={'email'}></InputComponent>
         <InputComponent obj={obj} attr={'password'}></InputComponent>
+        <Typography variant="subtitle2" component={'span'}>
+          Don't have an account? <Link to={'/register'}>Register here</Link>
+        </Typography>
         <Button onClick={handleLoginButton} sx={buttonStyle}>
           Login
         </Button>

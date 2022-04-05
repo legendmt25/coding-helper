@@ -31,7 +31,14 @@ public class ProblemController {
     @GetMapping("/problem/{id}")
     ProblemByLikesDto getProblem(@PathVariable Long id) {
         var problem = this.problemService.findById(id);
-        return new ProblemByLikesDto(problem.getId(), problem.getTitle(), problem.getDifficulty(), problem.getMarkdown(), problem.getStarterCode(), (long) problem.getLikedBy().size());
+        return new ProblemByLikesDto(
+                problem.getId(),
+                problem.getTitle(),
+                problem.getDifficulty(),
+                problem.getMarkdown(),
+                problem.getStarterCode(),
+                (long) problem.getLikedBy().size()
+        );
     }
 
     //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")

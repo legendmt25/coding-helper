@@ -50,8 +50,16 @@ public class ProblemServiceImpl implements ProblemService {
                 )
         );
         var path = System.getProperty("user.dir") + "/res/problems-starter-code/";
-        problemInput.getRunnerCode().transferTo(new File(String.format("%s%d-runner%s", path, problem.getId(), getExtension(problemInput.getRunnerCode().getOriginalFilename()))));
-        problemInput.getStarterCode().transferTo(new File(String.format("%s%d-starter%s", path, problem.getId(), getExtension(problemInput.getStarterCode().getOriginalFilename()))));
+        problemInput.getRunnerCode().transferTo(
+                new File(
+                        String.format("%s%d-runner%s", path, problem.getId(), getExtension(problemInput.getRunnerCode().getOriginalFilename()))
+                )
+        );
+        problemInput.getStarterCode().transferTo(
+                new File(
+                        String.format("%s%d-starter%s", path, problem.getId(), getExtension(problemInput.getStarterCode().getOriginalFilename()))
+                )
+        );
         for (var testCase : problemInput.getTestCases()) {
             testCase.transferTo(new File(String.format("%s%d-%s", path, problem.getId(), testCase.getOriginalFilename())));
         }

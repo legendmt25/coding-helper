@@ -11,8 +11,8 @@ import {
   ThumbUpAltOutlined,
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { getAuthentication } from './utility';
 import CodeEditor from './CodeEditor';
+import repository from '../repository/repository';
 
 export default function ProblemDetails() {
   const [problem, setProblem] = useState({});
@@ -20,56 +20,23 @@ export default function ProblemDetails() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/problem/${id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setProblem(res);
-      });
+    repository.findProblemById(id).then((res) => {
+      setProblem(res);
+    });
 
-    fetch(`http://localhost:3000/problem/${id}/is_liked`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        userEmail: getAuthentication().email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => setLiked(res));
+    repository.isProblemLiked(id).then((res) => setLiked(res));
   }, [id]);
 
   const handleLikeButton = (event) => {
-    fetch(`http://localhost:3000/problem/${id}/like`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        userEmail: getAuthentication().email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setLiked(res);
-        if (res) {
-          problem.likes++;
-        } else {
-          problem.likes--;
-        }
-        setProblem({ ...problem });
-      });
+    repository.likeProblem(id).then((res) => {
+      setLiked(res);
+      if (res) {
+        problem.likes++;
+      } else {
+        problem.likes--;
+      }
+      setProblem({ ...problem });
+    });
   };
 
   return (

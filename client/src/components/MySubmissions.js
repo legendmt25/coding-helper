@@ -11,30 +11,23 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
+import repository from '../repository/repository';
 import { getAuthentication } from './utility';
 
 export default function MySubmissions() {
   const [submissions, setSubmissions] = useState([]);
   const ctx = useContext(AppContext);
   useEffect(() => {
-    fetch('http://localhost:3000/submissions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
+    repository
+      .findAllSubmissions({
         email: getAuthentication().email,
-      }),
-    })
-      .then((res) => res.json())
+      })
       .then((res) => setSubmissions(res));
   }, []);
 
   const handleUseCodeClick = (code, language) => {
-    ctx.useCode = code;
-    ctx.useLanguage = language;
+    ctx.setUseCode(code);
+    ctx.setUseLanguage(language);
   };
 
   return (

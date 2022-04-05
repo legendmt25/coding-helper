@@ -77,9 +77,9 @@ export default function Navbar() {
             <IconButton onClick={handleOpenUserMenu}>
               <Avatar
                 alt="userImage"
-                src={`http://localhost:3000/public/avatars/${
+                src={`http://localhost:3000/public/${
                   getAuthentication() != null ?
-                  getAuthentication().avatarImage : 'defaultAvatar.png'
+                  getAuthentication().avatarImage : 'avatars/defaultAvatar.png'
                 }`}
               />
             </IconButton>

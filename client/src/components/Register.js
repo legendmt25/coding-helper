@@ -4,6 +4,7 @@ import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
 import { transformToSelectItems } from './utility';
 import { useNavigate } from 'react-router-dom';
+import authService from '../repository/authService';
 
 export default function Register() {
   let navigate = useNavigate();
@@ -27,11 +28,9 @@ export default function Register() {
     if (obj.confirmPassword !== obj.password) {
       return;
     }
-    fetch('http://localhost:3000/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...obj }),
-    }).then((res) => navigate('/login', { replace: true }));
+    authService
+      .register(obj)
+      .then((res) => navigate('/login', { replace: true }));
   };
 
   return (

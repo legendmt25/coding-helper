@@ -1,13 +1,23 @@
 import { Button, Box, Container } from '@mui/material';
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
-export const AppContext = createContext({});
+export const AppContext = createContext({
+  useCode: '',
+  setUseCode: null,
+  useLanguage: '',
+  setUseLanguage: null,
+});
 
 function App() {
+  const [useCode, setUseCode] = useState('');
+  const [useLanguage, setUseLanguage] = useState('');
+
   return (
-    <AppContext.Provider value={{ useCode: '', useLanguage: '' }}>
+    <AppContext.Provider
+      value={{ useCode, setUseCode, useLanguage, setUseLanguage }}
+    >
       <Box
         className="App"
         sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}

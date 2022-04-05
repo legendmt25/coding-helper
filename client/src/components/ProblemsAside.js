@@ -1,21 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import repository from '../repository/repository';
 import { shadow } from './styles';
 
 export default function ProblemsAside() {
   const [problems, setProblems] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/problems/top10', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setProblems(res));
+    repository.findTop10Problems().then((res) => setProblems(res));
   }, []);
 
   return (

@@ -1,19 +1,13 @@
-import {
-  Divider,
-  Fab,
-  Icon,
-  IconButton,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Divider, Fab, IconButton, TextField, Typography } from '@mui/material';
 import { Add, DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import ButtonCheckBox from './ButtonCheckbox';
-import { difficultyColor, getAuthentication } from './utility';
+import { difficultyColor } from './utility';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Statistics from './Statistics';
 import ProblemsAside from './ProblemsAside';
+import repository from '../repository/repository';
 
 export default function Problems() {
   const addCategoryInputRef = useRef(null);
@@ -24,30 +18,11 @@ export default function Problems() {
   let newCategory = '';
 
   useEffect(() => {
-    fetch('http://localhost:3000/problems', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        categories: [...filters],
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => setProblems(res));
+    repository.findAllProblems(filters).then((res) => setProblems(res));
   }, [filters]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/categories', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setCategories(res));
+    repository.findAllCategories().then((res) => setCategories(res));
   }, []);
 
   const rowStyle = (theme) => {
@@ -85,35 +60,17 @@ export default function Problems() {
       newCategory !== '' &&
       !categories.map((category) => category.nameT).includes(newCategory)
     ) {
-      fetch('http://localhost:3000/category/create', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${getAuthentication().jwttoken}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: newCategory,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          setCategories([...categories, res]);
-          addCategoryInputRef.current.style.width = 0;
-        });
+      repository.createCategory(newCategory).then((res) => {
+        console.log(res);
+        setCategories([...categories, res]);
+        addCategoryInputRef.current.style.width = 0;
+      });
     }
   };
 
   const handleDeleteProblem = (event, problemId, index) => {
     event.preventDefault();
-    fetch(`http://localhost:3000/problem/${problemId}/delete`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        Accept: 'application/json',
-      },
-    }).then((res) => {
+    repository.deleteProblem(problemId).then((res) => {
       if (res.ok) {
         problems.splice(index, 1);
         setProblems([...problems]);

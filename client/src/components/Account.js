@@ -1,5 +1,6 @@
 import { Box, Divider, Tooltip } from '@mui/material';
 import { Outlet, Link } from 'react-router-dom';
+import repository from '../repository/repository';
 import { shadow } from './styles';
 import { getAuthentication } from './utility';
 
@@ -25,15 +26,7 @@ export default function Account() {
       const formData = new FormData();
       formData.append('file', input.files[0]);
       formData.append('email', getAuthentication().email);
-      fetch('http://localhost:3000/user/uploadAvatar', {
-        headers: {
-          Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        },
-        method: 'POST',
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((res) => console.log(res));
+      repository.uploadAvatar(formData).then((res) => console.log(res));
     });
   };
   return (
@@ -55,7 +48,7 @@ export default function Account() {
       >
         <Tooltip title={'Click to change'}>
           <img
-            src={`http://localhost:3000/public/avatars/${
+            src={`http://localhost:3000/public/${
               getAuthentication().avatarImage
             }`}
             style={{

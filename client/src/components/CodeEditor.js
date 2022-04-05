@@ -11,6 +11,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../App';
+import repository from '../repository/repository';
 import { getAuthentication } from './utility';
 
 export default function CodeEditor(props) {
@@ -24,24 +25,16 @@ export default function CodeEditor(props) {
   const [responseOutput, setResponseOutput] = useState('');
 
   const handleSubmitButton = (event) => {
-    if(language === '') {
+    if (language === '') {
       return;
     }
-    fetch('http://localhost:3000/submission/create', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
+    repository
+      .createSubmission({
         userId: getAuthentication().email,
         problemId: id,
         language,
         code,
-      }),
-    })
-      .then((res) => res.json())
+      })
       .then((res) => setResponseOutput(res.output));
   };
 

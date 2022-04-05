@@ -12,7 +12,6 @@ import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         pw_userCode.close();
     }
 
-    private String runCode(SubmissionInput submissionInput) throws InterruptedException, IOException {
+    private String runCode(SubmissionInput submissionInput) throws IOException {
         if (submissionInput.getLanguage().equalsIgnoreCase("javascript")) {
             createCodeFile(submissionInput.getUserId(), submissionInput.getProblemId(), submissionInput.getCode());
 

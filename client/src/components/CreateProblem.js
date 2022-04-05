@@ -3,21 +3,16 @@ import { useEffect, useState } from 'react';
 import MarkdownIt from 'react-markdown-it';
 import SelectComponent from './SelectComponent';
 import InputComponent from './InputComponent';
-import { getAuthentication, transformToSelectItems } from './utility';
+import { transformToSelectItems } from './utility';
 import { useNavigate } from 'react-router-dom';
+import repository from '../repository/repository';
 
 export default function CreateProblem() {
   const difficulties = ['EASY', 'MEDIUM', 'HARD'];
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3000/categories', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then((res) => res.json())
+    repository
+      .findAllCategories()
       .then((res) => setCategories(res.map((category) => category.name)));
   }, []);
 
@@ -49,17 +44,7 @@ export default function CreateProblem() {
     for (const testCase of testCases) {
       formData.append('testCases', testCase);
     }
-    fetch('http://localhost:3000/problem/create', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${getAuthentication().jwttoken}`,
-        Accept: 'application/json',
-      },
-      body: formData,
-    }).then((res) => {
-      //console.log(res);
-      navigate('/problems');
-    });
+    repository.createProblem(formData).then((res) => navigate('/problems'));
   };
 
   return (
