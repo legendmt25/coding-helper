@@ -26,8 +26,8 @@ export default function Contests() {
 
   return (
     <Box sx={{ display: { md: 'flex', sm: 'block' }, gap: 2 }}>
-      <Box sx={{ width: '20%', p: 2 }}>Rankings</Box>
-      <Box sx={{ width: '80%', p: 2 }}>
+      <Box sx={{ flex: 0.2, p: 2 }}>Rankings</Box>
+      <Box sx={{ flex: 0.8, p: 2 }}>
         <TableContainer
           component={Paper}
           sx={{ borderRadius: 1, boxShadow: shadow }}

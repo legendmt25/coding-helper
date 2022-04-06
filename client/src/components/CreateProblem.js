@@ -1,13 +1,14 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MarkdownIt from 'react-markdown-it';
 import SelectComponent from './SelectComponent';
 import InputComponent from './InputComponent';
 import { transformToSelectItems } from './utility';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import repository from '../repository/repository';
 
-export default function CreateProblem() {
+export default function CreateProblem(props) {
+  const { id } = useParams();
   const navigate = useNavigate();
   const difficulties = ['EASY', 'MEDIUM', 'HARD'];
   const [categories, setCategories] = useState([]);
@@ -39,10 +40,17 @@ export default function CreateProblem() {
     for (const testCase of obj.testCases) {
       formData.append('testCases', testCase);
     }
-    repository
-      .createProblem(formData)
-      .then(() => navigate('/problems'))
-      .catch((err) => alert(err));
+    if (id) {
+      repository
+        .createContestProblem(id, formData)
+        .then(() => navigate(-1))
+        .catch((err) => alert(err));
+    } else {
+      repository
+        .createProblem(formData)
+        .then(() => navigate('/problems'))
+        .catch((err) => alert(err));
+    }
   };
 
   return (

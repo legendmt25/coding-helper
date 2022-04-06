@@ -19,7 +19,7 @@ public class Problem {
     @Id
     @GeneratedValue
     private Long id;
-    @Relationship
+    @Relationship(value = "WITH_CATEGORY")
     private Category category;
     private String title;
     private Difficulty difficulty;

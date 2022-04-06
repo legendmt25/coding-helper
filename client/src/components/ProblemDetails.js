@@ -18,12 +18,14 @@ import { AppContext } from '../App';
 export default function ProblemDetails() {
   const { id } = useParams();
   const [problem, setProblem] = useState({});
+  const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const ctx = useContext(AppContext);
 
   useEffect(() => {
-    repository.findProblemById(id).then((res) => {
-      setProblem(res);
+    repository.findProblemById(id).then((data) => {
+      setProblem(data.problem);
+      setLikes(data.likes);
     });
 
     if (ctx.userDetails != null)
@@ -36,14 +38,10 @@ export default function ProblemDetails() {
     if (ctx.userDetails != null)
       repository
         .likeProblem(id, { userEmail: ctx.userDetails.email })
-        .then((res) => {
-          setLiked(res);
-          if (res) {
-            problem.likes++;
-          } else {
-            problem.likes--;
-          }
-          setProblem({ ...problem });
+        .then((data) => {
+          setLiked(data);
+          if (data) setLikes(likes + 1);
+          else setLikes(likes - 1);
         });
     else alert('you need to login first');
   };
@@ -79,7 +77,7 @@ export default function ProblemDetails() {
               onClick={handleLikeButton}
               checked={liked}
             ></Checkbox>
-            {problem.likes}
+            {likes}
             <Checkbox
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}

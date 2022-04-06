@@ -32,11 +32,7 @@ public class ProblemController {
     ProblemByLikesDto getProblem(@PathVariable Long id) {
         var problem = this.problemService.findById(id);
         return new ProblemByLikesDto(
-                problem.getId(),
-                problem.getTitle(),
-                problem.getDifficulty(),
-                problem.getMarkdown(),
-                problem.getStarterCode(),
+                problem,
                 (long) problem.getLikedBy().size()
         );
     }

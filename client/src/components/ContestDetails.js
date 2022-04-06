@@ -28,6 +28,10 @@ export default function ContestDetails(props) {
     repository.findContestById(id).then((data) => setContest(data));
   }, [id]);
 
+  const handleSetScore = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Box
       sx={{
@@ -69,12 +73,12 @@ export default function ContestDetails(props) {
                 >
                   <Link
                     style={{ color: 'inherit', textDecoration: 'none' }}
-                    to={'/contest/' + problem.id}
+                    to={`/contest/${id}/problem/${problem.id}`}
                   >
                     {problem.title}
                   </Link>
                 </TableCell>
-                <TableCell>{problem.score}</TableCell>
+                <TableCell>{100}</TableCell>
               </TableRow>
             ))}
             <TableRow>

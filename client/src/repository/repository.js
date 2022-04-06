@@ -97,6 +97,13 @@ const repository = {
   createContest(data) {
     return this.fetchPOST('contest/create', data, false);
   },
+  createContestProblem(contestId, formData) {
+    return this.fetchPOSTwithFormData(
+      `contest/${contestId}/add-problem`,
+      formData,
+      true
+    );
+  },
 };
 
 export default repository;

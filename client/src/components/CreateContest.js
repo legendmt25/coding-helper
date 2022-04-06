@@ -1,10 +1,12 @@
 import { Box, Button } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import repository from '../repository/repository';
 import InputComponent from './InputComponent';
 import { buttonStyle } from './styles';
 
 export default function CreateContest() {
+  const navigate = useNavigate();
   const [obj, setObj] = useState({
     name: '',
     duration: '',
@@ -13,7 +15,7 @@ export default function CreateContest() {
 
   const handleCreateContest = (event) => {
     event.preventDefault();
-    repository.createContest(obj).then(() => {});
+    repository.createContest(obj).then(() => navigate('/contests'));
   };
 
   return (

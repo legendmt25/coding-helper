@@ -31,7 +31,7 @@ export default function ProblemsAside() {
       {problems.map((problem, index) => (
         <Link
           key={index}
-          to={`/problem/${problem.id}`}
+          to={`/problem/${problem.problem.id}`}
           style={{
             color: 'black',
             textDecoration: 'none',
@@ -52,7 +52,7 @@ export default function ProblemsAside() {
             }}
           >
             <Box>{index + 1}</Box>
-            <Box>{problem.title}</Box>
+            <Box>{problem.problem.title}</Box>
             <Box>{problem.likes}</Box>
           </Box>
         </Link>

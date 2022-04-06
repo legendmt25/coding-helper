@@ -99,12 +99,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public List<ProblemByLikesDto> findTop10ByOrderByLikes() {
-        return this.problemRepository.findTop10ByOrderByLikes()
-                .stream()
-                .map(x -> {
-                    System.out.println(x.getLikedBy().size());
-                    return new ProblemByLikesDto(x.getId(), x.getTitle(), x.getDifficulty(), x.getMarkdown(), x.getStarterCode(), (long) x.getLikedBy().size());
-                }).toList();
+        return this.problemRepository.findTop10ByOrderByLikes();
     }
 
     @Override

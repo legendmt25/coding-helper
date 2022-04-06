@@ -28,7 +28,11 @@ ReactDOM.render(
           <Route path="/contest/:id" element={<ContestDetails />}></Route>
           <Route
             path="/contest/:id/add-problem"
-            element={<ContestDetails />}
+            element={<CreateProblem />}
+          ></Route>
+          <Route
+            path="/contest/:contestId/problem/:id"
+            element={<ProblemDetails />}
           ></Route>
           <Route path="/contest/create" element={<CreateContest />}></Route>
           <Route path="/register" element={<Register />}></Route>

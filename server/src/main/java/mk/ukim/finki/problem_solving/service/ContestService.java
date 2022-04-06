@@ -15,5 +15,5 @@ public interface ContestService {
 
     Contest createContest(ContestInput contestInput);
 
-    public Problem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
+    Problem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
 }
