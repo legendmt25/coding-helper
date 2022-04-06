@@ -13,6 +13,9 @@ import MySubmissions from './components/MySubmissions';
 import Account from './components/Account';
 import AccountSettings from './components/AccountSettings';
 import CreateProblem from './components/CreateProblem';
+import Contests from './components/Contests';
+import ContestDetails from './components/ContestDetails';
+import CreateContest from './components/CreateContest';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -21,6 +24,13 @@ ReactDOM.render(
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />}></Route>
           <Route path="/problems" element={<Problems />}></Route>
+          <Route path="/contests" element={<Contests />}></Route>
+          <Route path="/contest/:id" element={<ContestDetails />}></Route>
+          <Route
+            path="/contest/:id/add-problem"
+            element={<ContestDetails />}
+          ></Route>
+          <Route path="/contest/create" element={<CreateContest />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/problem/:id" element={<ProblemDetails />}></Route>

@@ -11,6 +11,10 @@ import java.util.List;
 
 @Repository
 public interface ProblemRepository extends Neo4jRepository<Problem, Long> {
+    @Override
+    @Query("MATCH (n:Problem) WHERE n.visible=true RETURN n")
+    List<Problem> findAll();
+
     List<Problem> findAllByCategory_NameIn(Collection<String> category_name);
 
     @Query("MATCH (n:Problem) OPTIONAL MATCH (n)-[relation:LIKED_BY]->(m:User) return n, m, count(*) as likes order by likes limit 10")

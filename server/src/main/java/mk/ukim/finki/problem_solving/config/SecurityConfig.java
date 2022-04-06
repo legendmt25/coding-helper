@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .cors().configurationSource(corsConfigurationSource).and()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/register", "/", "/problems", "/categories", "/problems/top10", "/public/**").permitAll()
+                .antMatchers("/authenticate", "/register", "/", "/api/**", "/public/**").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().exceptionHandling()

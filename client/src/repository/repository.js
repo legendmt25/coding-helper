@@ -1,23 +1,23 @@
-import { getAuthentication } from '../components/utility';
+import { getAuthentication, parseJwt } from '../components/utility';
+
+export const domain = 'http://192.168.100.4:3000';
 
 function createHeaders(withAuthorization, withContentType = true) {
   let x = { Accept: 'application/json' };
   if (withAuthorization)
     x['Authorization'] = `Bearer ${getAuthentication().jwttoken}`;
-  if (withContentType) {
-    x['Content-Type'] = 'application/json';
-  }
+  if (withContentType) x['Content-Type'] = 'application/json';
   return x;
 }
 
 const repository = {
   fetchGET(url, withAuthorization = false) {
-    return fetch(`http://localhost:3000/${url}`, {
+    return fetch(`${domain}/api/${url}`, {
       headers: createHeaders(withAuthorization),
     }).then((res) => res.json());
   },
   fetchPOST(url, data, withAuthorization = false) {
-    return fetch(`http://localhost:3000/${url}`, {
+    return fetch(`${domain}/api/${url}`, {
       method: 'post',
       headers: createHeaders(withAuthorization),
       body: JSON.stringify(data),
@@ -29,14 +29,17 @@ const repository = {
     withAuthorization = false,
     withContentType = false
   ) {
-    return fetch(`http://localhost:3000/${url}`, {
+    return fetch(`${domain}/api/${url}`, {
       method: 'post',
       headers: createHeaders(withAuthorization, withContentType),
       body: formData,
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (!res.ok) throw new Error('Something happend, try again later');
+      return res.json();
+    });
   },
   fetchDELETE(url, withAuthorization = true) {
-    return fetch(`http://localhost:3000/${url}`, {
+    return fetch(`${domain}/api/${url}`, {
       method: 'delete',
       headers: createHeaders(withAuthorization),
     }).then((res) => res.json());
@@ -56,26 +59,14 @@ const repository = {
     return this.fetchGET('categories');
   },
   findProblemById(id) {
-    return this.fetchGET(`problem/${id}`, true);
+    return this.fetchGET(`problem/${id}`, false);
   },
-  isProblemLiked(id) {
-    return this.fetchPOST(
-      `problem/${id}/is_liked`,
-      {
-        userEmail: getAuthentication().email,
-      },
-      true
-    );
+  isProblemLiked(id, data) {
+    return this.fetchPOST(`problem/${id}/is_liked`, data, true);
   },
 
-  likeProblem(id) {
-    return this.fetchPOST(
-      `problem/${id}/like`,
-      {
-        userEmail: getAuthentication().email,
-      },
-      true
-    );
+  likeProblem(id, data) {
+    return this.fetchPOST(`problem/${id}/like`, data, true);
   },
   createCategory(categoryName) {
     return this.fetchPOST('category/create', { name: categoryName }, true);
@@ -96,6 +87,15 @@ const repository = {
       true,
       false
     );
+  },
+  findAllContests() {
+    return this.fetchGET('contests');
+  },
+  findContestById(id) {
+    return this.fetchGET(`contest/${id}`);
+  },
+  createContest(data) {
+    return this.fetchPOST('contest/create', data, false);
   },
 };
 

@@ -3,8 +3,12 @@ import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { getAuthentication } from './utility';
 import { shadow } from './styles';
+import { useContext } from 'react';
+import { AppContext } from '../App';
 
 export default function Statistics() {
+  const ctx = useContext(AppContext);
+
   return (
     <Box
       sx={{
@@ -13,7 +17,7 @@ export default function Statistics() {
         textAlign: 'center',
         boxShadow: shadow,
         gap: 1,
-        pb: 2
+        pb: 2,
       }}
     >
       <Typography
@@ -26,7 +30,7 @@ export default function Statistics() {
       >
         Statistics
       </Typography>
-      {(getAuthentication() == null && (
+      {(ctx.userDetails == null && (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Link to={'/login'} style={{ display: 'flex' }}>
             You need to login first<LoginOutlined></LoginOutlined>

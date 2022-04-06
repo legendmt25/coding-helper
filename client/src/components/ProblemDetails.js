@@ -1,6 +1,6 @@
 import { Checkbox, Divider, FormGroup, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SliderComponent from './SliderComponent';
 import MarkdownIt from 'react-markdown-it';
 import '../index.css';
@@ -13,30 +13,39 @@ import {
 import { useParams } from 'react-router-dom';
 import CodeEditor from './CodeEditor';
 import repository from '../repository/repository';
+import { AppContext } from '../App';
 
 export default function ProblemDetails() {
+  const { id } = useParams();
   const [problem, setProblem] = useState({});
   const [liked, setLiked] = useState(false);
-  const { id } = useParams();
+  const ctx = useContext(AppContext);
 
   useEffect(() => {
     repository.findProblemById(id).then((res) => {
       setProblem(res);
     });
 
-    repository.isProblemLiked(id).then((res) => setLiked(res));
+    if (ctx.userDetails != null)
+      repository
+        .isProblemLiked(id, { userEmail: ctx.userDetails.email })
+        .then((res) => setLiked(res));
   }, [id]);
 
   const handleLikeButton = (event) => {
-    repository.likeProblem(id).then((res) => {
-      setLiked(res);
-      if (res) {
-        problem.likes++;
-      } else {
-        problem.likes--;
-      }
-      setProblem({ ...problem });
-    });
+    if (ctx.userDetails != null)
+      repository
+        .likeProblem(id, { userEmail: ctx.userDetails.email })
+        .then((res) => {
+          setLiked(res);
+          if (res) {
+            problem.likes++;
+          } else {
+            problem.likes--;
+          }
+          setProblem({ ...problem });
+        });
+    else alert('you need to login first');
   };
 
   return (
@@ -85,7 +94,7 @@ export default function ProblemDetails() {
         </Box>
       </Box>
       <SliderComponent></SliderComponent>
-      <CodeEditor width={'50%'} problem={problem}></CodeEditor>
+      <CodeEditor width={'50%'} height={'100%'} problem={problem}></CodeEditor>
     </Box>
   );
 }

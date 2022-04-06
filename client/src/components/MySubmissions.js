@@ -26,8 +26,8 @@ export default function MySubmissions() {
   }, []);
 
   const handleUseCodeClick = (code, language) => {
-    ctx.setUseCode(code);
-    ctx.setUseLanguage(language);
+    ctx.useCode = code;
+    ctx.useLanguage = language;
   };
 
   return (

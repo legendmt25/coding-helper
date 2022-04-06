@@ -1,33 +1,40 @@
 import { TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { capitalize } from './utility';
 
 export default function InputComponent(props) {
-  const [value, setValue] = useState('');
   const handleInputTextChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  useEffect(() => {
-    props.obj[props.attr] = value;
-    if (typeof props.setExplicit == 'function') {
-      props.setExplicit(value);
+    let value = event.target.value;
+    if (props.type === 'file') {
+      if (props.multipleFiles) {
+        value = event.target.files;
+      } else {
+        value = event.target.files[0];
+      }
     }
-  }, [value, props]);
-
-  const inputLabelProps = props.type === 'date' ? { shrink: true } : {};
+    props.setObj({ ...props.obj, [event.target.name]: value });
+  };
 
   return (
     <TextField
       fullWidth
-      value={value}
-      defaultValue={value}
+      variant={props.variant ? props.variant : 'outlined'}
+      value={props.attr === 'file' ? props.obj[props.attr] : undefined}
       required={props.required}
+      name={props.attr}
+      multiline={props.multiline}
+      rows={10}
       label={capitalize(props.attr)}
       type={props.type ? props.type : props.attr.toLowerCase()}
-      variant="outlined"
       onChange={handleInputTextChange}
-      InputLabelProps={inputLabelProps}
+      InputLabelProps={
+        props.type === 'datetime-local' ||
+        props.type === 'date' ||
+        props.type === 'file'
+          ? { shrink: true }
+          : {}
+      }
+      inputProps={{ multiple: props.multipleFiles }}
+      helperText={props.helperText}
     ></TextField>
   );
 }

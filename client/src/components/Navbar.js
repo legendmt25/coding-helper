@@ -10,11 +10,12 @@ import {
   Avatar,
   MenuItem,
 } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAuthentication } from './utility';
+import { AppContext } from '../App';
+import { domain } from '../repository/repository';
 
-const pages = ['Problems'];
+const pages = ['Problems', 'Contests'];
 
 const logo = (theme) => {
   return {
@@ -29,7 +30,16 @@ const logo = (theme) => {
   };
 };
 
+const settingsLinkStyle = {
+  textDecoration: 'none',
+  color: 'black',
+  display: 'block',
+  width: '100%',
+  padding: '5px 20px',
+};
+
 export default function Navbar() {
+  const ctx = useContext(AppContext);
   const [anchorUserMenu, setAnchorUserMenu] = useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorUserMenu(event.currentTarget);
@@ -41,6 +51,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.clear();
+    ctx.setUserDetails(null);
   };
 
   return (
@@ -72,14 +83,15 @@ export default function Navbar() {
           ))}
         </Box>
         <Box>
-          {getAuthentication() != null && `${getAuthentication().email}`}
+          {ctx.userDetails != null && ctx.userDetails.email}
           <Tooltip title="Settings">
             <IconButton onClick={handleOpenUserMenu}>
               <Avatar
                 alt="userImage"
-                src={`http://localhost:3000/public/${
-                  getAuthentication() != null ?
-                  getAuthentication().avatarImage : 'avatars/defaultAvatar.png'
+                src={`${domain}/public/${
+                  ctx.userDetails
+                    ? ctx.userDetails.avatarImage
+                    : 'avatars/defaultUser.png'
                 }`}
               />
             </IconButton>
@@ -90,94 +102,52 @@ export default function Navbar() {
             onClose={handleCloseUserMenu}
             keepMounted
           >
-            {getAuthentication() == null && (
+            {ctx.userDetails == null && (
               <MenuItem sx={{ p: 0 }}>
                 <Button onClick={handleCloseUserMenu} fullWidth>
-                  <Link
-                    to={'/login'}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'black',
-                      display: 'block',
-                      width: '100%',
-                      padding: '5px 20px',
-                    }}
-                  >
+                  <Link to={'/login'} style={settingsLinkStyle}>
                     Login
                   </Link>
                 </Button>
               </MenuItem>
             )}
-            {getAuthentication() == null && (
+            {ctx.userDetails == null && (
               <MenuItem sx={{ p: 0 }}>
                 <Button onClick={handleCloseUserMenu} fullWidth>
-                  <Link
-                    to={'/register'}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'black',
-                      display: 'block',
-                      width: '100%',
-                      padding: '5px 20px',
-                    }}
-                  >
+                  <Link to={'/register'} style={settingsLinkStyle}>
                     Register
                   </Link>
                 </Button>
               </MenuItem>
             )}
-            {getAuthentication() != null && (
+            {ctx.userDetails != null && (
               <MenuItem sx={{ p: 0 }}>
                 <Button onClick={handleCloseUserMenu} fullWidth>
-                  <Link
-                    to={'/mysubmissions'}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'black',
-                      display: 'block',
-                      width: '100%',
-                      padding: '5px 20px',
-                    }}
-                  >
+                  <Link to={'/mysubmissions'} style={settingsLinkStyle}>
                     My submissions
                   </Link>
                 </Button>
               </MenuItem>
             )}
-            {getAuthentication() != null && (
+            {ctx.userDetails && (
               <MenuItem sx={{ p: 0 }}>
                 <Button onClick={handleCloseUserMenu} fullWidth>
-                  <Link
-                    to={'/account'}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'black',
-                      display: 'block',
-                      width: '100%',
-                      padding: '5px 20px',
-                    }}
-                  >
+                  <Link to={'/account'} style={settingsLinkStyle}>
                     Account
                   </Link>
                 </Button>
               </MenuItem>
             )}
-            {getAuthentication() != null && (
+            {ctx.userDetails && (
               <MenuItem sx={{ p: 0 }}>
                 <Button
                   size={'small'}
-                  sx={{
-                    textDecoration: 'none',
-                    color: 'black',
-                    display: 'block',
-                    width: '100%',
-                    padding: '5px 40px',
-                  }}
+                  sx={settingsLinkStyle}
+                  fullWidth
                   onClick={(event) => {
                     handleCloseUserMenu();
                     handleLogout();
                   }}
-                  fullWidth
                 >
                   Logout
                 </Button>

@@ -1,5 +1,7 @@
 import { Box, Divider, Tooltip } from '@mui/material';
+import { useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { AppContext } from '../App';
 import repository from '../repository/repository';
 import { shadow } from './styles';
 import { getAuthentication } from './utility';
@@ -18,6 +20,8 @@ const optionStyle = (theme) => {
 };
 
 export default function Account() {
+  const ctx = useContext(AppContext);
+
   const handleAddImage = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -49,7 +53,9 @@ export default function Account() {
         <Tooltip title={'Click to change'}>
           <img
             src={`http://localhost:3000/public/${
-              getAuthentication().avatarImage
+              ctx.userDetails
+                ? ctx.userDetails.avatarImage
+                : 'avatars/defaultUser.png'
             }`}
             style={{
               objectFit: 'contain',

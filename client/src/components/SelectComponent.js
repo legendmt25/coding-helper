@@ -1,25 +1,20 @@
 import { MenuItem, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { capitalize } from './utility';
 
 export default function SelectComponent(props) {
-  const [value, setValue] = useState(0);
   const handleInputTextChange = (event) => {
-    setValue(event.target.value);
+    props.setObj({ ...props.obj, [event.target.name]: event.target.value });
   };
-
-  useEffect(() => {
-    props.obj[props.attr] = value;
-  }, [value, props]);
-
   return (
     <TextField
       select
-      fullWidth
+      sx={{ width: '200px' }}
       label={capitalize(props.attr)}
-      onChange={(event) => handleInputTextChange(event, props.attr)}
-      value={value}
-      defaultValue={value}
+      onChange={handleInputTextChange}
+      value={props.obj[props.attr]}
+      name={props.attr}
+      required={props.required}
+      variant={'standard'}
     >
       {props.selectItems.map((item) => (
         <MenuItem key={item.value} value={item.value}>
