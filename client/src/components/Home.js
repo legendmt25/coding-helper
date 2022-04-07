@@ -10,10 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { domain } from '../repository/repository';
 
 export default function Home() {
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Box
         sx={{
           display: 'flex',
@@ -29,7 +30,7 @@ export default function Home() {
           <CardActionArea>
             <CardMedia
               component={'img'}
-              image={'http://localhost:3000/public/data_structures.webp'}
+              image={`${domain}/public/data_structures.webp`}
             />
             <Typography
               gutterBottom
@@ -58,7 +59,7 @@ export default function Home() {
           <CardActionArea>
             <CardMedia
               component={'img'}
-              image={'http://localhost:3000/public/sql-card.jpg'}
+              image={`${domain}/public/sql-card.jpg`}
             />
             <Typography
               gutterBottom
@@ -86,9 +87,7 @@ export default function Home() {
           <CardActionArea>
             <CardMedia
               component={'img'}
-              image={
-                'http://localhost:3000/public/coding-interview-questions.png'
-              }
+              image={`${domain}/public/coding-interview-questions.png`}
             />
             <Typography
               gutterBottom
@@ -117,32 +116,33 @@ export default function Home() {
       <Divider></Divider>
       <Box
         sx={{
-          p: { md: 15, sm: 5, xs: 5 },
+          p: { xs: 3, md: 15 },
           color: 'white',
-          backgroundImage:
-            'url(http://localhost:3000/public/contest-background.png)',
+          backgroundImage: `url(${domain}/public/contest-background.png)`,
           backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         {/* <Typography variant={'h5'}>Contests</Typography> */}
         <Box
           sx={{
             display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
             alignItems: 'center',
             alignContent: 'center',
             justifyContent: 'center',
-            gap: { md: 10, sm: 2 },
+            textAlign: 'center',
+            gap: { xs: 3, md: 10 },
           }}
         >
           <Typography
             sx={{
               borderRight: 1,
               borderRightColor: 'divider',
-              fontWeight: { md: 700, sm: 400 },
-              fontSize: { md: 30, sm: 20, xs: 15 },
+              fontWeight: { xs: 400, md: 700 },
+              fontSize: { xs: 15, md: 30 },
               flex: 1,
-              px: { md: 10, sm: 3 },
             }}
           >
             You want to participate in coding challenges agains other people?
@@ -150,7 +150,12 @@ export default function Home() {
           </Typography>
           <Typography sx={{ flex: 1 }}>
             <Button size={'large'} variant={'contained'}>
-              Contests
+              <Link
+                to="/contests"
+                style={{ color: 'inherit', textDecoration: 'none' }}
+              >
+                Contests
+              </Link>
             </Button>
           </Typography>
         </Box>
@@ -180,6 +185,6 @@ export default function Home() {
           Already have an account? <Link to={'/login'}>Click here</Link>
         </Typography>
       </Box>
-    </Container>
+    </Box>
   );
 }

@@ -11,11 +11,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import repository from '../repository/repository';
-import { shadow } from './styles';
+import ContestProblemSingle from './ContestProblemSingle';
+import { buttonStyle, shadow } from './styles';
 
 export default function ContestDetails(props) {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [contest, setContest] = useState({
     id: 1,
@@ -28,8 +30,24 @@ export default function ContestDetails(props) {
     repository.findContestById(id).then((data) => setContest(data));
   }, [id]);
 
-  const handleSetScore = (event) => {
-    event.preventDefault();
+  const handleStartContest = (event) =>
+    repository.startContest(id).then((data) => {
+      if (!data) {
+        return;
+      }
+      setContest({ ...contest, status: 'STARTED' });
+    });
+
+  const handleCloseContest = (event) =>
+    repository.closeContest(id).then((data) => {
+      if (!data) {
+        return;
+      }
+      setContest({ ...contest, status: 'CLOSED' });
+    });
+
+  const handleContestDelete = (event) => {
+    repository.deleteContest(id).then((data) => data && navigate('/contests'));
   };
 
   return (
@@ -49,65 +67,69 @@ export default function ContestDetails(props) {
         <Typography variant="subtitle2">
           Duration: {contest.duration}
         </Typography>
+        <Typography variant="subtitle2">Status: {contest.status}</Typography>
       </Typography>
       <TableContainer
         component={Paper}
         sx={{ borderRadius: 1, boxShadow: shadow }}
       >
         <Table>
-          <TableHead>
+          {/* <TableHead>
             <TableRow>
-              <TableCell>Problem</TableCell>
-              <TableCell>Score</TableCell>
+              <TableCell>Problems</TableCell>
+              <TableCell>Scores</TableCell>
             </TableRow>
-          </TableHead>
+          </TableHead> */}
           <TableBody>
-            {contest.problems.map((problem) => (
-              <TableRow>
-                <TableCell
-                  sx={{
-                    ':hover': {
-                      color: 'blue',
-                    },
-                  }}
-                >
-                  <Link
-                    style={{ color: 'inherit', textDecoration: 'none' }}
-                    to={`/contest/${id}/problem/${problem.id}`}
-                  >
-                    {problem.title}
-                  </Link>
-                </TableCell>
-                <TableCell>{100}</TableCell>
-              </TableRow>
+            {contest.problems.map((problem, index) => (
+              <ContestProblemSingle
+                key={index}
+                contestProblem={problem}
+                contestId={id}
+              ></ContestProblemSingle>
             ))}
-            <TableRow>
-              <TableCell colSpan={2} sx={{ p: 0 }}>
-                <Button
-                  fullWidth
-                  sx={{
-                    color: 'black',
-                    p: 0,
-                    ':hover': { backgroundColor: '#fffff3' },
-                  }}
-                >
-                  <Link
-                    to={`/contest/${id}/add-problem`}
-                    style={{
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      width: 'inherit',
-                      padding: '1rem 2rem',
+            {contest.status === 'OPEN' && (
+              <TableRow>
+                <TableCell colSpan={2} sx={{ p: 0 }}>
+                  <Button
+                    fullWidth
+                    sx={{
+                      color: 'black',
+                      p: 0,
+                      ':hover': { backgroundColor: '#fffff3' },
                     }}
                   >
-                    Add new problem to the contest
-                  </Link>
-                </Button>
-              </TableCell>
-            </TableRow>
+                    <Link
+                      to={`/contest/${id}/add-problem`}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        width: 'inherit',
+                        padding: '1rem 2rem',
+                      }}
+                    >
+                      Add new problem to the contest
+                    </Link>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
+      {contest.status === 'OPEN' && (
+        <Button sx={buttonStyle} onClick={handleStartContest}>
+          Begin contest
+        </Button>
+      )}
+      {contest.status === 'STARTED' && (
+        <Button sx={buttonStyle} onClick={handleCloseContest}>
+          Close contest
+        </Button>
+      )}
+      <Button sx={buttonStyle} onClick={handleContestDelete}>
+        Delete
+      </Button>
     </Box>
   );
 }

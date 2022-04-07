@@ -25,7 +25,7 @@ public class Contest {
     private ContestStatus status;
 
     @Relationship(value = "IN_CONTEST", direction = Relationship.Direction.INCOMING)
-    List<Problem> problems;
+    List<ContestProblem> problems;
 
     public Contest(String name, String duration, ContestStatus status, Date startsOn) {
         this.name = name;

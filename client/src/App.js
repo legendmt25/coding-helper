@@ -1,8 +1,9 @@
-import { Button, Box, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { createContext, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import { getAuthentication } from './components/utility';
+import Footer from './components/Footer';
 
 export const AppContext = createContext({
   useCode: '',
@@ -48,44 +49,12 @@ function App() {
           sx={{
             height: '100%',
             width: { xl: '80%', md: '100%' },
+            pb: 15
           }}
         >
           <Outlet />
         </Container>
-        <footer>
-          <Box
-            sx={{
-              transition: 'all',
-              transitionDuration: '250ms',
-              p: 1,
-              display: 'flex',
-              justifyContent: 'space-between',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              ':hover': {
-                backgroundColor: '#f2f3f5',
-              },
-            }}
-          >
-            <Link to={'/'} style={{ color: 'inherit', textDecoration: 'none' }}>
-              <Button>@CodingH</Button>
-            </Link>
-            <Box>
-              <Link
-                to={'/problems'}
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                <Button>Problems</Button>
-              </Link>
-              <Link
-                to={'/'}
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                <Button>Contests</Button>
-              </Link>
-            </Box>
-          </Box>
-        </footer>
+        <Footer></Footer>
       </Box>
     </AppContext.Provider>
   );

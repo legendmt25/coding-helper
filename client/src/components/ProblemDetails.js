@@ -16,28 +16,36 @@ import repository from '../repository/repository';
 import { AppContext } from '../App';
 
 export default function ProblemDetails() {
-  const { id } = useParams();
+  const { problemId, contestId } = useParams();
   const [problem, setProblem] = useState({});
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const ctx = useContext(AppContext);
 
   useEffect(() => {
-    repository.findProblemById(id).then((data) => {
-      setProblem(data.problem);
-      setLikes(data.likes);
-    });
+    console.log(contestId);
+    if (!contestId) {
+      repository.findProblemById(problemId).then((data) => {
+        setProblem(data.problem);
+        setLikes(data.likes);
+      });
+    } else {
+      repository.getContestProblem(contestId, problemId).then((data) => {
+        setProblem(data.problem);
+        //setLikes(data.likes);
+      });
+    }
 
     if (ctx.userDetails != null)
       repository
-        .isProblemLiked(id, { userEmail: ctx.userDetails.email })
+        .isProblemLiked(problemId, { userEmail: ctx.userDetails.email })
         .then((res) => setLiked(res));
-  }, [id]);
+  }, [problemId]);
 
   const handleLikeButton = (event) => {
     if (ctx.userDetails != null)
       repository
-        .likeProblem(id, { userEmail: ctx.userDetails.email })
+        .likeProblem(problemId, { userEmail: ctx.userDetails.email })
         .then((data) => {
           setLiked(data);
           if (data) setLikes(likes + 1);

@@ -16,14 +16,14 @@ export default function InputComponent(props) {
 
   return (
     <TextField
-      fullWidth
+      sx={{ width: props.width ? props.width : '100%' }}
       variant={props.variant ? props.variant : 'outlined'}
-      value={props.attr === 'file' ? props.obj[props.attr] : undefined}
+      value={props.type !== 'file' ? props.obj[props.attr] : undefined}
       required={props.required}
       name={props.attr}
       multiline={props.multiline}
       rows={10}
-      label={capitalize(props.attr)}
+      label={props.label || capitalize(props.attr)}
       type={props.type ? props.type : props.attr.toLowerCase()}
       onChange={handleInputTextChange}
       InputLabelProps={
@@ -35,6 +35,8 @@ export default function InputComponent(props) {
       }
       inputProps={{ multiple: props.multipleFiles }}
       helperText={props.helperText}
+      size={'small'}
+      disabled={props.disabled}
     ></TextField>
   );
 }

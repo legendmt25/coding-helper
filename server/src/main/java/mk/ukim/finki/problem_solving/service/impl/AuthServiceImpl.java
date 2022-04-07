@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.object.User;
 import mk.ukim.finki.problem_solving.repository.UserRepository;
 import mk.ukim.finki.problem_solving.service.AuthService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

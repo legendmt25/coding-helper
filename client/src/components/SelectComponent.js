@@ -8,13 +8,13 @@ export default function SelectComponent(props) {
   return (
     <TextField
       select
-      sx={{ width: '200px' }}
+      sx={{ width: props.width ? props.width : '100%' }}
       label={capitalize(props.attr)}
       onChange={handleInputTextChange}
       value={props.obj[props.attr]}
       name={props.attr}
       required={props.required}
-      variant={'standard'}
+      variant={props.variant ?? 'outlined'}
     >
       {props.selectItems.map((item) => (
         <MenuItem key={item.value} value={item.value}>

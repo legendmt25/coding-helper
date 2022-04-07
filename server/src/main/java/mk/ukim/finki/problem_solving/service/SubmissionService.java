@@ -12,6 +12,4 @@ public interface SubmissionService {
     List<SubmissionDto> getAllSubmissionsForUserAndProblem(String email, Long id);
 
     String create(SubmissionInput submissionInput) throws IOException, InterruptedException;
-
-    void deleteAllByProblemId(Long problemId);
 }

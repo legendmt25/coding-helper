@@ -8,7 +8,7 @@ import repository from '../repository/repository';
 import { getAuthentication, transformToSelectItems } from './utility';
 
 export default function CodeEditor(props) {
-  const { id } = useParams();
+  const { problemId } = useParams();
   const ctx = useContext(AppContext);
 
   const languages = ['cpp', 'c', 'javascript', 'java'];
@@ -27,7 +27,7 @@ export default function CodeEditor(props) {
     repository
       .createSubmission({
         userId: getAuthentication().email,
-        problemId: id,
+        problemId,
         language: obj.language,
         code: obj.code,
       })
@@ -55,23 +55,26 @@ export default function CodeEditor(props) {
       <Box
         sx={{
           width: '100%',
-          display: 'flex',
+          display: { xs: 'block', md: 'flex' },
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
         <Tabs
+          sx={{ width: '100%' }}
           onChange={(event, newTheme) => setObj({ ...obj, theme: newTheme })}
           value={obj.theme}
         >
-          <Tab value="vs-light" label={'Light'} />
-          <Tab value="vs-dark" label={'Dark'} />
+          <Tab sx={{ width: '50%' }} value="vs-light" label={'Light'} />
+          <Tab sx={{ width: '50%' }} value="vs-dark" label={'Dark'} />
         </Tabs>
         <SelectComponent
           selectItems={transformToSelectItems(languages, languages)}
           obj={obj}
           setObj={setObj}
           attr={'language'}
+          variant="standard"
+          width="100%"
         ></SelectComponent>
       </Box>
       <Editor
@@ -85,6 +88,7 @@ export default function CodeEditor(props) {
           automaticLayout: true,
           selectOnLineNumbers: true,
           cursorStyle: 'line',
+          minimap: { enabled: false },
         }}
       ></Editor>
       <Box>

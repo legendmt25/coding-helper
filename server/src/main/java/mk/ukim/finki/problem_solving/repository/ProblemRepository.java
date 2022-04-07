@@ -16,10 +16,18 @@ public interface ProblemRepository extends Neo4jRepository<Problem, Long> {
     @Query("match (p:Problem) optional match (p)-[r:IN_CONTEST]->(c:Contest) with p, c where c is null or c.status='CLOSED' return p")
     List<Problem> findAll();
 
-    List<Problem> findAllByCategory_NameIn(Collection<String> category_name);
+    @Query("match (problem)-[r:WITH_CATEGORY]->(category:Category) with problem, category where category.name in $categories " +
+            "optional match (problem:Problem)-[r:IN_CONTEST]->(contest:Contest) with problem, contest where contest is null or contest.status='CLOSED' return problem;")
+    List<Problem> findAllByCategory_NameIn(Collection<String> categories);
 
     @Query("match (p:Problem) " +
             "optional match (p)-[r:IN_CONTEST]->(c:Contest) with p, c where c is null or c.status='CLOSED' " +
-            "optional match (p)-[r:LIKED_BY]->(m:User) with p as problem, count(r) as likes return problem, likes")
+            "optional match (p)-[r:LIKED_BY]->(m:User) with p as problem, count(r) as likes return problem, likes order by likes desc")
     List<ProblemByLikesDto> findTop10ByOrderByLikes();
+
+    @Override
+    @Query("match (problem:Problem) with problem " +
+            "optional match (problem)<-[r:PROBLEM]-(submission:Submission) with problem, submission " +
+            "match (problem:Problem) where ID(problem)=$id detach delete problem, submission")
+    void deleteById(Long id);
 }

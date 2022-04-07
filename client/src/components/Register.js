@@ -36,7 +36,7 @@ export default function Register() {
   };
 
   return (
-    <Box sx={{ p: 5 }}>
+    <Box sx={{ p: { xs: 0, sm: 0, md: 0 } }}>
       <form onSubmit={handleRegister}>
         <fieldset style={fieldsetStyle}>
           <Typography

@@ -1,10 +1,20 @@
-import { Box, Divider, Tooltip } from '@mui/material';
-import { useContext } from 'react';
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip,
+} from '@mui/material';
+import { Fragment, useContext, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import repository from '../repository/repository';
 import { shadow } from './styles';
 import { getAuthentication } from './utility';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const optionStyle = (theme) => {
   return {
@@ -20,7 +30,9 @@ const optionStyle = (theme) => {
 };
 
 export default function Account() {
+  const links = ['Settings', 'Notifications'];
   const ctx = useContext(AppContext);
+  const [displayMenu, setDisplayMenu] = useState(false);
 
   const handleAddImage = () => {
     const input = document.createElement('input');
@@ -33,48 +45,60 @@ export default function Account() {
       repository.uploadAvatar(formData).then((res) => console.log(res));
     });
   };
+
+  const toggleDisplayMenu = (event) => setDisplayMenu(!displayMenu);
+
   return (
-    <Box sx={{ display: 'flex', gap: 10, flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', gap: 13, flexDirection: 'column' }}>
       <Box
         sx={{
-          display: 'flex',
-          height: '8rem',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-end',
-          px: 10,
+          height: '14rem',
           backgroundColor: 'white',
           position: 'relative',
-          top: -20,
-          left: -24,
-          width: '100%',
           boxShadow: shadow,
         }}
       >
-        <Tooltip title={'Click to change'}>
-          <img
-            src={`http://localhost:3000/public/${
-              ctx.userDetails
-                ? ctx.userDetails.avatarImage
-                : 'avatars/defaultUser.png'
-            }`}
-            style={{
-              objectFit: 'contain',
-              borderRadius: 50,
-              height: '60%',
-              top: '50%',
-              transform: 'translate(0, -50%)',
-              position: 'relative',
-              boxShadow: shadow,
+        <Tooltip title="Click to change">
+          <Box
+            component={'span'}
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: { xs: '50%', md: '5%' },
+              borderRadius: '50%',
+              transform: {
+                xs: 'translate(-50%, 50%)',
+                md: 'translate(0, 50%)',
+              },
             }}
-            alt={'user avatar'}
-            onClick={handleAddImage}
-          />
+          >
+            <img
+              src={`http://localhost:3000/public/${
+                ctx.userDetails
+                  ? ctx.userDetails.avatarImage
+                  : 'avatars/defaultUser.png'
+              }`}
+              alt={'user avatar'}
+              onClick={handleAddImage}
+              style={{
+                objectFit: 'contain',
+                borderRadius: 'inherit',
+                height: '10rem',
+                boxShadow: shadow,
+              }}
+            />
+          </Box>
         </Tooltip>
       </Box>
       <Box
         sx={{
+          backgroundColor: 'white',
+          borderRadius: 1,
+          boxShadow: shadow,
           display: 'flex',
           gap: 2,
+          py: 3,
+          px: 1,
         }}
       >
         <Box
@@ -82,27 +106,50 @@ export default function Account() {
             alignSelf: 'flex-start',
             backgroundColor: 'silver',
             borderRadius: 1,
-            display: 'flex',
+            display: { xs: 'none', md: 'flex' },
             gap: 0,
             flexDirection: 'column',
             textAlign: 'center',
-            width: '20%',
-            minWidth: '180px',
+            flex: 0.2,
             boxShadow: shadow,
           }}
         >
-          <Link to={'/account/settings'} style={{ textDecoration: 'none' }}>
-            <Box sx={optionStyle}>Settings</Box>
-          </Link>
-          <Divider></Divider>
-          <Link
-            to={'/account/notifications'}
-            style={{ textDecoration: 'none' }}
-          >
-            <Box sx={optionStyle}>Notifications</Box>
-          </Link>
+          {links.map((link) => (
+            <Link
+              to={`/account/${link.toLowerCase()}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <Box sx={optionStyle}>{link}</Box>
+            </Link>
+          ))}
         </Box>
-        <Outlet />
+        <Button
+          onClick={toggleDisplayMenu}
+          sx={{ display: { xs: 'block', md: 'none' } }}
+        >
+          <MenuIcon></MenuIcon>
+        </Button>
+        <Drawer open={displayMenu} onClick={toggleDisplayMenu}>
+          <List>
+            {links.map((link) => (
+              <ListItem button onClick={toggleDisplayMenu}>
+                <Link
+                  to={`/account/${link}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    padding: '5px 40px',
+                  }}
+                >
+                  <ListItemText primary={link}></ListItemText>
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <Box sx={{ flex: 1 }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

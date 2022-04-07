@@ -21,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ProblemController {
     private final ProblemService problemService;
-    private final SubmissionService submissionService;
 
     @GetMapping("/problems")
     List<Problem> getAllProblems() {
@@ -68,7 +67,6 @@ public class ProblemController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/problem/{id}/delete")
     boolean deleteWithSubmissions(@PathVariable Long id) {
-        this.submissionService.deleteAllByProblemId(id);
         return this.problemService.delete(id);
     }
 

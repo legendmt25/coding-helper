@@ -104,6 +104,25 @@ const repository = {
       true
     );
   },
+  setContestProblemScore(contestId, problemId, score) {
+    return this.fetchPOST(
+      `contest/${contestId}/problem/${problemId}/set-score`,
+      { score: score },
+      true
+    );
+  },
+  startContest(id) {
+    return this.fetchGET(`contest/${id}/start`, true);
+  },
+  closeContest(id) {
+    return this.fetchGET(`contest/${id}/close`, true);
+  },
+  getContestProblem(contestId, problemId) {
+    return this.fetchGET(`contest/${contestId}/problem/${problemId}`, true);
+  },
+  deleteContest(contestId) {
+    return this.fetchDELETE(`contest/${contestId}/delete`, true);
+  },
 };
 
 export default repository;

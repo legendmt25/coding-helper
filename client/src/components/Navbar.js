@@ -10,7 +10,7 @@ import {
   Avatar,
   MenuItem,
 } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { domain } from '../repository/repository';
@@ -41,13 +41,12 @@ const settingsLinkStyle = {
 export default function Navbar() {
   const ctx = useContext(AppContext);
   const [anchorUserMenu, setAnchorUserMenu] = useState(null);
-  const handleOpenUserMenu = (event) => {
-    setAnchorUserMenu(event.currentTarget);
-  };
+  const [anchorMenu, setAnchorMenu] = useState(null);
 
-  const handleCloseUserMenu = () => {
-    setAnchorUserMenu(null);
-  };
+  const handleOpenUserMenu = (event) => setAnchorUserMenu(event.currentTarget);
+  const handleCloseUserMenu = () => setAnchorUserMenu(null);
+  const handleOpenMenu = (event) => setAnchorMenu(event.currentTarget);
+  const handleCloseMenu = () => setAnchorMenu(null);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -62,10 +61,16 @@ export default function Navbar() {
             CodingH
           </Typography>
         </Link>
-        <Box sx={{ gap: 2, flexGrow: 1, display: 'flex' }}>
-          {pages.map((page) => (
+        <Box
+          sx={{
+            gap: 2,
+            flexGrow: 1,
+            display: { sm: 'none', xs: 'none', md: 'flex' },
+          }}
+        >
+          {pages.map((page, index) => (
             <Link
-              key={page}
+              key={index}
               to={`/${page.toLowerCase()}`}
               style={{ textDecoration: 'none' }}
             >
@@ -82,10 +87,61 @@ export default function Navbar() {
             </Link>
           ))}
         </Box>
-        <Box>
-          {ctx.userDetails != null && ctx.userDetails.email}
+        <Box
+          sx={{
+            gap: 2,
+            flexGrow: 1,
+            display: { sm: 'flex', md: 'none' },
+            position: 'relative',
+          }}
+        >
+          <Button fullWidth sx={{ color: 'white' }} onClick={handleOpenMenu}>
+            Menu
+          </Button>
+          <Menu
+            open={Boolean(anchorMenu)}
+            anchorEl={anchorMenu}
+            onClose={handleCloseMenu}
+            keepMounted
+            PaperProps={{
+              style: {
+                width:
+                  anchorMenu?.offsetWidth < 300
+                    ? '100%'
+                    : anchorMenu?.offsetWidth + 'px',
+              },
+            }}
+          >
+            {pages.map((page, index) => (
+              <MenuItem key={index} sx={{ p: 0 }}>
+                <Button onClick={handleCloseMenu} fullWidth>
+                  <Link to={`/${page.toLowerCase()}`} style={settingsLinkStyle}>
+                    {page}
+                  </Link>
+                </Button>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              wordBreak: 'break-all',
+              display: { xs: 'none', sm: 'none', md: 'block' },
+            }}
+          >
+            {ctx.userDetails != null && ctx.userDetails.email}
+          </Typography>
           <Tooltip title="Settings">
-            <IconButton onClick={handleOpenUserMenu}>
+            <IconButton
+              onClick={handleOpenUserMenu}
+              sx={{
+                my: 1,
+                backgroundColor: 'white',
+                ':hover': { backgroundColor: 'white' },
+              }}
+            >
               <Avatar
                 alt="userImage"
                 src={`${domain}/public/${
@@ -102,6 +158,25 @@ export default function Navbar() {
             onClose={handleCloseUserMenu}
             keepMounted
           >
+            {ctx.userDetails && (
+              <MenuItem
+                sx={{
+                  borderBottom: 1,
+                  borderBottomColor: 'divider',
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    wordBreak: 'break-all',
+                  }}
+                >
+                  <Typography variant="subtitle2">Logged in as: </Typography>
+                  {ctx.userDetails.email}
+                </Typography>
+              </MenuItem>
+            )}
             {ctx.userDetails == null && (
               <MenuItem sx={{ p: 0 }}>
                 <Button onClick={handleCloseUserMenu} fullWidth>

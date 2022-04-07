@@ -29,8 +29,8 @@ export default function Login() {
   };
 
   return (
-    <Box sx={{ p: 5 }}>
-      <form onSubmit={handleLogin}>
+    <Box sx={{ p: { xs: 0, sm: 0, md: 0 } }}>
+      <form onSubmit={handleLogin} style={{ width: '100%' }}>
         <fieldset style={fieldsetStyle}>
           <Typography
             variant="subtitle1"

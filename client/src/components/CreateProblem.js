@@ -58,8 +58,9 @@ export default function CreateProblem(props) {
       sx={{
         display: 'flex',
         gap: 3,
-        mt: 1,
+        pt: 1,
         flexDirection: { sm: 'column', xs: 'column', md: 'row' },
+        pb: 5,
       }}
     >
       <Box
