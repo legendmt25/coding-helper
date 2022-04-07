@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../App';
 import repository from '../repository/repository';
-import { getAuthentication, transformToSelectItems } from './utility';
+import { transformToSelectItems } from './utility';
+import InputComponent from './InputComponent';
 
 export default function CodeEditor(props) {
   const { problemId } = useParams();
@@ -18,20 +19,35 @@ export default function CodeEditor(props) {
     language: '',
     code: '',
     theme: 'vs-light',
+    input: '',
   });
 
-  const handleSubmitButton = (event) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (obj.language === '') {
       return;
     }
     repository
       .createSubmission({
-        userId: getAuthentication().email,
+        userId: ctx.userDetails?.email,
         problemId,
         language: obj.language,
         code: obj.code,
       })
       .then((res) => setResponseOutput(res.output));
+  };
+
+  const handleRun = (event) => {
+    event.preventDefault();
+    repository
+      .runCode({
+        fileName: ctx.userDetails?.email,
+        problemId,
+        language: obj.language,
+        code: obj.code,
+        input: obj.input,
+      })
+      .then((data) => setResponseOutput(data.output));
   };
 
   useEffect(() => {
@@ -91,12 +107,27 @@ export default function CodeEditor(props) {
           minimap: { enabled: false },
         }}
       ></Editor>
-      <Box>
-        <code>{responseOutput}</code>
-      </Box>
-      <Button onClick={handleSubmitButton} sx={{ ml: 'auto' }}>
-        Submit
-      </Button>
+      <form
+        onSubmit={handleRun}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <InputComponent
+          obj={obj}
+          setObj={setObj}
+          attr={'input'}
+          multiline
+          rows={3}
+          required
+        ></InputComponent>
+        <code>
+          Output:
+          {responseOutput}
+        </code>
+        <Box sx={{ alignSelf: 'flex-end' }}>
+          <Button type={'submit'}>Run</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
+        </Box>
+      </form>
     </Box>
   );
 }

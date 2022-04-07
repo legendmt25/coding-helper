@@ -123,6 +123,9 @@ const repository = {
   deleteContest(contestId) {
     return this.fetchDELETE(`contest/${contestId}/delete`, true);
   },
+  runCode(data) {
+    return this.fetchPOST('run-code', data, true);
+  },
 };
 
 export default repository;

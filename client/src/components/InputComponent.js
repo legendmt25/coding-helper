@@ -22,7 +22,7 @@ export default function InputComponent(props) {
       required={props.required}
       name={props.attr}
       multiline={props.multiline}
-      rows={10}
+      rows={props.rows || 10}
       label={props.label || capitalize(props.attr)}
       type={props.type ? props.type : props.attr.toLowerCase()}
       onChange={handleInputTextChange}
