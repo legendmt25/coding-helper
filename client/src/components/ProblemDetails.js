@@ -1,4 +1,4 @@
-import { Checkbox, Divider, FormGroup, Typography } from '@mui/material';
+import { Checkbox, Divider, FormGroup, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useContext, useEffect, useState } from 'react';
 import SliderComponent from './SliderComponent';
@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import CodeEditor from './CodeEditor';
 import repository from '../repository/repository';
 import { AppContext } from '../App';
+import ModalProblemSubmissions from './ModalProblemSubmissions';
 
 export default function ProblemDetails() {
   const { problemId, contestId } = useParams();
@@ -23,7 +24,6 @@ export default function ProblemDetails() {
   const ctx = useContext(AppContext);
 
   useEffect(() => {
-    console.log(contestId);
     if (!contestId) {
       repository.findProblemById(problemId).then((data) => {
         setProblem(data.problem);
@@ -35,6 +35,11 @@ export default function ProblemDetails() {
         //setLikes(data.likes);
       });
     }
+
+    repository.findAllSubmissions({
+      userEmail: ctx.userDetails?.email,
+      problemId,
+    });
 
     if (ctx.userDetails != null)
       repository

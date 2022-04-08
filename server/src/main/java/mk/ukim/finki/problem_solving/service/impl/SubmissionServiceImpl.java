@@ -25,11 +25,12 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final ProblemService problemService;
 
     @Override
-    public List<SubmissionDto> getAllSubmissionsForUserByEmail(String email) {
+    public List<SubmissionDto> findAllSubmissionsByEmail(String email) {
         return submissionRepository.findAllByUser_Email(email);
     }
 
-    public List<SubmissionDto> getAllSubmissionsForUserAndProblem(String email, Long problemId) {
+    @Override
+    public List<SubmissionDto> findAllSubmissionsByUserEmailAndProblemId(String email, Long problemId) {
         return submissionRepository.findAllByUser_EmailAndProblem_Id(email, problemId);
     }
 

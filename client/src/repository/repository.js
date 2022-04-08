@@ -82,7 +82,7 @@ const repository = {
   },
   uploadAvatar(formData) {
     return this.fetchPOSTwithFormData(
-      'user/uploadAvatar',
+      'user/upload-avatar',
       formData,
       true,
       false

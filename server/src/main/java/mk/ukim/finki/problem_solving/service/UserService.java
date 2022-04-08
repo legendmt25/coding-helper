@@ -14,6 +14,6 @@ public interface UserService {
 
     boolean register(UserInput userInput);
 
-    boolean updateAvatar(MultipartFile image, String userEmail) throws IOException;
+    String updateAvatar(MultipartFile image, String userEmail) throws IOException;
 
 }

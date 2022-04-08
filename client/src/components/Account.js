@@ -1,14 +1,13 @@
 import {
   Box,
   Button,
-  Divider,
   Drawer,
   List,
   ListItem,
   ListItemText,
   Tooltip,
 } from '@mui/material';
-import { Fragment, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import repository from '../repository/repository';
@@ -42,7 +41,13 @@ export default function Account() {
       const formData = new FormData();
       formData.append('file', input.files[0]);
       formData.append('email', getAuthentication().email);
-      repository.uploadAvatar(formData).then((res) => console.log(res));
+      repository.uploadAvatar(formData).then((data) => {
+        console.log(data);
+        ctx.setUserDetails({
+          ...ctx.userDetails,
+          avatarImage: data.avatarImage,
+        });
+      });
     });
   };
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.dto.SubmissionDto;
 import mk.ukim.finki.problem_solving.model.input.SubmissionInput;
 import mk.ukim.finki.problem_solving.model.object.Submission;
+import mk.ukim.finki.problem_solving.model.reqBody.SubmissionsFilterReqBody;
 import mk.ukim.finki.problem_solving.model.resBody.OutputResBody;
 import mk.ukim.finki.problem_solving.service.SubmissionService;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,11 @@ public class SubmissionController {
     }
 
     @PostMapping("/submissions")
-    List<SubmissionDto> submissions(@RequestBody Map<String, String> map) {
-        return this.submissionService.getAllSubmissionsForUserByEmail(map.get("email"));
+    List<SubmissionDto> submissions(@RequestBody SubmissionsFilterReqBody body) {
+        if (body.getProblemId() == null) {
+            return this.submissionService.findAllSubmissionsByEmail(body.getUserEmail());
+        }
+        return this.submissionService.findAllSubmissionsByUserEmailAndProblemId(body.getUserEmail(), body.getProblemId());
     }
+
 }

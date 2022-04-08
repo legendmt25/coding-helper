@@ -30,3 +30,18 @@ export const shadow =
   '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)';
 export const shadowTop =
   '0 -1px 3px 0 rgb(0 0 0 / 0.1), 0 -1px 2px -1px rgb(0 0 0 / 0.1)';
+
+export const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: { xs: '80%', md: '60%', xl: '40%' },
+  bgcolor: 'background.paper',
+  boxShadow: shadow,
+  p: 4,
+  borderRadius: 1,
+  gap: 2,
+  display: 'flex',
+  flexDirection: 'column',
+};

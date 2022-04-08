@@ -16,15 +16,15 @@ export default function InputComponent(props) {
 
   return (
     <TextField
-      sx={{ width: props.width ? props.width : '100%' }}
-      variant={props.variant ? props.variant : 'outlined'}
+      sx={{ width: props.width || '100%' }}
+      variant={props.variant || 'outlined'}
       value={props.type !== 'file' ? props.obj[props.attr] : undefined}
       required={props.required}
       name={props.attr}
       multiline={props.multiline}
       rows={props.rows || 10}
       label={props.label || capitalize(props.attr)}
-      type={props.type ? props.type : props.attr.toLowerCase()}
+      type={props.type || props.attr.toLowerCase()}
       onChange={handleInputTextChange}
       InputLabelProps={
         props.type === 'datetime-local' ||

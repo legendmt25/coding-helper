@@ -15,7 +15,4 @@ public interface SubmissionRepository extends Neo4jRepository<Submission, Long> 
 
     List<SubmissionDto> findAllByUser_EmailAndProblem_Id(String user_email, Long problem_id);
 
-    @Query(value = "MATCH (s:Submission)-[rel:PROBLEM]->(p:Problem) where ID(p) = $problemId detach delete s")
-    void deleteAllByProblemId(Long problemId);
-
 }

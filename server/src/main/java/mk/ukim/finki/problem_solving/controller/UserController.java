@@ -2,6 +2,7 @@ package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.object.Problem;
+import mk.ukim.finki.problem_solving.model.resBody.UserAvatarResBody;
 import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,8 +16,8 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user/uploadAvatar")
-    public boolean uploadAvatar(@RequestPart("file") MultipartFile file, @RequestParam("email") String email) throws IOException {
-        return this.userService.updateAvatar(file, email);
+    @PostMapping("/user/upload-avatar")
+    public UserAvatarResBody uploadAvatar(@RequestPart("file") MultipartFile file, @RequestParam("email") String email) throws IOException {
+        return new UserAvatarResBody(this.userService.updateAvatar(file, email));
     }
 }

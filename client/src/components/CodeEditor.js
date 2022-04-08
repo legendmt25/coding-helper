@@ -7,6 +7,7 @@ import { AppContext } from '../App';
 import repository from '../repository/repository';
 import { transformToSelectItems } from './utility';
 import InputComponent from './InputComponent';
+import ModalProblemSubmissions from './ModalProblemSubmissions';
 
 export default function CodeEditor(props) {
   const { problemId } = useParams();
@@ -14,10 +15,10 @@ export default function CodeEditor(props) {
 
   const languages = ['cpp', 'c', 'javascript', 'java'];
   const [responseOutput, setResponseOutput] = useState('');
+  const [code, setCode] = useState('');
 
   const [obj, setObj] = useState({
-    language: '',
-    code: '',
+    language: ctx.useLanguage,
     theme: 'vs-light',
     input: '',
   });
@@ -32,7 +33,7 @@ export default function CodeEditor(props) {
         userId: ctx.userDetails?.email,
         problemId,
         language: obj.language,
-        code: obj.code,
+        code,
       })
       .then((res) => setResponseOutput(res.output));
   };
@@ -44,19 +45,19 @@ export default function CodeEditor(props) {
         fileName: ctx.userDetails?.email,
         problemId,
         language: obj.language,
-        code: obj.code,
+        code,
         input: obj.input,
       })
       .then((data) => setResponseOutput(data.output));
   };
 
   useEffect(() => {
-    setObj({
-      ...obj,
-      code: ctx.useCode !== '' ? ctx.useCode : props.problem.starterCode,
-      language: ctx.useLanguage !== '' ? ctx.useLanguage : '',
-    });
-  }, [props.problem]);
+    setCode(ctx.useCode || props.problem.starterCode);
+  }, [ctx.useCode, props.problem]);
+
+  useEffect(() => {
+    setObj({ ...obj, language: ctx.useLanguage });
+  }, [ctx.useLanguage]);
 
   return (
     <Box
@@ -96,10 +97,10 @@ export default function CodeEditor(props) {
       <Editor
         theme={obj.theme}
         language={obj.language}
-        value={obj.code}
+        value={code}
         height={'100%'}
         width={'100%'}
-        onChange={(newCode) => setObj({ ...obj, code: newCode })}
+        onChange={(code) => setCode(code)}
         options={{
           automaticLayout: true,
           selectOnLineNumbers: true,
@@ -124,6 +125,7 @@ export default function CodeEditor(props) {
           {responseOutput}
         </code>
         <Box sx={{ alignSelf: 'flex-end' }}>
+          <ModalProblemSubmissions></ModalProblemSubmissions>
           <Button type={'submit'}>Run</Button>
           <Button onClick={handleSubmit}>Submit</Button>
         </Box>

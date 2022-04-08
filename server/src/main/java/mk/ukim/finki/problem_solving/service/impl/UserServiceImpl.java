@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateAvatar(MultipartFile image, String userEmail) throws IOException {
+    public String updateAvatar(MultipartFile image, String userEmail) throws IOException {
         if (image == null) {
             throw new InvalidFileException();
         }
@@ -53,6 +53,6 @@ public class UserServiceImpl implements UserService {
         image.transferTo(new File(path + relativePath));
         user.setAvatarImage(relativePath);
         this.userRepository.save(user);
-        return true;
+        return relativePath;
     }
 }

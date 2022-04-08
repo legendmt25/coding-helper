@@ -1,34 +1,17 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Container,
-  Divider,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Divider, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import repository from '../repository/repository';
-import { getAuthentication } from './utility';
+import SubmissionSingle from './SubmissionSingle';
 
 export default function MySubmissions() {
-  const [submissions, setSubmissions] = useState([]);
   const ctx = useContext(AppContext);
+  const [submissions, setSubmissions] = useState([]);
   useEffect(() => {
     repository
-      .findAllSubmissions({
-        email: getAuthentication().email,
-      })
-      .then((res) => setSubmissions(res));
+      .findAllSubmissions({ userEmail: ctx.userDetails.email })
+      .then((data) => setSubmissions(data));
   }, []);
-
-  const handleUseCodeClick = (code, language) => {
-    ctx.useCode = code;
-    ctx.useLanguage = language;
-  };
 
   return (
     <Box>
@@ -37,44 +20,11 @@ export default function MySubmissions() {
           My submissions
         </Typography>
         <Divider></Divider>
-        {submissions.map((submission) => (
-          <Accordion key={submission.id}>
-            <AccordionSummary>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flex: 1,
-                  justifyContent: 'space-evenly',
-                }}
-              >
-                <Typography>Problem: {submission.problem.title} </Typography>
-                <Typography
-                  sx={{
-                    color: submission.status === 'ACCEPTED' ? 'green' : 'red',
-                  }}
-                >
-                  STATUS: {submission.status}
-                </Typography>
-                <Typography>Language: {submission.language}</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails
-              onClick={() =>
-                handleUseCodeClick(submission.code, submission.language)
-              }
-            >
-              <Tooltip title="use code">
-                <Link
-                  to={`/problem/${submission.problem.id}`}
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  <Typography component={'pre'}>
-                    <code>{submission.code}</code>
-                  </Typography>
-                </Link>
-              </Tooltip>
-            </AccordionDetails>
-          </Accordion>
+        {submissions.map((submission, index) => (
+          <SubmissionSingle
+            submission={submission}
+            key={index}
+          ></SubmissionSingle>
         ))}
       </Container>
     </Box>
