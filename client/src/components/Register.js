@@ -2,10 +2,10 @@ import { Typography, Box, Button } from '@mui/material';
 import { buttonStyle, fieldsetStyle } from './styles';
 import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
-import { transformToSelectItems } from './utility';
+import { getAuthentication, transformToSelectItems } from './utility';
 import { useNavigate } from 'react-router-dom';
 import authService from '../repository/authService';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Register() {
   let navigate = useNavigate();
@@ -34,6 +34,12 @@ export default function Register() {
       .register(obj)
       .then((res) => navigate('/login', { replace: true }));
   };
+
+  useEffect(() => {
+    if (!getAuthentication()) return;
+    if (window.history.state && window.history.state.idx > 0) navigate(-1);
+    else navigate('/', { replace: true });
+  }, []);
 
   return (
     <Box sx={{ p: { xs: 0, sm: 0, md: 0 } }}>

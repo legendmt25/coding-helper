@@ -1,7 +1,6 @@
 package mk.ukim.finki.problem_solving.repository;
 
-import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
-import mk.ukim.finki.problem_solving.model.object.Category;
+import mk.ukim.finki.problem_solving.model.queries.ProblemByLikesQuery;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
@@ -23,7 +22,7 @@ public interface ProblemRepository extends Neo4jRepository<Problem, Long> {
     @Query("match (p:Problem) " +
             "optional match (p)-[r:IN_CONTEST]->(c:Contest) with p, c where c is null or c.status='CLOSED' " +
             "optional match (p)-[r:LIKED_BY]->(m:User) with p as problem, count(r) as likes return problem, likes order by likes desc")
-    List<ProblemByLikesDto> findTop10ByOrderByLikes();
+    List<ProblemByLikesQuery> findTop10ByOrderByLikes();
 
     @Override
     @Query("match (problem:Problem) with problem " +

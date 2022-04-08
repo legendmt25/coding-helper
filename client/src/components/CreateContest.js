@@ -15,7 +15,9 @@ export default function CreateContest() {
 
   const handleCreateContest = (event) => {
     event.preventDefault();
-    repository.createContest(obj).then(() => navigate('/contests'));
+    repository
+      .createContest({ ...obj, startsOn: new Date(obj.startsOn) })
+      .then(() => navigate('/contests'));
   };
 
   return (

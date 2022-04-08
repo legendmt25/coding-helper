@@ -30,6 +30,14 @@ export const getAuthentication = () => {
     : null;
 };
 
+export const setAuthenticationAvatarImage = (path) => {
+  const auth = getAuthentication();
+  if (auth) {
+    auth.avatarImage = path;
+    localStorage.setItem('authentication', JSON.stringify(auth));
+  }
+};
+
 export const parseJwt = (token) => {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

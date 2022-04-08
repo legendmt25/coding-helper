@@ -1,6 +1,7 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.dto.ContestDto;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.input.ContestInput;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;

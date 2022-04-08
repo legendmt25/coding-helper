@@ -2,7 +2,6 @@ package mk.ukim.finki.problem_solving.model.object;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.SubmissionStatus;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;

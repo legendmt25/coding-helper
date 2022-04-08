@@ -14,7 +14,6 @@ import { useParams } from 'react-router-dom';
 import CodeEditor from './CodeEditor';
 import repository from '../repository/repository';
 import { AppContext } from '../App';
-import ModalProblemSubmissions from './ModalProblemSubmissions';
 
 export default function ProblemDetails() {
   const { problemId, contestId } = useParams();

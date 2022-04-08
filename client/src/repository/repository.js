@@ -126,6 +126,9 @@ const repository = {
   runCode(data) {
     return this.fetchPOST('run-code', data, true);
   },
+  getUsersWithTotalSolved() {
+    return this.fetchGET('users-with-total-accepted');
+  },
 };
 
 export default repository;

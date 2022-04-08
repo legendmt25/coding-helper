@@ -1,7 +1,7 @@
 package mk.ukim.finki.problem_solving.service.impl;
 
 import lombok.AllArgsConstructor;
-import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
+import mk.ukim.finki.problem_solving.model.queries.ProblemByLikesQuery;
 import mk.ukim.finki.problem_solving.model.exceptions.ProblemNotFoundException;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.object.Problem;
@@ -98,7 +98,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<ProblemByLikesDto> findTop10ByOrderByLikes() {
+    public List<ProblemByLikesQuery> findTop10ByOrderByLikes() {
         return this.problemRepository.findTop10ByOrderByLikes();
     }
 

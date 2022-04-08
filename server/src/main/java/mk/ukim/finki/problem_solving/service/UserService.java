@@ -1,5 +1,6 @@
 package mk.ukim.finki.problem_solving.service;
 
+import mk.ukim.finki.problem_solving.model.dto.UsernameWithTotalSolvedDto;
 import mk.ukim.finki.problem_solving.model.input.UserInput;
 import mk.ukim.finki.problem_solving.model.object.User;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,5 +16,7 @@ public interface UserService {
     boolean register(UserInput userInput);
 
     String updateAvatar(MultipartFile image, String userEmail) throws IOException;
+
+    List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions();
 
 }

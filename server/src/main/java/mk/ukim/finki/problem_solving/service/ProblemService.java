@@ -1,6 +1,6 @@
 package mk.ukim.finki.problem_solving.service;
 
-import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
+import mk.ukim.finki.problem_solving.model.queries.ProblemByLikesQuery;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 
@@ -21,7 +21,7 @@ public interface ProblemService {
 
     List<Problem> findAllLByCategories(Collection<String> categories);
 
-    List<ProblemByLikesDto> findTop10ByOrderByLikes();
+    List<ProblemByLikesQuery> findTop10ByOrderByLikes();
 
     boolean likeToggle(Long id, String email);
 

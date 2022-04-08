@@ -1,24 +1,19 @@
-package mk.ukim.finki.problem_solving.model.input;
+package mk.ukim.finki.problem_solving.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.problem_solving.model.enums.Gender;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
+import mk.ukim.finki.problem_solving.model.enums.Role;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInput {
-    private String email;
+public class UserDto {
     private String username;
-    private String password;
     private String firstName;
     private String lastName;
+    private String avatarImage;
     private Gender gender;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
-
+    private Role role;
 }

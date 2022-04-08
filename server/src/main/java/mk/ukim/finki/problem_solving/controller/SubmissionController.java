@@ -2,8 +2,8 @@ package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.dto.SubmissionDto;
+import mk.ukim.finki.problem_solving.model.dto.UsernameWithTotalSolvedDto;
 import mk.ukim.finki.problem_solving.model.input.SubmissionInput;
-import mk.ukim.finki.problem_solving.model.object.Submission;
 import mk.ukim.finki.problem_solving.model.reqBody.SubmissionsFilterReqBody;
 import mk.ukim.finki.problem_solving.model.resBody.OutputResBody;
 import mk.ukim.finki.problem_solving.service.SubmissionService;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")

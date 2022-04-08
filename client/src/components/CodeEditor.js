@@ -125,7 +125,9 @@ export default function CodeEditor(props) {
           {responseOutput}
         </code>
         <Box sx={{ alignSelf: 'flex-end' }}>
-          <ModalProblemSubmissions></ModalProblemSubmissions>
+          <ModalProblemSubmissions
+            problemId={problemId}
+          ></ModalProblemSubmissions>
           <Button type={'submit'}>Run</Button>
           <Button onClick={handleSubmit}>Submit</Button>
         </Box>

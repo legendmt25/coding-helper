@@ -144,11 +144,11 @@ export default function Navbar() {
             >
               <Avatar
                 alt="userImage"
-                src={`${domain}/public/${
-                  ctx.userDetails
-                    ? ctx.userDetails.avatarImage
-                    : 'avatars/defaultUser.png'
-                }`}
+                src={`${domain}/public/avatars/${
+                ctx.userDetails
+                  ? ctx.userDetails.avatarImage
+                  : 'defaultUser.png'
+              }`}
               />
             </IconButton>
           </Tooltip>

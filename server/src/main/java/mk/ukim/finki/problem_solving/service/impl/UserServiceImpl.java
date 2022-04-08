@@ -1,6 +1,7 @@
 package mk.ukim.finki.problem_solving.service.impl;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.dto.UsernameWithTotalSolvedDto;
 import mk.ukim.finki.problem_solving.model.exceptions.InvalidFileException;
 import mk.ukim.finki.problem_solving.model.exceptions.UserAlreadyExistsException;
 import mk.ukim.finki.problem_solving.model.exceptions.UserNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 @Service
@@ -44,15 +46,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateAvatar(MultipartFile image, String userEmail) throws IOException {
-        if (image == null) {
+        if (image == null)
             throw new InvalidFileException();
-        }
         var user = this.findByEmail(userEmail);
-        var path = System.getProperty("user.dir") + "/src/main/resources/public/";
-        var relativePath = "avatars/" + userEmail + image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
-        image.transferTo(new File(path + relativePath));
-        user.setAvatarImage(relativePath);
+        var dir = new File("src/main/resources/public/avatars/");
+        dir.mkdirs();
+        List.of(dir.listFiles(file -> file.getName().startsWith(userEmail + "-avatar"))).forEach(File::delete);
+        var fileName = userEmail + "-avatar" + image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        image.transferTo(Path.of(dir.getPath(), fileName));
+        user.setAvatarImage(fileName);
         this.userRepository.save(user);
-        return relativePath;
+        return fileName;
+    }
+
+    @Override
+    public List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions() {
+        return userRepository.findAllWithTotalAcceptedSubmissions().stream().map(x -> new UsernameWithTotalSolvedDto(x.getUser().getUserName(), x.getSolved())).toList();
     }
 }

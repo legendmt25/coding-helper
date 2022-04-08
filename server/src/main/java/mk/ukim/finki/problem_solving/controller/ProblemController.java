@@ -1,14 +1,13 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
-import mk.ukim.finki.problem_solving.model.dto.ProblemByLikesDto;
+import mk.ukim.finki.problem_solving.model.queries.ProblemByLikesQuery;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.object.Problem;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
 import mk.ukim.finki.problem_solving.model.reqBody.LikeProblemReqBody;
 import mk.ukim.finki.problem_solving.model.reqBody.ProblemsByCategoriesReqBody;
 import mk.ukim.finki.problem_solving.service.ProblemService;
-import mk.ukim.finki.problem_solving.service.SubmissionService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,9 +27,9 @@ public class ProblemController {
     }
 
     @GetMapping("/problem/{id}")
-    ProblemByLikesDto getProblem(@PathVariable Long id) {
+    ProblemByLikesQuery getProblem(@PathVariable Long id) {
         var problem = this.problemService.findById(id);
-        return new ProblemByLikesDto(
+        return new ProblemByLikesQuery(
                 problem,
                 (long) problem.getLikedBy().size()
         );
@@ -77,7 +76,7 @@ public class ProblemController {
     }
 
     @GetMapping("/problems/top10")
-    List<ProblemByLikesDto> getTop10() {
+    List<ProblemByLikesQuery> getTop10() {
         return this.problemService.findTop10ByOrderByLikes();
     }
 

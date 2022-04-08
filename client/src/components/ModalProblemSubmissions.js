@@ -2,7 +2,7 @@ import { Box, Button, Divider, Modal, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../App';
 import repository from '../repository/repository';
-import { buttonStyle, modalStyle } from './styles';
+import { modalStyle } from './styles';
 import SubmissionSingle from './SubmissionSingle';
 
 export default function ModalProblemSubmissions(props) {
@@ -24,14 +24,18 @@ export default function ModalProblemSubmissions(props) {
       <Button onClick={() => setOpen(!open)}>Submissions</Button>
       <Modal open={open} onClose={() => setOpen(!open)}>
         <Box sx={modalStyle}>
-          <Typography variant={'h5'} component={'h3'}>Submissions</Typography>
+          <Typography variant={'h5'} component={'h3'}>
+            Submissions
+          </Typography>
           <Divider></Divider>
           {submissions.map((submission, index) => (
             <SubmissionSingle
+              onClick={(event) => setOpen(!open)}
               submission={submission}
               key={index}
             ></SubmissionSingle>
           ))}
+          {!submissions.length && "You haven't submitted anything yet"}
         </Box>
       </Modal>
     </>

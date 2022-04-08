@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import repository from '../repository/repository';
+import RatingContestants from './RatingContests';
 import { shadow } from './styles';
 
 export default function Contests() {
@@ -26,7 +27,16 @@ export default function Contests() {
 
   return (
     <Box sx={{ display: { md: 'flex', sm: 'block' }, gap: 2 }}>
-      <Box sx={{ flex: 0.2, p: 2 }}>Rankings</Box>
+      <Box
+        sx={{
+          flex: 0.2,
+          m: 2,
+          borderRadius: 1,
+          boxShadow: shadow,
+        }}
+      >
+        <RatingContestants></RatingContestants>
+      </Box>
       <Box sx={{ flex: 0.8, p: 2 }}>
         <TableContainer
           component={Paper}

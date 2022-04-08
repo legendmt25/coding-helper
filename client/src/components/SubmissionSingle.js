@@ -7,14 +7,23 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../App';
 
 export default function SubmissionSingle(props) {
+  const navigate = useNavigate();
   const ctx = useContext(AppContext);
   const handleUseCodeClick = (code, language) => {
     ctx.setUseLanguage(language);
     ctx.setUseCode(code);
+  };
+
+  const handleClick = (event) => {
+    if (!props.onClick) {
+      navigate(`/problem/${props.submission.problem.id}`);
+      return;
+    }
+    props.onClick(event);
   };
 
   return (
@@ -44,14 +53,13 @@ export default function SubmissionSingle(props) {
         }
       >
         <Tooltip title="use code">
-          <Link
-            to={`/problem/${props.submission.problem.id}`}
-            style={{ color: 'inherit', textDecoration: 'none' }}
+          <Typography
+            component={'pre'}
+            onClick={handleClick}
+            sx={{ cursor: 'pointer' }}
           >
-            <Typography component={'pre'}>
-              <code>{props.submission.code}</code>
-            </Typography>
-          </Link>
+            <code>{props.submission.code}</code>
+          </Typography>
         </Tooltip>
       </AccordionDetails>
     </Accordion>

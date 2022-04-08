@@ -10,9 +10,9 @@ import {
 import { useContext, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { AppContext } from '../App';
-import repository from '../repository/repository';
+import repository, { domain } from '../repository/repository';
 import { shadow } from './styles';
-import { getAuthentication } from './utility';
+import { getAuthentication, setAuthenticationAvatarImage } from './utility';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const optionStyle = (theme) => {
@@ -40,9 +40,9 @@ export default function Account() {
     input.addEventListener('change', () => {
       const formData = new FormData();
       formData.append('file', input.files[0]);
-      formData.append('email', getAuthentication().email);
+      formData.append('email', ctx.userDetails.email);
       repository.uploadAvatar(formData).then((data) => {
-        console.log(data);
+        setAuthenticationAvatarImage(data.avatarImage);
         ctx.setUserDetails({
           ...ctx.userDetails,
           avatarImage: data.avatarImage,
@@ -78,10 +78,10 @@ export default function Account() {
             }}
           >
             <img
-              src={`http://localhost:3000/public/${
+              src={`${domain}/public/avatars/${
                 ctx.userDetails
                   ? ctx.userDetails.avatarImage
-                  : 'avatars/defaultUser.png'
+                  : 'defaultUser.png'
               }`}
               alt={'user avatar'}
               onClick={handleAddImage}
@@ -119,8 +119,9 @@ export default function Account() {
             boxShadow: shadow,
           }}
         >
-          {links.map((link) => (
+          {links.map((link, index) => (
             <Link
+              key={index}
               to={`/account/${link.toLowerCase()}`}
               style={{ textDecoration: 'none' }}
             >

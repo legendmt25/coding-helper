@@ -2,6 +2,7 @@ package mk.ukim.finki.problem_solving.service.impl;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.problem_solving.model.dto.SubmissionDto;
+import mk.ukim.finki.problem_solving.model.dto.UsernameWithTotalSolvedDto;
 import mk.ukim.finki.problem_solving.model.enums.SubmissionStatus;
 import mk.ukim.finki.problem_solving.model.input.SubmissionInput;
 import mk.ukim.finki.problem_solving.model.object.Submission;
@@ -12,7 +13,7 @@ import mk.ukim.finki.problem_solving.service.SubmissionService;
 import mk.ukim.finki.problem_solving.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -52,4 +53,6 @@ public class SubmissionServiceImpl implements SubmissionService {
         );
         return output;
     }
+
+
 }

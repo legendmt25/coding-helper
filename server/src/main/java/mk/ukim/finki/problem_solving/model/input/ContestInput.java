@@ -3,6 +3,7 @@ package mk.ukim.finki.problem_solving.model.input;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.problem_solving.model.object.Duration;
 
 import java.util.Date;
 
@@ -11,6 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class ContestInput {
     private String name;
-    private String duration;
+    private Duration duration;
     private Date startsOn;
 }
