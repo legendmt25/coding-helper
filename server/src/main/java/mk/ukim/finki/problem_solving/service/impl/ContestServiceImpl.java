@@ -47,6 +47,15 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public ContestProblem removeProblemFromContest(Long contestId, Long problemId) {
+        var contest = this.findById(contestId);
+        contest.getProblems().removeIf(x -> x.getProblem().getId().equals(problemId));
+        problemService.delete(problemId);
+        contestRepository.save(contest);
+        return null;
+    }
+
+    @Override
     public ContestProblem getContestProblem(Long contestId, Long problemId) {
         var contest = this.findById(contestId);
         return contest.getProblems().stream()
@@ -98,6 +107,15 @@ public class ContestServiceImpl implements ContestService {
                         contestInput.getStartsOn()
                 )
         );
+    }
+
+    @Override
+    public Contest edit(Long id, ContestInput contestInput) {
+        var contest = this.findById(id);
+        contest.setDuration(contestInput.getDuration().toString());
+        contest.setName(contestInput.getName());
+        contest.setStartsOn(contestInput.getStartsOn());
+        return contestRepository.save(contest);
     }
 
     @Override

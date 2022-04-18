@@ -8,8 +8,6 @@ export default function Footer() {
     <Box
       component={'footer'}
       sx={{
-        position: 'fixed',
-        bottom: 0,
         width: '100%',
         transition: 'all',
         transitionDuration: '250ms',

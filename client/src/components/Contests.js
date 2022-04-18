@@ -26,7 +26,13 @@ export default function Contests() {
   }, []);
 
   return (
-    <Box sx={{ display: { md: 'flex', sm: 'block' }, gap: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' },
+        gap: 2,
+      }}
+    >
       <Box
         sx={{
           flex: 0.2,

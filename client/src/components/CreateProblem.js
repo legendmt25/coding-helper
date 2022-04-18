@@ -34,7 +34,7 @@ export default function CreateProblem(props) {
     formData.append('title', obj.title);
     formData.append('markdown', obj.markdown);
     formData.append('difficulty', difficulties[obj.difficulty]);
-    formData.append('categoryName', categories[obj.category]);
+    formData.append('category', categories[obj.category]);
     formData.append('starterCode', obj.starterFile);
     formData.append('runnerCode', obj.runnerFile);
     for (const testCase of obj.testCases) {

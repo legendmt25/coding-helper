@@ -47,9 +47,8 @@ function App() {
         <Container
           maxWidth
           sx={{
-            height: '100%',
+            flex: '0 1 100%',
             width: { xl: '80%', md: '100%' },
-            pb: 15
           }}
         >
           <Outlet />

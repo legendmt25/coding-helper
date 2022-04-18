@@ -12,7 +12,7 @@ import { Outlet, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import repository, { domain } from '../repository/repository';
 import { shadow } from './styles';
-import { getAuthentication, setAuthenticationAvatarImage } from './utility';
+import { setAuthenticationAvatarImage } from './utility';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const optionStyle = (theme) => {

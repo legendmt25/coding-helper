@@ -1,6 +1,7 @@
 package mk.ukim.finki.problem_solving.controller;
 
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.problem_solving.model.object.Category;
 import mk.ukim.finki.problem_solving.model.queries.ProblemByLikesQuery;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.object.Problem;
@@ -41,10 +42,10 @@ public class ProblemController {
                    @RequestPart MultipartFile runnerCode,
                    @RequestParam("testCases") MultipartFile[] testCases,
                    @RequestParam String title,
-                   @RequestParam String categoryName,
+                   @RequestParam Category category,
                    @RequestParam String markdown,
                    @RequestParam Difficulty difficulty) throws IOException {
-        var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode, testCases);
+        var problemInput = new ProblemInput(category, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return this.problemService.create(problemInput);
     }
 

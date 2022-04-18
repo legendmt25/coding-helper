@@ -5,6 +5,7 @@ import mk.ukim.finki.problem_solving.model.dto.ContestDto;
 import mk.ukim.finki.problem_solving.model.enums.Difficulty;
 import mk.ukim.finki.problem_solving.model.input.ContestInput;
 import mk.ukim.finki.problem_solving.model.input.ProblemInput;
+import mk.ukim.finki.problem_solving.model.object.Category;
 import mk.ukim.finki.problem_solving.model.object.Contest;
 import mk.ukim.finki.problem_solving.model.object.ContestProblem;
 import mk.ukim.finki.problem_solving.model.reqBody.ContestProblemScoreReqBody;
@@ -42,10 +43,10 @@ public class ContestController {
                                        @RequestPart MultipartFile runnerCode,
                                        @RequestParam("testCases") MultipartFile[] testCases,
                                        @RequestParam String title,
-                                       @RequestParam String categoryName,
+                                       @RequestParam Category category,
                                        @RequestParam String markdown,
                                        @RequestParam Difficulty difficulty) throws IOException {
-        var problemInput = new ProblemInput(categoryName, title, difficulty, markdown, starterCode, runnerCode, testCases);
+        var problemInput = new ProblemInput(category, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return contestService.addProblemToContest(id, problemInput);
     }
 

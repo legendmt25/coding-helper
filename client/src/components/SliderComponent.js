@@ -60,7 +60,6 @@ export default function SliderComponent() {
         return {
           transition: 'all',
           transitionDuration: '300ms',
-          flexShrink: 1,
           display: { md: 'flex', xs: 'none' },
           alignItems: 'center',
           cursor: 'move',
@@ -68,7 +67,6 @@ export default function SliderComponent() {
           ':hover': {
             backgroundColor: 'rgba(135,132,127,0.2)',
           },
-          mb: 1,
           borderRadius: 0.5,
         };
       }}

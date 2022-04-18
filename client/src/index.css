@@ -12,8 +12,17 @@ code {
     monospace;
 }
 
-html, body, .App, #root {
+html,
+body,
+#root {
   height: 100%;
+  display: flex;
+  width: 100%;
+}
+
+.App {
+  width: 100%;
+  flex: 0 1 100%;
 }
 
 * {
@@ -26,5 +35,5 @@ html, body, .App, #root {
   padding: 20px;
   border-radius: 10px;
   font-size: medium;
-  color: rgb(3, 3, 248)
+  color: rgb(3, 3, 248);
 }

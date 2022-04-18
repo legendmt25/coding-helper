@@ -15,7 +15,11 @@ public interface ContestService {
 
     Contest createContest(ContestInput contestInput);
 
+    Contest edit(Long id, ContestInput contestInput);
+
     ContestProblem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
+
+    ContestProblem removeProblemFromContest(Long contestId, Long problemId);
 
     ContestProblem setProblemScore(Long contestId, Long problemId, Long score);
 
