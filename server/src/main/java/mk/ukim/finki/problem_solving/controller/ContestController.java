@@ -10,6 +10,7 @@ import mk.ukim.finki.problem_solving.model.object.Contest;
 import mk.ukim.finki.problem_solving.model.object.ContestProblem;
 import mk.ukim.finki.problem_solving.model.reqBody.ContestProblemScoreReqBody;
 import mk.ukim.finki.problem_solving.service.ContestService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,9 +33,17 @@ public class ContestController {
         return contestService.findById(id);
     }
 
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/contest/create")
     Contest createContest(@RequestBody ContestInput contestInput) {
         return contestService.createContest(contestInput);
+    }
+
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    @PostMapping("/contest/{id}/edit")
+    boolean updateContest(@PathVariable Long id, @RequestBody ContestInput contestInput) {
+        contestService.edit(id, contestInput);
+        return true;
     }
 
     @PostMapping("/contest/{id}/add-problem")
@@ -60,6 +69,7 @@ public class ContestController {
         return contestService.setProblemScore(contestId, problemId, body.getScore());
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/contest/{id}/delete")
     boolean deleteContest(@PathVariable Long id) {
         return contestService.deleteById(id);

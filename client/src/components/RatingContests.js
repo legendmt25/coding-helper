@@ -35,7 +35,7 @@ export default function RatingContestants() {
           </TableHead>
           <TableBody>
             {ratings.map((r) => (
-              <TableRow>
+              <TableRow key={r.username}>
                 <TableCell>{r.username}</TableCell>
                 <TableCell>{r.solved}</TableCell>
               </TableRow>

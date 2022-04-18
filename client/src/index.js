@@ -17,6 +17,7 @@ import Contests from './components/Contests';
 import ContestDetails from './components/ContestDetails';
 import CreateContest from './components/CreateContest';
 import ProblemEdit from './components/ProblemEdit';
+import ContestEdit from './components/ContestEdit';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,6 +35,7 @@ ReactDOM.render(
           <Route path="/contest/create" element={<CreateContest />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/contest/:id/edit" element={<ContestEdit />}></Route>
           <Route
             path="/problem/:problemId"
             element={<ProblemDetails />}

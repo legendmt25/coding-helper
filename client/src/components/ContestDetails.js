@@ -6,7 +6,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -131,6 +130,9 @@ export default function ContestDetails(props) {
       <Button sx={buttonStyle} onClick={handleContestDelete}>
         Delete
       </Button>
+      <Link to={`/contest/${id}/edit`} style={{alignSelf: 'end'}}>
+        <Button sx={buttonStyle}>Edit</Button>
+      </Link>
     </Box>
   );
 }

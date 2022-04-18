@@ -98,7 +98,10 @@ const repository = {
     return this.fetchGET(`contest/${id}`);
   },
   createContest(data) {
-    return this.fetchPOST('contest/create', data, false);
+    return this.fetchPOST('contest/create', data, true);
+  },
+  updateContest(id, data) {
+    return this.fetchPOST(`contest/${id}/edit`, data, true);
   },
   createContestProblem(contestId, formData) {
     return this.fetchPOSTwithFormData(
