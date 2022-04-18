@@ -42,7 +42,7 @@ export default function Register() {
   }, []);
 
   return (
-    <Box sx={{ p: { xs: 0, sm: 0, md: 0 } }}>
+    <Box sx={{ p: 0, alignSelf: 'center' }}>
       <form onSubmit={handleRegister}>
         <fieldset style={fieldsetStyle}>
           <Typography

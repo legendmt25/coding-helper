@@ -30,21 +30,12 @@ public class ProblemController {
     @GetMapping("/problem/{id}")
     ProblemByLikesQuery getProblem(@PathVariable Long id) {
         var problem = this.problemService.findById(id);
-        return new ProblemByLikesQuery(
-                problem,
-                (long) problem.getLikedBy().size()
-        );
+        return new ProblemByLikesQuery(problem, (long) problem.getLikedBy().size());
     }
 
     //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/problem/create")
-    Problem create(@RequestPart MultipartFile starterCode,
-                   @RequestPart MultipartFile runnerCode,
-                   @RequestParam("testCases") MultipartFile[] testCases,
-                   @RequestParam String title,
-                   @RequestParam Category category,
-                   @RequestParam String markdown,
-                   @RequestParam Difficulty difficulty) throws IOException {
+    Problem create(@RequestPart MultipartFile starterCode, @RequestPart MultipartFile runnerCode, @RequestParam("testCases") MultipartFile[] testCases, @RequestParam String title, @RequestParam Category category, @RequestParam String markdown, @RequestParam Difficulty difficulty) throws IOException {
         var problemInput = new ProblemInput(category, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return this.problemService.create(problemInput);
     }
@@ -70,7 +61,7 @@ public class ProblemController {
         return this.problemService.delete(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/problem/{id}/edit")
     Problem edit(@PathVariable Long id, @RequestBody ProblemInput problemInput) {
         return this.problemService.update(id, problemInput);

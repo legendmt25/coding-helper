@@ -1,5 +1,9 @@
 import { Divider, Fab, IconButton, TextField, Typography } from '@mui/material';
-import { Add, DeleteForever } from '@mui/icons-material';
+import {
+  Add,
+  DeleteForever as DeleteIcon,
+  Edit as EditIcon,
+} from '@mui/icons-material';
 import { Box } from '@mui/material';
 import ButtonCheckBox from './ButtonCheckbox';
 import { difficultyColor } from './utility';
@@ -86,6 +90,7 @@ export default function Problems() {
         flexDirection: 'column',
         gap: 2,
         px: { md: 10, sm: 2 },
+        width: { xs: '100%', md: '80%' },
       }}
     >
       <Typography variant="h5" component={'div'} sx={{ color: '#696969' }}>
@@ -128,7 +133,9 @@ export default function Problems() {
             flex: 0.7,
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'center',
             gap: 0.5,
+            textAlign: 'center',
           }}
         >
           <Box
@@ -136,9 +143,9 @@ export default function Problems() {
               return { ...rowStyle(theme), fontWeight: 600 };
             }}
           >
-            <Box>#</Box>
-            <Box>Title</Box>
-            <Box>Difficulty</Box>
+            <Box sx={{ flex: '1 1 10%' }}>#</Box>
+            <Box sx={{ flex: '1 1 80%' }}>Title</Box>
+            <Box sx={{ flex: '1 1 10%' }}>Difficulty</Box>
           </Box>
           {problems.map((problem, index) => (
             <Link
@@ -161,18 +168,30 @@ export default function Problems() {
                   };
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <IconButton
-                    onClick={(event) =>
-                      handleDeleteProblem(event, problem.id, index)
-                    }
-                  >
-                    <DeleteForever />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flex: '1 1 10%',
+                  }}
+                >
+                  <IconButton sx={{ p: 0 }}>
+                    <DeleteIcon
+                      sx={{ p: 1 }}
+                      onClick={(event) =>
+                        handleDeleteProblem(event, problem.id, index)
+                      }
+                    ></DeleteIcon>
+                  </IconButton>
+                  <IconButton sx={{ p: 0 }}>
+                    <Link to={`/problem/${problem.id}/edit`}>
+                      <EditIcon sx={{ p: 1 }}></EditIcon>
+                    </Link>
                   </IconButton>
                   {problem.id}
                 </Box>
-                <Box>{problem.title}</Box>
-                <Box>{problem.difficulty}</Box>
+                <Box sx={{ flex: '1 1 80%' }}>{problem.title}</Box>
+                <Box sx={{ flex: '1 1 10%' }}>{problem.difficulty}</Box>
               </Box>
             </Link>
           ))}
@@ -201,6 +220,7 @@ export default function Problems() {
         <Box
           sx={{
             mt: { sm: 2, xs: 2 },
+            px: 10,
             flex: 0.3,
             display: 'flex',
             flexDirection: 'column',

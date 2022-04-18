@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../App';
 
 export default function SubmissionSingle(props) {

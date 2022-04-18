@@ -56,6 +56,7 @@ export default function ContestDetails(props) {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
+        width: { xs: '100%', md: '80%' },
       }}
     >
       <Typography

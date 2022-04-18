@@ -31,6 +31,7 @@ export default function Contests() {
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
         gap: 2,
+        width: {xs: '100%', md: '80%'}
       }}
     >
       <Box

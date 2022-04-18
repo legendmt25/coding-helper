@@ -74,6 +74,9 @@ const repository = {
   createProblem(formData) {
     return this.fetchPOSTwithFormData('problem/create', formData, true);
   },
+  updateProblem(id, data) {
+    return this.fetchPOST(`problem/${id}/edit`, data, true);
+  },
   deleteProblem(id) {
     return this.fetchDELETE(`problem/${id}/delete`);
   },

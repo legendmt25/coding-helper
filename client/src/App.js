@@ -40,15 +40,15 @@ function App() {
           display: 'flex',
           flexDirection: 'column',
           gap: 0.5,
-          backgroundColor: '#f8f8ff',
         }}
       >
         <Navbar />
         <Container
           maxWidth
           sx={{
-            flex: '0 1 100%',
-            width: { xl: '80%', md: '100%' },
+            display: 'flex',
+            justifyContent: 'center',
+            flex: '1 1 100%',
           }}
         >
           <Outlet />

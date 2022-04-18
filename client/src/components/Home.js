@@ -5,7 +5,6 @@ import {
   CardActionArea,
   CardActions,
   CardMedia,
-  Container,
   Divider,
   Typography,
 } from '@mui/material';
@@ -14,7 +13,14 @@ import { domain } from '../repository/repository';
 
 export default function Home() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: { xs: '100%', md: '80%' },
+      }}
+    >
       <Box
         sx={{
           display: 'flex',

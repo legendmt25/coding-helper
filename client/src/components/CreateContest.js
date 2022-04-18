@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import repository from '../repository/repository';
@@ -21,8 +21,22 @@ export default function CreateContest() {
   };
 
   return (
-    <form onSubmit={handleCreateContest}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+    <Box
+      sx={{
+        width: { xs: '100%', md: '80%', display: 'flex', flexDirection: 'column', gap: 10 },
+      }}
+    >
+      <Typography
+        component="h3"
+        variant="h5"
+        sx={{ borderBottom: 1, borderBottomColor: 'divider', p: 2 }}
+      >
+        Create contest
+      </Typography>
+      <form
+        onSubmit={handleCreateContest}
+        style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1.5rem' }}
+      >
         <InputComponent
           obj={obj}
           setObj={setObj}
@@ -44,7 +58,7 @@ export default function CreateContest() {
         <Button type={'submit'} sx={buttonStyle}>
           Submit
         </Button>
-      </Box>
-    </form>
+      </form>
+    </Box>
   );
 }

@@ -14,7 +14,11 @@ export default function MySubmissions() {
   }, []);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: { xs: '100%', md: '80%' },
+      }}
+    >
       <Container sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <Typography variant={'h4'} component={'h2'}>
           My submissions

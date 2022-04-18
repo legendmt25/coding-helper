@@ -37,7 +37,7 @@ export default function Login() {
   }, []);
 
   return (
-    <Box sx={{ p: { xs: 0, sm: 0, md: 0 } }}>
+    <Box sx={{ p: 0, width: { xs: '100%', md: '80%' }, alignSelf: 'center' }}>
       <form onSubmit={handleLogin} style={{ width: '100%' }}>
         <fieldset style={fieldsetStyle}>
           <Typography

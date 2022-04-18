@@ -54,7 +54,9 @@ export default function Account() {
   const toggleDisplayMenu = (event) => setDisplayMenu(!displayMenu);
 
   return (
-    <Box sx={{ display: 'flex', gap: 13, flexDirection: 'column' }}>
+    <Box
+      sx={{ display: 'flex', gap: 13, flexDirection: 'column', width: '100%' }}
+    >
       <Box
         sx={{
           height: '14rem',
@@ -104,13 +106,13 @@ export default function Account() {
           gap: 2,
           py: 3,
           px: 1,
+          flex: '1 1 100%'
         }}
       >
         <Box
           sx={{
-            alignSelf: 'flex-start',
             backgroundColor: 'silver',
-            borderRadius: 1,
+            borderRadius: 0.5,
             display: { xs: 'none', md: 'flex' },
             gap: 0,
             flexDirection: 'column',

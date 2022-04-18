@@ -41,19 +41,19 @@ export default function ProblemsAside() {
             key={problem.id}
             sx={{
               p: 2,
+              px: 10,
               transition: 'all',
               transitionDuration: '200ms',
               display: 'flex',
-              justifyContent: 'space-evenly',
               ':hover': {
                 color: 'blue',
                 backgroundColor: 'whitesmoke',
               },
             }}
           >
-            <Box>{index + 1}</Box>
-            <Box>{problem.problem.title}</Box>
-            <Box>{problem.likes}</Box>
+            <Box sx={{ flex: '0 1 10%' }}>{index + 1}</Box>
+            <Box sx={{ flex: '0 1 80%' }}>{problem.problem.title}</Box>
+            <Box sx={{ flex: '0 1 10%' }}>{problem.likes}</Box>
           </Box>
         </Link>
       ))}

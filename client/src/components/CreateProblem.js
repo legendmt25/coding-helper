@@ -60,7 +60,7 @@ export default function CreateProblem(props) {
         gap: 3,
         pt: 1,
         flexDirection: { sm: 'column', xs: 'column', md: 'row' },
-        pb: 5,
+        width: '100%',
       }}
     >
       <Box
