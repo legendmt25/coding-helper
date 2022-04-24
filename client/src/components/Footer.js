@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { shadowTop } from './styles';
 
 export default function Footer() {
+  const links = ['Problems', 'Contests'];
+
   return (
     <Box
       component={'footer'}
       sx={{
+        mt: 2,
         transition: 'all',
         transitionDuration: '250ms',
         display: 'flex',
@@ -23,15 +26,14 @@ export default function Footer() {
         <Button>@CodingH</Button>
       </Link>
       <Box>
-        <Link
-          to={'/problems'}
-          style={{ color: 'inherit', textDecoration: 'none' }}
-        >
-          <Button>Problems</Button>
-        </Link>
-        <Link to={'/'} style={{ color: 'inherit', textDecoration: 'none' }}>
-          <Button>Contests</Button>
-        </Link>
+        {links.map((link) => (
+          <Link
+            to={`/${link}`}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            <Button>{link}</Button>
+          </Link>
+        ))}
       </Box>
     </Box>
   );

@@ -60,10 +60,16 @@ export default function ProblemEdit(props) {
       <Box
         sx={{
           width: { md: '50%', sm: '100%', xs: '100%' },
+          height: '100%',
         }}
       >
         <form
-          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            height: '100%',
+          }}
           onSubmit={handleEditProblem}
         >
           <InputComponent
@@ -77,6 +83,7 @@ export default function ProblemEdit(props) {
             setObj={setObj}
             attr={'markdown'}
             multiline
+            fullHeight
             required
           ></InputComponent>
           <SelectComponent

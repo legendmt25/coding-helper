@@ -46,6 +46,7 @@ public class ContestController {
         return true;
     }
 
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @PostMapping("/contest/{id}/add-problem")
     ContestProblem addProblemToContest(@PathVariable Long id,
                                        @RequestPart MultipartFile starterCode,
@@ -57,6 +58,12 @@ public class ContestController {
                                        @RequestParam Difficulty difficulty) throws IOException {
         var problemInput = new ProblemInput(category, title, difficulty, markdown, starterCode, runnerCode, testCases);
         return contestService.addProblemToContest(id, problemInput);
+    }
+
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    @DeleteMapping("/contest/{contestId}/remove-problem/{problemId}")
+    boolean removeProblemFromContest(@PathVariable Long contestId, @PathVariable Long problemId) {
+        return contestService.removeProblemFromContest(contestId, problemId);
     }
 
     @GetMapping("/contest/{contestId}/problem/{problemId}")

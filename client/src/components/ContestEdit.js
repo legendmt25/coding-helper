@@ -59,7 +59,7 @@ export default function ContestEdit(props) {
         variant="h5"
         sx={{ borderBottom: 1, borderBottomColor: 'divider', p: 2 }}
       >
-        Create contest
+        Edit contest
       </Typography>
       <form
         onSubmit={handleEditContest}

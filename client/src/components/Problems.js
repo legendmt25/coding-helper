@@ -1,6 +1,6 @@
 import { Divider, Fab, IconButton, TextField, Typography } from '@mui/material';
 import {
-  Add,
+  Add as AddIcon,
   DeleteForever as DeleteIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
@@ -19,7 +19,7 @@ export default function Problems() {
   const [filters, setFilters] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  let newCategory = '';
+  const [newCategory, setNewCategory] = useState('');
 
   useEffect(() => {
     repository.findAllProblems(filters).then((res) => setProblems(res));
@@ -62,20 +62,20 @@ export default function Problems() {
   const addCategory = () => {
     if (
       newCategory !== '' &&
-      !categories.map((category) => category.nameT).includes(newCategory)
+      !categories.map((category) => category.name).includes(newCategory)
     ) {
       repository.createCategory(newCategory).then((res) => {
-        console.log(res);
         setCategories([...categories, res]);
         addCategoryInputRef.current.style.width = 0;
+        setNewCategory('');
       });
     }
   };
 
   const handleDeleteProblem = (event, problemId, index) => {
     event.preventDefault();
-    repository.deleteProblem(problemId).then((res) => {
-      if (res.ok) {
+    repository.deleteProblem(problemId).then((data) => {
+      if (data) {
         problems.splice(index, 1);
         setProblems([...problems]);
       }
@@ -107,7 +107,8 @@ export default function Problems() {
         ))}
         <TextField
           ref={addCategoryInputRef}
-          onChange={(event) => (newCategory = event.target.value)}
+          onChange={(event) => setNewCategory(event.target.value)}
+          value={newCategory}
           onKeyUp={(event) => event.code === 'Enter' && addCategory()}
           sx={{
             width: 0,
@@ -116,8 +117,8 @@ export default function Problems() {
           }}
           variant={'standard'}
         ></TextField>
-        <Fab size={'small'}>
-          <Add onClick={handleAddCategoryButton} />
+        <Fab size={'small'} onClick={handleAddCategoryButton}>
+          <AddIcon />
         </Fab>
       </Box>
       <Divider></Divider>

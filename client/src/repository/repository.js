@@ -110,6 +110,11 @@ const repository = {
       true
     );
   },
+  removeContestProblem(contestId, problemId) {
+    return this.fetchDELETE(
+      `contest/${contestId}/remove-problem/${problemId}`
+    );
+  },
   setContestProblemScore(contestId, problemId, score) {
     return this.fetchPOST(
       `contest/${contestId}/problem/${problemId}/set-score`,

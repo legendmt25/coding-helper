@@ -55,7 +55,7 @@ public class ProblemController {
         return this.problemService.findAllLByCategories(body.getCategories());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/problem/{id}/delete")
     boolean deleteWithSubmissions(@PathVariable Long id) {
         return this.problemService.delete(id);

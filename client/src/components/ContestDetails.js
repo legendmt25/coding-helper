@@ -49,6 +49,18 @@ export default function ContestDetails(props) {
     repository.deleteContest(id).then((data) => data && navigate('/contests'));
   };
 
+  const handleRemoveProblem = (problemId) => {
+    repository.removeContestProblem(id, problemId).then((data) => {
+      if (data) {
+        contest.problems.splice(
+          contest.problems.findIndex((x) => x.problem.id === problemId),
+          1
+        );
+        setContest({ ...contest });
+      }
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -86,6 +98,7 @@ export default function ContestDetails(props) {
                 key={index}
                 contestProblem={problem}
                 contestId={id}
+                handleRemoveProblem={handleRemoveProblem}
               ></ContestProblemSingle>
             ))}
             {contest.status === 'OPEN' && (
@@ -130,7 +143,7 @@ export default function ContestDetails(props) {
       <Button sx={buttonStyle} onClick={handleContestDelete}>
         Delete
       </Button>
-      <Link to={`/contest/${id}/edit`} style={{alignSelf: 'end'}}>
+      <Link to={`/contest/${id}/edit`} style={{ alignSelf: 'end' }}>
         <Button sx={buttonStyle}>Edit</Button>
       </Link>
     </Box>

@@ -1,8 +1,9 @@
-import { TableCell, TableRow } from '@mui/material';
+import { Button, TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import repository from '../repository/repository';
 import InputComponent from './InputComponent';
+import { buttonStyle } from './styles';
 
 export default function ContestProblemSingle(props) {
   const [obj, setObj] = useState({ score: props.contestProblem.score });
@@ -49,6 +50,16 @@ export default function ContestProblemSingle(props) {
           ></InputComponent>
         </form>
         {/* {obj.score} */}
+      </TableCell>
+      <TableCell sx={{ textAlign: 'right' }}>
+        <Button
+          onClick={(event) =>
+            props.handleRemoveProblem(props.contestProblem.problem.id)
+          }
+          sx={buttonStyle}
+        >
+          Remove
+        </Button>
       </TableCell>
     </TableRow>
   );

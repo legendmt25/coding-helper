@@ -17,6 +17,7 @@ export default function CodeEditor(props) {
   const [responseOutput, setResponseOutput] = useState('');
   const [code, setCode] = useState('');
 
+  const [newSubmission, setNewSubmission] = useState(true);
   const [obj, setObj] = useState({
     language: ctx.useLanguage,
     theme: 'vs-light',
@@ -35,7 +36,10 @@ export default function CodeEditor(props) {
         language: obj.language,
         code,
       })
-      .then((res) => setResponseOutput(res.output));
+      .then((res) => {
+        setNewSubmission(true);
+        setResponseOutput(res.output);
+      });
   };
 
   const handleRun = (event) => {
@@ -127,6 +131,8 @@ export default function CodeEditor(props) {
         <Box sx={{ alignSelf: 'flex-end' }}>
           <ModalProblemSubmissions
             problemId={problemId}
+            newSubmission={newSubmission}
+            setNewSubmission={setNewSubmission}
           ></ModalProblemSubmissions>
           <Button type={'submit'}>Run</Button>
           <Button onClick={handleSubmit}>Submit</Button>

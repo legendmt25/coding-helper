@@ -34,16 +34,11 @@ export default function ProblemDetails() {
         //setLikes(data.likes);
       });
     }
-
-    repository.findAllSubmissions({
-      userEmail: ctx.userDetails?.email,
-      problemId,
-    });
-
-    if (ctx.userDetails != null)
+    if (ctx.userDetails != null) {
       repository
         .isProblemLiked(problemId, { userEmail: ctx.userDetails.email })
         .then((res) => setLiked(res));
+    }
   }, [problemId]);
 
   const handleLikeButton = (event) => {

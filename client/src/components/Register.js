@@ -24,10 +24,12 @@ export default function Register() {
     }-${d.getDay() - 1 < 9 ? '0' : ''}${d.getDay() - 1}`,
     gender: 0,
   });
+  const [error, setError] = useState('');
 
   const handleRegister = (event) => {
     event.preventDefault();
     if (obj.confirmPassword !== obj.password) {
+      setError('Passwords are not same');
       return;
     }
     authService
@@ -107,6 +109,9 @@ export default function Register() {
             setObj={setObj}
             attr={'gender'}
           ></SelectComponent>
+          <Typography variant={'body1'} element={'span'} sx={{ color: 'red' }}>
+            {error}
+          </Typography>
           <Button sx={buttonStyle} type={'submit'}>
             Register
           </Button>

@@ -19,7 +19,7 @@ public interface ContestService {
 
     ContestProblem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
 
-    ContestProblem removeProblemFromContest(Long contestId, Long problemId);
+    boolean removeProblemFromContest(Long contestId, Long problemId);
 
     ContestProblem setProblemScore(Long contestId, Long problemId, Long score);
 

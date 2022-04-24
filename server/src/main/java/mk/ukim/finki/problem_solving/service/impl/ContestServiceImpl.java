@@ -47,12 +47,14 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestProblem removeProblemFromContest(Long contestId, Long problemId) {
+    public boolean removeProblemFromContest(Long contestId, Long problemId) {
         var contest = this.findById(contestId);
+        if (contest.getStatus() != ContestStatus.OPEN)
+            return false;
         contest.getProblems().removeIf(x -> x.getProblem().getId().equals(problemId));
         problemService.delete(problemId);
         contestRepository.save(contest);
-        return null;
+        return true;
     }
 
     @Override
@@ -66,6 +68,9 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestProblem setProblemScore(Long contestId, Long problemId, Long score) {
         var contest = this.findById(contestId);
+        if (contest.getStatus() != ContestStatus.OPEN)
+            throw new ContestStatusNotOpenException(contestId);
+
         var contestProblem = contest.getProblems().stream()
                 .filter(problem -> problem.getProblem().getId().equals(problemId))
                 .findFirst()

@@ -11,13 +11,16 @@ export default function ModalProblemSubmissions(props) {
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    repository
-      .findAllSubmissions({
-        userEmail: ctx.userDetails.email,
-        problemId: props.problemId,
-      })
-      .then((data) => setSubmissions(data));
-  }, []);
+    if (ctx.userDetails != null && props.newSubmission) {
+      repository
+        .findAllSubmissions({
+          userEmail: ctx.userDetails?.email,
+          problemId: props.problemId,
+        })
+        .then((data) => setSubmissions(data));
+      props.setNewSubmission(false);
+    }
+  }, [props.newSubmission]);
 
   return (
     <>
@@ -30,7 +33,7 @@ export default function ModalProblemSubmissions(props) {
           <Divider></Divider>
           {submissions.map((submission, index) => (
             <SubmissionSingle
-              onClick={(event) => setOpen(!open)}
+              onClick={() => setOpen(!open)}
               submission={submission}
               key={index}
             ></SubmissionSingle>

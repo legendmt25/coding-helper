@@ -59,17 +59,22 @@ export default function CreateProblem(props) {
         display: 'flex',
         gap: 3,
         pt: 1,
-        flexDirection: { sm: 'column', xs: 'column', md: 'row' },
+        flexDirection: { xs: 'column', md: 'row' },
         width: '100%',
       }}
     >
       <Box
         sx={{
-          width: { md: '50%', sm: '100%', xs: '100%' },
+          width: { md: '50%', sm: '100%', xs: '100%', height: '100%' },
         }}
       >
         <form
-          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            height: '100%',
+          }}
           onSubmit={handleAddProblem}
         >
           <InputComponent
@@ -112,6 +117,7 @@ export default function CreateProblem(props) {
             setObj={setObj}
             attr={'markdown'}
             multiline
+            fullHeight
             required
           ></InputComponent>
           <SelectComponent
