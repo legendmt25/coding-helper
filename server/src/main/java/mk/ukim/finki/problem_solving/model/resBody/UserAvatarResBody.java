@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAvatarResBody {
-    private String avatarImage;
+  private String avatarImage;
 }

@@ -10,11 +10,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class SubmissionDto {
-    private Long id;
-    private Date timeSubmitted;
-    private SubmissionStatus status;
-    private String language;
-    private String code;
+  private Long id;
+  private Date timeSubmitted;
+  private SubmissionStatus status;
+  private String language;
+  private String code;
 
-    private Problem problem;
+  private Problem problem;
 }

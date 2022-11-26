@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsernameWithTotalSolvedDto {
-    private String username;
-    private Long solved;
+  private String username;
+  private Long solved;
 }

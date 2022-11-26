@@ -6,9 +6,9 @@ import mk.ukim.finki.problem_solving.model.input.CategoryInput;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> findALl();
+  List<Category> findALl();
 
-    Category findById(String name);
+  Category findById(String name);
 
-    Category create(CategoryInput categoryInput);
+  Category create(CategoryInput categoryInput);
 }

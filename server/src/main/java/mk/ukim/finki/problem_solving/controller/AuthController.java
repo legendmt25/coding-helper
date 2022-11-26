@@ -8,6 +8,7 @@ import mk.ukim.finki.problem_solving.model.exceptions.InvalidCredentialsExceptio
 import mk.ukim.finki.problem_solving.model.input.UserInput;
 import mk.ukim.finki.problem_solving.service.AuthService;
 import mk.ukim.finki.problem_solving.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -18,28 +19,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final AuthService authService;
-    private final UserService userService;
+  private final AuthenticationManager authenticationManager;
+  private final JwtTokenUtil jwtTokenUtil;
+  private final AuthService authService;
+  private final UserService userService;
 
 
-    @PostMapping("/register")
-    public boolean registerUser(@RequestBody UserInput userInput) {
-        return this.userService.register(userInput);
+  @PostMapping("/register")
+  public ResponseEntity<?> registerUser(@RequestBody UserInput userInput) {
+    this.userService.register(userInput);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PostMapping("/login")
+  public JwtResponse authenticate(@RequestBody JwtRequest authRequest) {
+    try {
+      UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+          authRequest.getEmail(),
+          authRequest.getPassword()
+      );
+      authenticationManager.authenticate(authToken);
+    } catch (DisabledException | BadCredentialsException e) {
+      throw new InvalidCredentialsException();
     }
-
-    @PostMapping("/authenticate")
-    public JwtResponse authenticate(@RequestBody JwtRequest authRequest) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-        } catch (DisabledException | BadCredentialsException e) {
-            throw new InvalidCredentialsException();
-        }
-        final var userDetails = authService.loadUserByUsername(authRequest.getEmail());
-        return new JwtResponse(jwtTokenUtil.generateToken(userDetails), userDetails.getUsername(), userDetails.getAvatarImage());
-    }
+    final var userDetails = authService.loadUserByUsername(authRequest.getEmail());
+    String token = jwtTokenUtil.generateToken(userDetails);
+    return new JwtResponse(token, userDetails.getUsername(), userDetails.getAvatarImage());
+  }
 }

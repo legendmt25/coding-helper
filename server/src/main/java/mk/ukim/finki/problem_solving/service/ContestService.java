@@ -9,25 +9,25 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ContestService {
-    List<Contest> findAll();
+  List<Contest> findAll();
 
-    Contest findById(Long id);
+  Contest findById(Long id);
 
-    Contest createContest(ContestInput contestInput);
+  Contest createContest(ContestInput contestInput);
 
-    Contest edit(Long id, ContestInput contestInput);
+  Contest edit(Long id, ContestInput contestInput);
 
-    ContestProblem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
+  ContestProblem addProblemToContest(Long id, ProblemInput problemInput) throws IOException;
 
-    boolean removeProblemFromContest(Long contestId, Long problemId);
+  boolean removeProblemFromContest(Long contestId, Long problemId);
 
-    ContestProblem setProblemScore(Long contestId, Long problemId, Long score);
+  ContestProblem setProblemScore(Long contestId, Long problemId, Long score);
 
-    ContestProblem getContestProblem(Long contestId, Long problemId);
+  ContestProblem getContestProblem(Long contestId, Long problemId);
 
-    boolean startContest(Long contestId);
+  boolean startContest(Long contestId);
 
-    boolean closeContest(Long id);
+  boolean closeContest(Long id);
 
-    boolean deleteById(Long id);
+  boolean deleteById(Long id);
 }

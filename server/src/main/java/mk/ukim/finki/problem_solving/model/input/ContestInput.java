@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContestInput {
-    private String name;
-    private Duration duration;
-    private Date startsOn;
+  private String name;
+  private Duration duration;
+  private Date startsOn;
 }

@@ -21,46 +21,46 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
 
-    @Override
-    public List<User> findAll() {
-        return this.userRepository.findAll();
+  @Override
+  public List<User> findAll() {
+    return this.userRepository.findAll();
+  }
+
+  public User findByEmail(String email) {
+    return this.userRepository.findById(email).orElseThrow(() -> new UserNotFoundException(email));
+  }
+
+  @Override
+  public boolean register(UserInput userInput) {
+    if (this.userRepository.findById(userInput.getEmail()).isPresent()) {
+      throw new UserAlreadyExistsException(userInput.getEmail());
     }
+    userInput.setPassword(passwordEncoder.encode(userInput.getPassword()));
+    this.userRepository.save(new User(userInput));
+    return true;
+  }
 
-    public User findByEmail(String email) {
-        return this.userRepository.findById(email).orElseThrow(() -> new UserNotFoundException(email));
-    }
+  @Override
+  public String updateAvatar(MultipartFile image, String userEmail) throws IOException {
+    if (image == null)
+      throw new InvalidFileException();
+    var user = this.findByEmail(userEmail);
+    var dir = new File("src/main/resources/public/avatars/");
+    dir.mkdirs();
+    List.of(dir.listFiles(file -> file.getName().startsWith(userEmail + "-avatar"))).forEach(File::delete);
+    var fileName = userEmail + "-avatar" + image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+    image.transferTo(Path.of(dir.getPath(), fileName));
+    user.setAvatarImage(fileName);
+    this.userRepository.save(user);
+    return fileName;
+  }
 
-    @Override
-    public boolean register(UserInput userInput) {
-        if (this.userRepository.findById(userInput.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException(userInput.getEmail());
-        }
-        userInput.setPassword(passwordEncoder.encode(userInput.getPassword()));
-        this.userRepository.save(new User(userInput));
-        return true;
-    }
-
-    @Override
-    public String updateAvatar(MultipartFile image, String userEmail) throws IOException {
-        if (image == null)
-            throw new InvalidFileException();
-        var user = this.findByEmail(userEmail);
-        var dir = new File("src/main/resources/public/avatars/");
-        dir.mkdirs();
-        List.of(dir.listFiles(file -> file.getName().startsWith(userEmail + "-avatar"))).forEach(File::delete);
-        var fileName = userEmail + "-avatar" + image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
-        image.transferTo(Path.of(dir.getPath(), fileName));
-        user.setAvatarImage(fileName);
-        this.userRepository.save(user);
-        return fileName;
-    }
-
-    @Override
-    public List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions() {
-        return userRepository.findAllWithTotalAcceptedSubmissions().stream().map(x -> new UsernameWithTotalSolvedDto(x.getUser().getUserName(), x.getSolved())).toList();
-    }
+  @Override
+  public List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions() {
+    return userRepository.findAllWithTotalAcceptedSubmissions().stream().map(x -> new UsernameWithTotalSolvedDto(x.getUser().getUserName(), x.getSolved())).toList();
+  }
 }

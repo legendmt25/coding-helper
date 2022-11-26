@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface SubmissionService {
-    List<SubmissionDto> findAllSubmissionsByEmail(String email);
+  List<SubmissionDto> findAllSubmissionsByEmail(String email);
 
-    List<SubmissionDto> findAllSubmissionsByUserEmailAndProblemId(String email, Long problemId);
+  List<SubmissionDto> findAllSubmissionsByUserEmailAndProblemId(String email, Long problemId);
 
-    String create(SubmissionInput submissionInput) throws IOException, InterruptedException;
+  String create(SubmissionInput submissionInput) throws IOException, InterruptedException;
 
 }

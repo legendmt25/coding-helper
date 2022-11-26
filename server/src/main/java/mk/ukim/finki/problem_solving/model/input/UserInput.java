@@ -12,13 +12,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInput {
-    private String email;
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private Gender gender;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+  private String email;
+  private String username;
+  private String password;
+  private String firstName;
+  private String lastName;
+  private Gender gender;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date birthday;
 
 }

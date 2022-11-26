@@ -9,23 +9,23 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ProblemService {
-    List<Problem> findAll();
+  List<Problem> findAll();
 
-    Problem create(ProblemInput problemInput) throws IOException;
+  Problem create(ProblemInput problemInput) throws IOException;
 
-    Problem findById(Long id);
+  Problem findById(Long id);
 
-    Problem deleteById(Long id);
+  Problem deleteById(Long id);
 
-    Problem update(Long id, ProblemInput problemInput);
+  Problem update(Long id, ProblemInput problemInput);
 
-    List<Problem> findAllLByCategories(Collection<String> categories);
+  List<Problem> findAllLByCategories(Collection<String> categories);
 
-    List<ProblemByLikesQuery> findTop10ByOrderByLikes();
+  List<ProblemByLikesQuery> findTop10ByOrderByLikes();
 
-    boolean likeToggle(Long id, String email);
+  boolean likeToggle(Long id, String email);
 
-    boolean isLikedBy(Long problemId, String email);
+  boolean isLikedBy(Long problemId, String email);
 
-    boolean delete(Long id);
+  boolean delete(Long id);
 }

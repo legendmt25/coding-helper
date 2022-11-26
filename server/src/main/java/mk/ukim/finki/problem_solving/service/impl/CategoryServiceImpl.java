@@ -12,25 +12,25 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class  CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoryRepository;
+public class CategoryServiceImpl implements CategoryService {
+  private final CategoryRepository categoryRepository;
 
-    @Override
-    public List<Category> findALl() {
-        return this.categoryRepository.findAll();
-    }
+  @Override
+  public List<Category> findALl() {
+    return this.categoryRepository.findAll();
+  }
 
-    @Override
-    public Category findById(String id) {
-        return this.categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
-    }
+  @Override
+  public Category findById(String id) {
+    return this.categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+  }
 
-    @Override
-    public Category create(CategoryInput categoryInput) {
-        return categoryRepository.save(
-                new Category(
-                        categoryInput.getName()
-                )
-        );
-    }
+  @Override
+  public Category create(CategoryInput categoryInput) {
+    return categoryRepository.save(
+        new Category(
+            categoryInput.getName()
+        )
+    );
+  }
 }

@@ -8,5 +8,5 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 public class ProblemsByCategoriesReqBody {
-    private Collection<String> categories;
+  private Collection<String> categories;
 }

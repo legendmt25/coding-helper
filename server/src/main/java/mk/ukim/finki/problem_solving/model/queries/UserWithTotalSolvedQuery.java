@@ -9,6 +9,6 @@ import mk.ukim.finki.problem_solving.model.object.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserWithTotalSolvedQuery {
-    private User user;
-    private Long solved;
+  private User user;
+  private Long solved;
 }

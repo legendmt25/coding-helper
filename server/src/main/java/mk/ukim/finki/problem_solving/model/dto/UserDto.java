@@ -10,10 +10,10 @@ import mk.ukim.finki.problem_solving.model.enums.Role;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String avatarImage;
-    private Gender gender;
-    private Role role;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String avatarImage;
+  private Gender gender;
+  private Role role;
 }

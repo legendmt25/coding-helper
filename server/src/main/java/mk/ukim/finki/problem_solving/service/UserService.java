@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-    List<User> findAll();
+  List<User> findAll();
 
-    User findByEmail(String email);
+  User findByEmail(String email);
 
-    boolean register(UserInput userInput);
+  boolean register(UserInput userInput);
 
-    String updateAvatar(MultipartFile image, String userEmail) throws IOException;
+  String updateAvatar(MultipartFile image, String userEmail) throws IOException;
 
-    List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions();
+  List<UsernameWithTotalSolvedDto> findAllWithTotalAcceptedSubmissions();
 
 }

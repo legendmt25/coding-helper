@@ -12,6 +12,6 @@ import org.springframework.data.neo4j.core.schema.Node;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    @Id
-    private String name;
+  @Id
+  private String name;
 }

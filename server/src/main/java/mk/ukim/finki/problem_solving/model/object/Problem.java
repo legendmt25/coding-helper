@@ -15,25 +15,25 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Problem {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Relationship(value = "WITH_CATEGORY")
-    private Category category;
-    private String title;
-    private Difficulty difficulty;
-    private String markdown;
-    private String starterCode;
+  @Id
+  @GeneratedValue
+  private Long id;
+  @Relationship(value = "WITH_CATEGORY")
+  private Category category;
+  private String title;
+  private Difficulty difficulty;
+  private String markdown;
+  private String starterCode;
 
-    @Relationship(value = "LIKED_BY")
-    private List<User> likedBy;
+  @Relationship(value = "LIKED_BY")
+  private List<User> likedBy;
 
-    public Problem(Category category, String title, Difficulty difficulty, String markdown, String starterCode) {
-        this.category = category;
-        this.title = title;
-        this.difficulty = difficulty;
-        this.markdown = markdown;
-        this.starterCode = starterCode;
-        this.likedBy = new ArrayList<>();
-    }
+  public Problem(Category category, String title, Difficulty difficulty, String markdown, String starterCode) {
+    this.category = category;
+    this.title = title;
+    this.difficulty = difficulty;
+    this.markdown = markdown;
+    this.starterCode = starterCode;
+    this.likedBy = new ArrayList<>();
+  }
 }

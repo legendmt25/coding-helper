@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContestProblemScoreReqBody {
-    private Long score;
+  private Long score;
 }

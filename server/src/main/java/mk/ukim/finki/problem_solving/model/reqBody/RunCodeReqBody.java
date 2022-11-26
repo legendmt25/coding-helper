@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RunCodeReqBody {
-    private Long problemId;
-    private String fileName;
-    private String language;
-    private String code;
-    private String input;
+  private Long problemId;
+  private String fileName;
+  private String language;
+  private String code;
+  private String input;
 }

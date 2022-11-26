@@ -8,15 +8,15 @@ import javax.annotation.PostConstruct;
 @Component
 public class InsertData {
 
-    private final AuthService authService;
+  private final AuthService authService;
 
-    public InsertData(AuthService authService) {
-        this.authService = authService;
-    }
+  public InsertData(AuthService authService) {
+    this.authService = authService;
+  }
 
-    @PostConstruct
-    public void setup() {
-        //authService.register(new UserInput("user@codingh.com", "user", "user", "user", "user", Gender.MALE, new Date()));
-    }
+  @PostConstruct
+  public void setup() {
+    //authService.register(new UserInput("user@codingh.com", "user", "user", "user", "user", Gender.MALE, new Date()));
+  }
 
 }

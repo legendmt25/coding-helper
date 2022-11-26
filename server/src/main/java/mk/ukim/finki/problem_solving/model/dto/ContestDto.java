@@ -14,20 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContestDto {
-    private Long id;
-    private String name;
-    private String duration;
-    private Date startsOn;
-    private ContestStatus status;
+  private Long id;
+  private String name;
+  private String duration;
+  private Date startsOn;
+  private ContestStatus status;
 
-    List<ContestProblem> problems;
+  List<ContestProblem> problems;
 
-    public ContestDto(Contest contest) {
-        this.id = contest.getId();
-        this.name = contest.getName();
-        this.duration = contest.getDuration().toString();
-        this.startsOn = contest.getStartsOn();
-        this.status = contest.getStatus();
-        this.problems = contest.getProblems();
-    }
+  public ContestDto(Contest contest) {
+    this.id = contest.getId();
+    this.name = contest.getName();
+    this.duration = contest.getDuration();
+    this.startsOn = contest.getStartsOn();
+    this.status = contest.getStatus();
+    this.problems = contest.getProblems();
+  }
 }

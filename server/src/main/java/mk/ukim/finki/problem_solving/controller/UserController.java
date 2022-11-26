@@ -14,15 +14,19 @@ import java.util.List;
 @RequestMapping("/api")
 @AllArgsConstructor
 public class UserController {
-    private final UserService userService;
+  private final UserService userService;
 
-    @PostMapping("/user/upload-avatar")
-    public UserAvatarResBody uploadAvatar(@RequestPart("file") MultipartFile file, @RequestParam("email") String email) throws IOException {
-        return new UserAvatarResBody(this.userService.updateAvatar(file, email));
-    }
+  @PostMapping("/user/upload-avatar")
+  public UserAvatarResBody uploadAvatar(
+      @RequestPart("file") MultipartFile file,
+      @RequestParam("email") String email
+  ) throws IOException {
+    String avatarFileName = this.userService.updateAvatar(file, email);
+    return new UserAvatarResBody(avatarFileName);
+  }
 
-    @GetMapping("/users-with-total-accepted")
-    List<UsernameWithTotalSolvedDto> usersWithTotalSolved() {
-        return userService.findAllWithTotalAcceptedSubmissions();
-    }
+  @GetMapping("/users-with-total-accepted")
+  List<UsernameWithTotalSolvedDto> usersWithTotalSolved() {
+    return userService.findAllWithTotalAcceptedSubmissions();
+  }
 }

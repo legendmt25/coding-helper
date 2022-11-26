@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
 
-    @Override
-    public User loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findById(email).orElseThrow(() -> new UsernameNotFoundException(email));
-    }
+  @Override
+  public User loadUserByUsername(String email) throws UsernameNotFoundException {
+    return userRepository.findById(email).orElseThrow(() -> new UsernameNotFoundException(email));
+  }
 }

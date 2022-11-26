@@ -13,16 +13,16 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class CategoryController {
-    private final CategoryService categoryService;
+  private final CategoryService categoryService;
 
-    @GetMapping("/categories")
-    ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok().body(this.categoryService.findALl());
-    }
+  @GetMapping("/categories")
+  ResponseEntity<List<Category>> getAllCategories() {
+    return ResponseEntity.ok().body(this.categoryService.findALl());
+  }
 
-    @PostMapping("/category/create")
-    Category create(@RequestBody CategoryInput categoryInput) {
-        return this.categoryService.create(categoryInput);
-    }
+  @PostMapping("/category/create")
+  Category create(@RequestBody CategoryInput categoryInput) {
+    return this.categoryService.create(categoryInput);
+  }
 
 }

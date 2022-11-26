@@ -9,6 +9,6 @@ import mk.ukim.finki.problem_solving.model.object.Problem;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProblemByLikesQuery {
-    private Problem problem;
-    private Long likes;
+  private Problem problem;
+  private Long likes;
 }

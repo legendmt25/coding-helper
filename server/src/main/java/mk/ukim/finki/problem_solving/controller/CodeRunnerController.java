@@ -9,22 +9,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @RequestMapping("/api")
 @RestController
 @AllArgsConstructor
 public class CodeRunnerController {
-    private final CodeRunnerService codeRunnerService;
+  private final CodeRunnerService codeRunnerService;
 
-    @PostMapping("/run-code")
-    OutputResBody runCode(@RequestBody RunCodeReqBody body) throws IOException {
-        return new OutputResBody(
-                codeRunnerService.runCode(
-                        body.getInput(),
-                        codeRunnerService.createCodeFile(body.getProblemId(), body.getFileName(), body.getLanguage(), body.getCode()),
-                        body.getLanguage()
-                )
-        );
-    }
+  @PostMapping("/run-code")
+  OutputResBody runCode(@RequestBody RunCodeReqBody body) throws IOException {
+    String codeFilePath = codeRunnerService.createCodeFile(
+        body.getProblemId(),
+        body.getFileName(),
+        body.getLanguage(),
+        body.getCode()
+    );
+
+    return new OutputResBody(
+        codeRunnerService.runCode(
+            body.getInput(),
+            codeFilePath,
+            body.getLanguage()
+        )
+    );
+  }
 }

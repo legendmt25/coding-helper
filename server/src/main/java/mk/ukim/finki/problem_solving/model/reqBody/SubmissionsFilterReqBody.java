@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmissionsFilterReqBody {
-    private String userEmail;
-    private Long problemId;
+  private String userEmail;
+  private Long problemId;
 }
