@@ -1,0 +1,21 @@
+server:
+  port: 3000
+
+spring:
+  mvc:
+    static-path-pattern: /public/**
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  neo4j:
+    authentication:
+      username: neo4j
+      password: password
+
+springfox:
+  documentation:
+    enabled:
+
+jwt:
+  secret: "secret"
