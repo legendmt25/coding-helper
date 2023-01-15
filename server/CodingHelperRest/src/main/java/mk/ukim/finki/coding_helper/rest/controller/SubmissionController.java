@@ -1,6 +1,5 @@
 package mk.ukim.finki.coding_helper.rest.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import mk.ukim.finki.coding_helper.core.service.SubmissionService;
@@ -13,8 +12,6 @@ import mk.ukim.finki.coding_helper.rest.model.SubmissionEntry;
 import mk.ukim.finki.coding_helper.rest.model.SubmissionReqBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.List;

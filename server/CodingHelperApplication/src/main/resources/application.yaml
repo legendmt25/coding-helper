@@ -7,11 +7,17 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   neo4j:
     authentication:
       username: neo4j
       password: password
+
+springdoc:
+  swagger-ui:
+    enabled: false
 
 springfox:
   documentation:

@@ -9,7 +9,16 @@ servers:
   - url: localhost:3000/api
     description: Open API specification
 
+security:
+  - Authorization_JWT: []
+
 components:
+  securitySchemes:
+    Authorization_JWT: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     Id:
       type: integer
@@ -647,7 +656,6 @@ paths:
                   example: MALE
                 birthday:
                   $ref: '#/components/schemas/Date'
-
       operationId: register
       tags: [Auth]
       description: Returns void

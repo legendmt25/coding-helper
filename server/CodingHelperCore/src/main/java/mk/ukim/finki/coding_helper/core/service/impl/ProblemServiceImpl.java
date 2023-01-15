@@ -10,6 +10,7 @@ import mk.ukim.finki.coding_helper.integration.model.Problem;
 import mk.ukim.finki.coding_helper.integration.queries.ProblemByLikesQuery;
 import mk.ukim.finki.coding_helper.integration.repository.ProblemRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public class ProblemServiceImpl implements ProblemService {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public Problem create(
       Problem problem,
       MultipartFile starterCode,
@@ -48,17 +50,24 @@ public class ProblemServiceImpl implements ProblemService {
       List<MultipartFile> testCases
   ) throws IOException {
     Category category = categoryService.findById(problem.getCategory().getName());
-    var path = "res/problems-starter-code";
-    var runnerCodeFileName = runnerCode.getOriginalFilename();
-    var starterCodeFileName = starterCode.getOriginalFilename();
+    Problem saved = problemRepository.save(problem);
+
+    String path = "res/problems-starter-code";
+    String runnerCodeFileName = runnerCode.getOriginalFilename();
+    String starterCodeFileName = starterCode.getOriginalFilename();
+
+    // Creating the folder and sub-folders
+    new File(path).mkdirs();
+
     runnerCode
-        .transferTo(Path.of(path, problem.getId() + "-runner" + getExtension(runnerCodeFileName)));
+        .transferTo(Path.of(path, saved.getId() + "-runner" + getExtension(runnerCodeFileName)));
     starterCode
-        .transferTo(Path.of(path, problem.getId() + "-starter" + getExtension(starterCodeFileName)));
+        .transferTo(Path.of(path, saved.getId() + "-starter" + getExtension(starterCodeFileName)));
     for (var testCase : testCases) {
-      testCase.transferTo(Path.of(path, problem.getId() + "-" + testCase.getOriginalFilename()));
+      testCase.transferTo(Path.of(path, saved.getId() + "-" + testCase.getOriginalFilename()));
     }
-    return problemRepository.save(problem);
+
+    return saved;
   }
 
   @Override
