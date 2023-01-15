@@ -4,6 +4,7 @@ import mk.ukim.finki.coding_helper.integration.model.Contest;
 import mk.ukim.finki.coding_helper.rest.model.ContestBaseEntry;
 import mk.ukim.finki.coding_helper.rest.model.ContestEntry;
 import mk.ukim.finki.coding_helper.rest.model.ContestProblem;
+import mk.ukim.finki.coding_helper.rest.model.ContestsResponse;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -18,4 +19,9 @@ public interface ContestMapper {
   ContestProblem convertContestProblem(mk.ukim.finki.coding_helper.integration.model.ContestProblem contestProblem);
 
   Contest convertContest(Long id, ContestBaseEntry entry);
+
+  default ContestsResponse toResponse(List<Contest> contests) {
+    List<ContestEntry> entries = convertListOfContestModel(contests);
+    return new ContestsResponse().contests(entries);
+  }
 }

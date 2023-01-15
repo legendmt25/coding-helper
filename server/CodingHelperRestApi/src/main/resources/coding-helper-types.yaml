@@ -52,6 +52,9 @@ components:
 
     ProblemBaseEntry:
       type: object
+      required:
+        - title
+        - difficulty
       properties:
         category:
           $ref: '#/components/schemas/Category'
@@ -68,6 +71,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ProblemBaseEntry'
         - type: object
+          required:
+            - starterCode
           properties:
             id:
               $ref: '#/components/schemas/Id'
@@ -79,6 +84,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/ProblemBaseEntry'
         - type: object
+          required:
+            - starterCode
+            - runnerCode
+            - testCases
           properties:
             starterCode:
               $ref: '#/components/schemas/File'
@@ -99,6 +108,9 @@ components:
 
     SubmissionBaseEntry:
       type: object
+      required:
+        - language
+        - code
       properties:
         language:
           type: string
@@ -121,6 +133,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/SubmissionBaseEntry'
         - type: object
+          required:
+            - problemId
           properties:
             problemId:
               $ref: '#/components/schemas/Id'
@@ -135,6 +149,9 @@ components:
 
     ContestProblem:
       type: object
+      required:
+        - problem
+        - score
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -147,6 +164,10 @@ components:
 
     ContestBaseEntry:
       type: object
+      required:
+        - name
+        - duration
+        - startsOn
       properties:
         name:
           type: string
@@ -162,6 +183,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ContestBaseEntry'
         - type: object
+          required:
+            - problems
           properties:
             id:
               $ref: '#/components/schemas/Id'
@@ -174,6 +197,9 @@ components:
 
     ProblemByLikes:
       type: object
+      required:
+        - problem
+        - likes
       properties:
         problem:
           $ref: '#/components/schemas/ProblemEntry'
@@ -183,6 +209,9 @@ components:
 
     UsernameWithTotalSolvedDto:
       type: object
+      required:
+        - username
+        - solved
       properties:
         username:
           type: string
@@ -191,6 +220,62 @@ components:
           type: integer
           format: long
           example: 433
+
+    ProblemsResponse:
+      required:
+        - problems
+      type: object
+      properties:
+        problems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemEntry'
+    ProblemsTop10Response:
+      required:
+        - problems
+      type: object
+      properties:
+        problems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemByLikes'
+    CategoriesResponse:
+      required:
+        - categories
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    SubmissionsResponse:
+      required:
+        - submissions
+      type: object
+      properties:
+        submissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionEntry'
+    ContestsResponse:
+      required:
+        - contests
+      type: object
+      properties:
+        contests:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContestEntry'
+    UsersWithTotalSolvedResponse:
+      required:
+        - usersWithTotalSolved
+      type: object
+      properties:
+        usersWithTotalSolved:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsernameWithTotalSolvedDto'
+
   parameters:
     id:
       name: id
@@ -211,9 +296,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProblemEntry'
+                $ref: '#/components/schemas/ProblemsResponse'
+
   /problems/top10:
     get:
       operationId: getTop10Problems
@@ -225,9 +309,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProblemByLikes'
+                $ref: '#/components/schemas/ProblemsTop10Response'
   /problems/create:
     post:
       requestBody:
@@ -314,9 +396,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoriesResponse'
     post:
       requestBody:
         content:
@@ -349,9 +429,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SubmissionEntry'
+                $ref: '#/components/schemas/SubmissionsResponse'
   /submit:
     post:
       requestBody:
@@ -382,9 +460,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ContestEntry'
+                $ref: '#/components/schemas/ContestsResponse'
     post:
       operationId: createContestEntry
       requestBody:
@@ -623,9 +699,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UsernameWithTotalSolvedDto'
+                $ref: '#/components/schemas/UsersWithTotalSolvedResponse'
 
 
   /auth/register:

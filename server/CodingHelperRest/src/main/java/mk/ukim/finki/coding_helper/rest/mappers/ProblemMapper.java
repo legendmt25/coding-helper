@@ -2,9 +2,7 @@ package mk.ukim.finki.coding_helper.rest.mappers;
 
 import mk.ukim.finki.coding_helper.integration.model.Problem;
 import mk.ukim.finki.coding_helper.integration.queries.ProblemByLikesQuery;
-import mk.ukim.finki.coding_helper.rest.model.ProblemByLikes;
-import mk.ukim.finki.coding_helper.rest.model.ProblemEntry;
-import mk.ukim.finki.coding_helper.rest.model.ProblemRequest;
+import mk.ukim.finki.coding_helper.rest.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -34,5 +32,15 @@ public interface ProblemMapper {
 
   ProblemByLikes convertProblemByLikes(ProblemByLikesQuery problem);
 
-  List<ProblemByLikes> converyListOfProblemByLikesToRest(List<ProblemByLikesQuery> problems);
+  List<ProblemByLikes> convertListOfProblemByLikesToRest(List<ProblemByLikesQuery> problems);
+
+  default ProblemsResponse convertListOfProblemToResponse(List<Problem> problems) {
+    List<ProblemEntry> entries = convertListOfProblemToRest(problems);
+    return new ProblemsResponse().problems(entries);
+  }
+
+  default ProblemsTop10Response convertListOfProblemByLikesToResponse(List<ProblemByLikesQuery> problems) {
+    List<ProblemByLikes> entries = convertListOfProblemByLikesToRest(problems);
+    return new ProblemsTop10Response().problems(entries);
+  }
 }

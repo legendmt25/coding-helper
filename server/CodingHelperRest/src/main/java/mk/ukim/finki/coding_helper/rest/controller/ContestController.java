@@ -122,10 +122,10 @@ public class ContestController implements ContestsApi, ContestApi {
   }
 
   @Override
-  public ResponseEntity<List<ContestEntry>> getContestEntries() {
+  public ResponseEntity<ContestsResponse> getContestEntries() {
     List<Contest> contests = contestService.findAll();
-    List<ContestEntry> entries = contestConverter.convertListOfContestModel(contests);
-    return ResponseEntity.ok(entries);
+    ContestsResponse response = contestConverter.toResponse(contests);
+    return ResponseEntity.ok(response);
   }
 
   @Override

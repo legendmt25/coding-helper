@@ -10,6 +10,7 @@ import mk.ukim.finki.coding_helper.rest.mappers.SubmissionMapper;
 import mk.ukim.finki.coding_helper.rest.model.GetSubmissionsRequest;
 import mk.ukim.finki.coding_helper.rest.model.SubmissionEntry;
 import mk.ukim.finki.coding_helper.rest.model.SubmissionReqBody;
+import mk.ukim.finki.coding_helper.rest.model.SubmissionsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -37,7 +38,7 @@ public class SubmissionController implements SubmissionsApi, SubmitApi {
   }
 
   @Override
-  public ResponseEntity<List<SubmissionEntry>> getSubmissions(GetSubmissionsRequest body) {
+  public ResponseEntity<SubmissionsResponse> getSubmissions(GetSubmissionsRequest body) {
     String email = SecurityContextHolder.getContext().getAuthentication().getName();
     List<SubmissionDto> entries;
     if (body.getProblemId() == null) {
@@ -45,7 +46,7 @@ public class SubmissionController implements SubmissionsApi, SubmitApi {
     } else {
       entries = submissionService.findAllSubmissionsByUserEmailAndProblemId(email, body.getProblemId());
     }
-    List<SubmissionEntry> convertedEntries = submissionConverter.convertListOfSubmissionModel(entries);
-    return ResponseEntity.ok(convertedEntries);
+    SubmissionsResponse response = submissionConverter.convertListOfSubmissionToResponse(entries);
+    return ResponseEntity.ok(response);
   }
 }

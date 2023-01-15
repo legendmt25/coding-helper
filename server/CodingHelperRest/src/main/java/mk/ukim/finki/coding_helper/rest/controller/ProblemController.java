@@ -23,17 +23,17 @@ public class ProblemController implements ProblemsApi {
   private final ProblemMapper problemConverter;
 
   @Override
-  public ResponseEntity<List<ProblemEntry>> getProblemEntries() {
+  public ResponseEntity<ProblemsResponse> getProblemEntries() {
     List<Problem> problems = problemService.findAll();
-    List<ProblemEntry> entries = problemConverter.convertListOfProblemToRest(problems);
-    return ResponseEntity.ok(entries);
+    ProblemsResponse response = problemConverter.convertListOfProblemToResponse(problems);
+    return ResponseEntity.ok(response);
   }
 
   @Override
-  public ResponseEntity<List<ProblemByLikes>> getTop10Problems() {
+  public ResponseEntity<ProblemsTop10Response> getTop10Problems() {
     List<ProblemByLikesQuery> problems = problemService.findTop10ByOrderByLikes();
-    List<ProblemByLikes> entries = problemConverter.converyListOfProblemByLikesToRest(problems);
-    return ResponseEntity.ok(entries);
+    ProblemsTop10Response response = problemConverter.convertListOfProblemByLikesToResponse(problems);
+    return ResponseEntity.ok(response);
   }
 
   private ProblemRequest createProblemRequest(

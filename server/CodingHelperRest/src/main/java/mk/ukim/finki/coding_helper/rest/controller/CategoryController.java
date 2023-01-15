@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.coding_helper.core.service.CategoryService;
 import mk.ukim.finki.coding_helper.rest.api.CategoriesApi;
 import mk.ukim.finki.coding_helper.rest.mappers.CategoryMapper;
+import mk.ukim.finki.coding_helper.rest.model.CategoriesResponse;
 import mk.ukim.finki.coding_helper.rest.model.Category;
 import org.springframework.http.ResponseEntity;
 
@@ -16,10 +17,10 @@ public class CategoryController implements CategoriesApi {
   private final CategoryMapper categoryConverter;
 
   @Override
-  public ResponseEntity<List<Category>> getCategories() {
+  public ResponseEntity<CategoriesResponse> getCategories() {
     List<mk.ukim.finki.coding_helper.integration.model.Category> categories = categoryService.findALl();
-    List<Category> converted = categoryConverter.convertListOfCategoryToRest(categories);
-    return ResponseEntity.ok(converted);
+    CategoriesResponse response = categoryConverter.toResponse(categories);
+    return ResponseEntity.ok(response);
   }
 
   @Override
