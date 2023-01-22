@@ -19,10 +19,11 @@
     </modules>
 
     <groupId>mk.ukim.finki</groupId>
-    <artifactId>Problem_Solving</artifactId>
+    <artifactId>CodingHelper</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Problem Solving</name>
-    <description>Problem Solving</description>
+
+    <name>coding_helper</name>
+    <description>Coding helper</description>
 
     <properties>
         <java.version>17</java.version>

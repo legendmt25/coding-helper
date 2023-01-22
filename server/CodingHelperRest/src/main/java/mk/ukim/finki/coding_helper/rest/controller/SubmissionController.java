@@ -8,7 +8,6 @@ import mk.ukim.finki.coding_helper.rest.api.SubmissionsApi;
 import mk.ukim.finki.coding_helper.rest.api.SubmitApi;
 import mk.ukim.finki.coding_helper.rest.mappers.SubmissionMapper;
 import mk.ukim.finki.coding_helper.rest.model.GetSubmissionsRequest;
-import mk.ukim.finki.coding_helper.rest.model.SubmissionEntry;
 import mk.ukim.finki.coding_helper.rest.model.SubmissionReqBody;
 import mk.ukim.finki.coding_helper.rest.model.SubmissionsResponse;
 import org.springframework.http.ResponseEntity;
