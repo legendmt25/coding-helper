@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CodingHelperApplication [swagger]" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="springdoc.swagger-ui.enabled" />
+        <option name="value" value="true" />
+      </param>
+    </additionalParameters>
+    <module name="CodingHelperApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="mk.ukim.finki.coding_helper.CodingHelperApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
