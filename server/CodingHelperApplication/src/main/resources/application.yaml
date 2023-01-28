@@ -19,9 +19,5 @@ springdoc:
   swagger-ui:
     enabled: false
 
-springfox:
-  documentation:
-    enabled:
-
 jwt:
   secret: "secret"

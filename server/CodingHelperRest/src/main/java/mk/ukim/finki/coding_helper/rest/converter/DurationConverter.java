@@ -1,12 +1,12 @@
 package mk.ukim.finki.coding_helper.rest.converter;
 
+import jakarta.validation.constraints.NotNull;
 import mk.ukim.finki.coding_helper.integration.model.Duration;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.Values;
 import org.springframework.data.neo4j.core.convert.Neo4jPersistentPropertyConverter;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 
 @Component

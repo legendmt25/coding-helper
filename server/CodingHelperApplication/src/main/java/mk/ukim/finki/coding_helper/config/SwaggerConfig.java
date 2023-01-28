@@ -1,4 +1,4 @@
-package mk.ukim.finki.coding_helper.application.config;
+package mk.ukim.finki.coding_helper.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -1,6 +1,10 @@
-package mk.ukim.finki.coding_helper.application.config;
+package mk.ukim.finki.coding_helper.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.coding_helper.core.service.impl.JwtTokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,10 +15,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
@@ -27,7 +27,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     final var requestTokenHeader = request.getHeader("Authorization");
-    System.out.println(requestTokenHeader);
     String username = null;
     String jwtToken = null;
     if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer")) {

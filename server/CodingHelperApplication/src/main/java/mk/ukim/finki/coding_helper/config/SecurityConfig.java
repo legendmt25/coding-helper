@@ -1,12 +1,12 @@
-package mk.ukim.finki.coding_helper.application.config;
+package mk.ukim.finki.coding_helper.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.coding_helper.core.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -19,12 +19,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig {
   private final AuthService userDetailsService;
@@ -34,8 +32,8 @@ public class SecurityConfig {
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf().disable()
         .cors().configurationSource(corsConfigurationSource())
-        .and().authorizeRequests()
-        .antMatchers("/api/**", "/public/**").permitAll()
+        .and().authorizeHttpRequests()
+        .requestMatchers("/api/**", "/public/**").permitAll()
         .anyRequest().authenticated()
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().exceptionHandling()
@@ -49,9 +47,10 @@ public class SecurityConfig {
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().antMatchers(
+    return (web) -> web.ignoring().requestMatchers(
+        "/swagger-ui.html",
         "/swagger-ui/**",
-        "/v3/api-docs/**",
+        "/v3/api-docs*/**",
         "/swagger-resources/**",
         "/webjars/**",
         "/actuator/**"
